@@ -32,7 +32,7 @@ function Nav(props){
             </Link>
             <form className="searchBar" style={{margin:20}} onSubmit={(e)=>filter(e)}>
             <input type="text" placeholder="Videogame..." value={name} className="searchbar" onChange={(e) => search(e)}/>
-            <button type="submit" >Search</button>
+            <button className="search_button" type="submit" >Search🔎</button>
             </form>
             <Link to="/" className="nav-item">
                 <button className="btn-primary">
