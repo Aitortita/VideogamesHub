@@ -1,4 +1,4 @@
-import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES } from "./ActionNames.js";
+import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME } from "./ActionNames.js";
 import axios from "axios";
 
 export const getAllVideogames = () => {
@@ -25,10 +25,21 @@ export const getAllVideogames = () => {
 export const filterVideogame = (name) => {
   return async function (dispatch) {
     try {
-      const resp = await axios.get('http://localhost:3001/videogames', {params: {name}});
+      const resp = await axios.get(`http://localhost:3001/videogames/${name}`);
       dispatch({type: FILTER_VIDEOGAME, payload: resp.data})
     } catch (err) {
       dispatch({type: FILTER_VIDEOGAME, payload: []})
+      console.log(err.message)
+    }
+  }
+}
+
+export const getVideogame = (id) => {
+  return async function (dispatch) {
+    try {
+      const resp = await axios.get(`http://localhost:3001/videogames/${id}`)   
+      dispatch({type: GET_VIDEOGAME, payload: resp.data})   
+    } catch (err) {
       console.log(err.message)
     }
   }

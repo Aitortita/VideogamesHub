@@ -1,4 +1,4 @@
-import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES } from "../actions/ActionNames";
+import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME } from "../actions/ActionNames";
 
 
 const initialState = {
@@ -14,6 +14,8 @@ const rootReducer = (state = initialState, action) => {
         case FILTER_VIDEOGAME:
             console.log("estoy buscando...")
             return {...state, videogamesFilter: action.payload}
+        case GET_VIDEOGAME:
+            return {...state, videogame: action.payload}
         
         default: return state
     }

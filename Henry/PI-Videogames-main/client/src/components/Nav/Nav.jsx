@@ -39,8 +39,6 @@ function Nav(props){
                     Landing Page
                  </button>
             </Link>
-            
-
         </nav>
     )
 }

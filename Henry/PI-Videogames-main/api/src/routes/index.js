@@ -54,8 +54,10 @@ router.get('/genres', async (req, res) => {
 });
 
 router.post('/videogame', async (req, res) => {
+    let {id, name, description, launchDate, rating, platform} = req.body;
+    name ? name = name.toLowerCase() : null;
     try {
-        await Videogame.create(req.body);
+        await Videogame.create({id, name, description, launchDate, rating, platform});
         res.status(200).send('Ya se creó loco')
     } catch (err) {
         res.status(404).send(err.message)

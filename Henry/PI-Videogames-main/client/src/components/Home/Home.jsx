@@ -15,6 +15,7 @@ return (
             {
                 props.search? 
                 videogamesFilter.length > 0 ? videogamesFilter.map(e => <VideogameCard
+                    id={e.id}
                     key={e.id}
                     genre={e.genre}
                     name={e.name}
@@ -25,6 +26,7 @@ return (
                 <h4>No Videogames found</h4>
                 :
                 videogames?.map(e => <VideogameCard
+                    id={e.id}
                     key={e.id}
                     genre={e.genre}
                     name={e.name}

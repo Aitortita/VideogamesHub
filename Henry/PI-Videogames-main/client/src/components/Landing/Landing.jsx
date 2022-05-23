@@ -1,11 +1,13 @@
 import "./Landing.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 function Landing(props){
+    
     // useEffect(() => {
     //     document.body.style.backgroundImage="url('../../images/Hyperbestia.jpg')";
     // })
+
 return (
     <div className="body">
         <div className="fotos">

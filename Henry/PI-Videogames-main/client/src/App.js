@@ -4,16 +4,18 @@ import {Route, Routes} from "react-router-dom";
 import Home from './components/Home/Home';
 import Landing from './components/Landing/Landing';
 import VideogameCard from './components/VideogameCard/VideogameCard';
+import VideogameDetail from './components/VideogameDetail/VideogameDetail';
 
 function App() {
   return (
     <div className="App">
 
       <Routes>
-        <Route path="/" element={<Landing />}/>
-        <Route path="/home" element={<Home />}/>
-        <Route path="/card" element={<VideogameCard />}/>
-        <Route path="/search" element={<Home search={true}/>}/>
+        <Route strict exact path="/" element={<Landing />}/>
+        <Route strict exact path="/home" element={<Home />}/>
+        <Route strict exact path="/card" element={<VideogameCard />}/>
+        <Route strict exact path="/search" element={<Home search={true}/>}/>
+        <Route strict exact path="/videogame/:name" element={<VideogameDetail/>}/>
       </Routes>
     </div>
   )
