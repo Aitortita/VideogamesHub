@@ -4,6 +4,7 @@
     flex-direction: row;
     background-color: var(--background-color);
     opacity: 1;
+    position: sticky;
 }
 .nav-item {
         /* width: 200px; */
@@ -13,6 +14,31 @@
         /* background-color: whitesmoke; */
 }
 
-.searchBar {
-    padding: 5px;
+.searchbar {
+    padding: 7px;
+    width: 250px;
+    font-size: 15px;
+    margin-right: 8px;
+    border-radius: 40px;
+    background-color: #ccc;
+    transition: all .2s;
+}
+
+.searchbar:focus{
+    transition: all .2s;
+    width: 300px;
+    background-color: cornsilk;
+    color:black;
+}
+ 
+.search_button{
+    height: 35px;
+    border-radius: 40px;
+    background-color: #ccc;
+}
+
+.search_button:hover{
+    /* background-color: #ccc3; */
+    background-color: cornsilk;
+    cursor: pointer;
 }
