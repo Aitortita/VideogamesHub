@@ -1,0 +1,13 @@
+body {
+    background-color: var(--background-color);
+}
+.formulario {
+    margin: 10px;
+}
+
+.videogames-container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+}

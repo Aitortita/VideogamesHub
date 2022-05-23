@@ -1,0 +1,12 @@
+
+body {
+    margin: 0px auto;
+    background-image: url("../../images/hollowed-boxes.svg");
+}
+
+.secondBody {
+    flex: 1 1 1;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
