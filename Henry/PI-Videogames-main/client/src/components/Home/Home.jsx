@@ -1,44 +1,16 @@
 import "./Home.css"
 import React from "react";
-import { useSelector} from "react-redux";
-import VideogameCard from "../VideogameCard/VideogameCard.jsx";
 import Nav from "../Nav/Nav"
 import Aside from "../Aside/Aside";
+import Paginated from "../Paginated/Paginated";
 
 function Home(props){
-    const videogames = useSelector(state => state.videogames);
-    const videogamesFilter = useSelector(state => state.videogamesFilter);
 
 return (
     <div>   
      <Nav />
      <Aside />
-        <div className="videogames-container">
-            {
-                props.search? 
-                videogamesFilter.length > 0 ? videogamesFilter.map(e => <VideogameCard
-                    id={e.id}
-                    image={e.background_image}
-                    key={e.id}
-                    genre={e.genre}
-                    name={e.name}
-                    rating={e.rating}       
-                    platform={e.platform}         
-                />)
-                :
-                <h4>No Videogames found</h4>
-                :
-                videogames?.map(e => <VideogameCard
-                    id={e.id}
-                    image={e.background_image}
-                    key={e.id}
-                    genre={e.genre}
-                    name={e.name}
-                    rating={e.rating}       
-                    platform={e.platform}         
-                />)
-            }
-        </div>
+     <Paginated props={props}/>
     </div>
     )
 }

@@ -21,15 +21,10 @@ function VideogameDetail(props){
             <div>
             <h1>Videogame: {videogame.name}</h1>
             <h1>Launch date: {videogame.launchDate}</h1>
-            <h1>
-                Platforms:
-                <h5>
-                    {videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}
-                </h5>
-            </h1>
+            <h1>Platforms:{videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}</h1>
             <h1>Rating: {videogame.rating}</h1>
             <h1>Description: {videogame.description}</h1>
-            <h1>Genres: <h5>{videogame?.genres?.map(genre => `${genre.name}, `)}</h5></h1>
+            <h1>Genres:{videogame?.genres?.map(genre => `${genre.name}, `)}</h1>
             <img src={videogame.background_image} alt={`${videogame.name}`}/>
             </div>
         </div>
