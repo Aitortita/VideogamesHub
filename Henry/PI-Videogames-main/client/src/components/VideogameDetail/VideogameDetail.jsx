@@ -11,7 +11,7 @@ function VideogameDetail(props){
     const {id} = useLocation().state;
     useEffect(() => {
         dispatch(allActions.getVideogame(id))
-    }, [])
+    }, [dispatch, id])
     return (
         <div>
             <Nav />
