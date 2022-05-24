@@ -1,0 +1,10 @@
+.platforms {
+    display: flex;
+    justify-content: left;
+}
+.li {
+    display: inline-block;
+    padding-left: 20px;
+    border: 10px red;
+    border-radius: 10px;
+}

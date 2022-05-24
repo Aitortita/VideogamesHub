@@ -6,3 +6,6 @@
     background-color:var(--background-color);
     color: var(--rajah);
 }
+.img{
+    width: 100%;
+}

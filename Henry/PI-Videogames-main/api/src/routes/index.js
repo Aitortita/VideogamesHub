@@ -1,47 +1,49 @@
 const { Router } = require('express');
-const { Op, Videogame, Genre } = require('../db')
+const { Op, Videogame, Genre } = require('../db.js')
+const { YOUR_API_KEY } = process.env;
+const axios = require('axios');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-router.get('/videogames', async (req, res) => {
+router.get('/videogames', (req, res) => {
     const { name } = req.query;
-    try {
+    let videogamesArray = [];
         if (name) {
-            const videogames = await Videogame.findAll({limit:15, where : {
-                name: {
-                    [Op.like]: `%${name}%`
-                }
-            }});
-            if (videogames.length > 0) {
-                return res.status(200).json(videogames)
-            }
-            else return res.status(404).send('Videogame not found')
+            Promise.allSettled([
+                axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 15 }}),
+                Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:15, include : Genre})])
+                .then(array => {
+                    videogamesArray= [...videogamesArray, ...array[0]?.value?.data?.results]
+                    videogamesArray= [...videogamesArray, ...array[1]?.value]
+                    return res.status(200).json(videogamesArray)
+                })
+                .catch(err => res.status(404).send(err.message))
+                return
         }
-            const videogames = await Videogame.findAll({attributes: ['id', 'name', 'rating', 'platform']}, {
-                include : Genre
-            });
-            res.status(200).json(videogames);
-    } catch (err) {
-        console.log(err.message)
-    }
+            Promise.allSettled([
+                axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 15}}),
+                Videogame.findAll({limit:15, include : Genre})])
+                .then(array =>{
+                    videogamesArray= [...videogamesArray, ...array[0]?.value?.data?.results]
+                    videogamesArray= [...videogamesArray, ...array[1]?.value]
+                    return res.status(200).json(videogamesArray)
+                })
+                .catch(err => res.status(404).send(err.message))
 });
 
-router.get('/videogames/:idVideoGame', async (req, res) => {
+router.get('/videogames/:idVideoGame', (req, res) => {
     const { idVideoGame } = req.params;
-    try {
-        const videogame = await Videogame.findByPk(idVideoGame, {
-            include: Genre
-        });
-        if(videogame) {
-           return res.status(200).json(videogame)
-        }
-        return res.status(404).send('Videogame not found')
-    } catch (err) {
-        return res.status(404).send(err.message)
-    }
+    // https://api.rawg.io/api/games/{id}
+    Promise.allSettled([
+        axios.get(`https://api.rawg.io/api/games/${idVideoGame}`, { params: {key : YOUR_API_KEY}}),
+        Videogame.findByPk(idVideoGame, {include: Genre})])
+        .then(array => {
+            array[0]?.value?.data ? res.status(200).json(array[0].value.data) : null;
+            array[1]?.value ? res.status(200).json(array[1].value) : null})
+        .catch(err => res.status(404).send(err.message))
 });
 
 router.get('/genres', async (req, res) => {

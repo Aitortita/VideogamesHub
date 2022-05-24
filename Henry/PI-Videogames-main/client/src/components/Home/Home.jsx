@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector} from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard.jsx";
 import Nav from "../Nav/Nav"
+import Aside from "../Aside/Aside";
 
 function Home(props){
     const videogames = useSelector(state => state.videogames);
@@ -11,11 +12,13 @@ function Home(props){
 return (
     <div>   
      <Nav />
+     <Aside />
         <div className="videogames-container">
             {
                 props.search? 
                 videogamesFilter.length > 0 ? videogamesFilter.map(e => <VideogameCard
                     id={e.id}
+                    image={e.background_image}
                     key={e.id}
                     genre={e.genre}
                     name={e.name}
@@ -27,6 +30,7 @@ return (
                 :
                 videogames?.map(e => <VideogameCard
                     id={e.id}
+                    image={e.background_image}
                     key={e.id}
                     genre={e.genre}
                     name={e.name}

@@ -1,4 +1,4 @@
-import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME } from "./ActionNames.js";
+import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES } from "../ActionNames/ActionNames.js";
 import axios from "axios";
 
 export const getAllVideogames = () => {
@@ -25,7 +25,7 @@ export const getAllVideogames = () => {
 export const filterVideogame = (name) => {
   return async function (dispatch) {
     try {
-      const resp = await axios.get(`http://localhost:3001/videogames/${name}`);
+      const resp = await axios.get(`http://localhost:3001/videogames`, {params: {name}});
       dispatch({type: FILTER_VIDEOGAME, payload: resp.data})
     } catch (err) {
       dispatch({type: FILTER_VIDEOGAME, payload: []})
@@ -42,6 +42,18 @@ export const getVideogame = (id) => {
     } catch (err) {
       console.log(err.message)
     }
+  }
+}
+
+export const unVideogame = () => {
+ return (dispatch) => {
+  dispatch({type: UNVIDEOGAME})
+  }
+}
+
+export const unFilterVideogames = () => {
+  return (dispatch) => {
+    dispatch({type: UNFILTERVIDEOGAMES})
   }
 }
 

@@ -10,7 +10,7 @@ function VideogameCard(props){
             <h4>rating: {props.rating}</h4>
             <h4>genre: {props.genre}</h4>
             <h4>plataforma: {props.platform}</h4>
-            <img src={props.image} alt={`foto de ${props.name}`}/>
+            <img src={props.image} alt={`foto de ${props.name}`} className="img"/>
             </Link>
         </div>
     )

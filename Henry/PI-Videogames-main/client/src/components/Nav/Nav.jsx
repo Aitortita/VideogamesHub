@@ -11,13 +11,14 @@ function Nav(props){
 
     useEffect(() => {
         dispatch(allActions.getAllVideogames());
+        dispatch(allActions.unVideogame())
     }, [dispatch]);
 
-    function search(e){
+    function typing(e){
         setName(e.target.value)
     }
 
-    function filter(e){
+    function search(e){
         e.preventDefault()
         dispatch(allActions.filterVideogame(name))
         navigate('/search')
@@ -30,8 +31,8 @@ function Nav(props){
                     Home
                 </button>
             </Link>
-            <form className="searchBar" style={{margin:20}} onSubmit={(e)=>filter(e)}>
-            <input type="text" placeholder="Videogame..." value={name} className="searchbar" onChange={(e) => search(e)}/>
+            <form className="searchBar" style={{margin:20}} onSubmit={(e)=>search(e)}>
+            <input type="text" placeholder="Videogame..." value={name} className="searchbar" onChange={(e) => typing(e)}/>
             <button className="search_button" type="submit" >Search🔎</button>
             </form>
             <Link to="/" className="nav-item">
