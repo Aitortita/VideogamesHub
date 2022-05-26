@@ -1,10 +1,11 @@
-import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES} from "../ActionNames/ActionNames";
+import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME} from "../ActionNames/ActionNames";
 
 
 const initialState = {
     videogames: [],
     videogamesFilter: [],
-    videogame: {}
+    videogame: {},
+    videogameCreated: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -19,6 +20,10 @@ const rootReducer = (state = initialState, action) => {
             return {...state, videogame: {}}
         case UNFILTERVIDEOGAMES:
             return {...state, videogamesFilter: []}
+        case CLEAR:
+            return {...state, videogamesFilter: [], videogame: {}, videogameCreated: false}
+        case CREATE_VIDEOGAME:
+            return {...state, videogameCreated: true}
         
         default: return state
     }

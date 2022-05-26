@@ -1,0 +1,51 @@
+.container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 50% 50%;
+    gap: 20px;
+}
+.formulario {
+    grid-area: 1 / 1 / 3 / 2;
+    display:grid;
+    grid-template-columns: repeat(auto-fill);
+    background-color: var(--background-color);
+    border: 4px solid rgb(41, 41, 41);
+    border-radius: 15px;
+}   
+.inputs {
+    display:grid;
+    grid-template-columns: repeat(auto-fill);
+    align-items: center;
+    align-content: center;
+}
+.checkboxContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+}
+.videogameCreateCard {
+    display: grid;
+    place-items: center;
+    grid-area: 1 / 2 / 2 / 3
+}
+
+.videogameValidateCard {
+    display: grid;
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+.submit {
+    padding: 7px;
+    width: 80px;
+    font-size: 15px;
+    margin-right: 8px;
+    border-radius: 40px;
+    background-color: #ccc;
+    transition: all .2s;
+    cursor:pointer
+}
+
+.submit:hover{
+    transition: all .2s;
+    background-color: cornsilk;
+    color:black;
+}

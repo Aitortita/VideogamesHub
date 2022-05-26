@@ -1,15 +1,15 @@
-import "./Paginated.css";
+import styles from "./Paginated.module.css";
 import React from "react";
 import { useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
 
 
-function Paginated({props}){
+function Paginated({search}){
     const {videogames, videogamesFilter} = useSelector(state => state);
     return(
-        <div className="videogames-container">
+        <section className={styles.videogamesContainer}>
         {
-            props.search? 
+            search ? 
             videogamesFilter.length > 0 ? videogamesFilter.map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
@@ -30,7 +30,7 @@ function Paginated({props}){
                 rating={e.rating}       
             />)
         }
-    </div>
+    </section>
     )
 }
 

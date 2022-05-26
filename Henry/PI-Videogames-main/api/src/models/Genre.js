@@ -3,13 +3,15 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize) => {
     sequelize.define('genre', {
         id: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
             primaryKey: true
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },
     {

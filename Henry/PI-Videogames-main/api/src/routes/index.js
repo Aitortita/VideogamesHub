@@ -18,8 +18,7 @@ router.get('/videogames', (req, res) => {
                 .then(array => {
                     videogamesArray= [...videogamesArray, ...array[0]?.value?.data?.results]
                     videogamesArray= [...videogamesArray, ...array[1]?.value]
-                    return res.status(200).json(videogamesArray)
-                })
+                    return res.status(200).json(videogamesArray)})
                 .catch(err => res.status(404).send(err.message))
                 return
         }
@@ -29,14 +28,12 @@ router.get('/videogames', (req, res) => {
                 .then(array =>{
                     videogamesArray= [...videogamesArray, ...array[0]?.value?.data?.results]
                     videogamesArray= [...videogamesArray, ...array[1]?.value]
-                    return res.status(200).json(videogamesArray)
-                })
+                    return res.status(200).json(videogamesArray)})
                 .catch(err => res.status(404).send(err.message))
 });
 
 router.get('/videogames/:idVideoGame', (req, res) => {
     const { idVideoGame } = req.params;
-    // https://api.rawg.io/api/games/{id}
     Promise.allSettled([
         axios.get(`https://api.rawg.io/api/games/${idVideoGame}`, { params: {key : YOUR_API_KEY}}),
         Videogame.findByPk(idVideoGame, {include: Genre})])
@@ -56,16 +53,28 @@ router.get('/genres', async (req, res) => {
 });
 
 router.post('/videogame', async (req, res) => {
-    let {id, name, description, launchDate, rating, platform} = req.body;
-    name ? name = name.toLowerCase() : null;
+    let {id, name, description, launchDate, rating, platform, image} = req.body;
+    if (!id || !name|| !description || !platform) return res.status(400).send('You are lacking important information');
     try {
-        await Videogame.create({id, name, description, launchDate, rating, platform});
+        await Videogame.create({id, name, description, launchDate, rating, platform, image});
         res.status(200).send('Ya se creó loco')
     } catch (err) {
         res.status(404).send(err.message)
     }
 })
 
+router.post('/genres', (req, res) =>{
+    axios.get(`https://api.rawg.io/api/genres?key=${YOUR_API_KEY}`)
+    .then(value => {
+    console.log(value?.data?.results?.map(e => {return {name: e.name}}))
+    return Genre.bulkCreate(value?.data?.results?.map(e => {return {name: e.name}}))})
+    .then(genres => res.status(200).json(genres))
+    .catch(err => res.status(404).send(err.message))
+})
+
 
 
 module.exports = router;
+
+
+

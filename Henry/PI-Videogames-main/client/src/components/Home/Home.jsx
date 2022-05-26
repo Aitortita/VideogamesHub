@@ -1,16 +1,17 @@
-import "./Home.css"
+/*eslint-disable */
+import styles from "./Home.module.css"
+/*eslint-disable */
 import React from "react";
 import Nav from "../Nav/Nav"
 import Aside from "../Aside/Aside";
 import Paginated from "../Paginated/Paginated";
 
-function Home(props){
-
+function Home({search}){
 return (
     <div>   
      <Nav />
      <Aside />
-     <Paginated props={props}/>
+     <Paginated props={search}/>
     </div>
     )
 }

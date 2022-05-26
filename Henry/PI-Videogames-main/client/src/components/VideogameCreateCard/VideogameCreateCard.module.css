@@ -1,0 +1,9 @@
+.videogameItem {
+    width: 50%;
+    margin: 5%;
+    border: 3px solid rgb(26, 26, 26);
+    border-radius: 10px;
+    background-color:var(--background-color);
+    color: var(--rajah);
+    object-fit: contain;
+}

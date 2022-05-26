@@ -1,4 +1,6 @@
-import "./VideogameDetail.css";
+ /* eslint-disable */
+import styles from "./VideogameDetail.module.css";
+ /* eslint-disable */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions/index";
@@ -14,6 +16,7 @@ function VideogameDetail(props){
         dispatch(allActions.getVideogame(id));
         dispatch(allActions.unFilterVideogames())
     }, [dispatch, id])
+    
     return (
         <div>
             <Nav />
@@ -21,10 +24,10 @@ function VideogameDetail(props){
             <div>
             <h1>Videogame: {videogame.name}</h1>
             <h1>Launch date: {videogame.launchDate}</h1>
-            <h1>Platforms:{videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}</h1>
+            <h1>Platforms: {videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}</h1>
             <h1>Rating: {videogame.rating}</h1>
             <h1>Description: {videogame.description}</h1>
-            <h1>Genres:{videogame?.genres?.map(genre => `${genre.name}, `)}</h1>
+            <h1>Genres: {videogame?.genres?.map(genre => `${genre.name}, `)}</h1>
             <img src={videogame.background_image} alt={`${videogame.name}`}/>
             </div>
         </div>

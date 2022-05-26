@@ -1,4 +1,6 @@
-import "./Landing.css";
+/*eslint-disable */
+import styles from "./Landing.module.css";
+/*eslint-disable */
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -9,10 +11,7 @@ function Landing(props){
     // })
 
 return (
-    <div className="body">
-        <div className="fotos">
-
-        </div>
+    <div >
         <div>
         <h1> VideogamesHub</h1>
         <Link to="/home">

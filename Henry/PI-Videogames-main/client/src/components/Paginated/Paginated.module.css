@@ -1,0 +1,7 @@
+.videogamesContainer{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    /* grid-template-columns: repeat(5, 20%) */
+    /* grid-auto-rows: auto; */
+}

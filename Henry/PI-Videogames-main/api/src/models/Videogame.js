@@ -32,6 +32,9 @@ module.exports = (sequelize) => {
     platform: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    background_image: {
+      type: DataTypes.BLOB
     }
   },
   {
