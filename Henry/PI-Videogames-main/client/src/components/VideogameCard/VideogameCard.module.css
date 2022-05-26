@@ -1,11 +1,14 @@
 .videogameItem {
     justify-content: center;
     margin: 1rem;
-    border: 3px solid rgb(24, 24, 24);
+    border: 4px solid var(--border-color);
     background-color:var(--background-color);
     color: var(--rajah);
-    grid-row: auto / auto
+    grid-row: auto / auto;
+    border-radius: 15px;
 }
 .img{
     width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }

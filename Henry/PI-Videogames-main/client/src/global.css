@@ -12,6 +12,8 @@ body {
 }
 
 :root {
+  --border-color: rgb(54, 54, 54);
+
   --background-color: #151515;
   
   --eerie-black: #141414ff;

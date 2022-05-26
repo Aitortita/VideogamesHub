@@ -7,7 +7,7 @@ function VideogameCreateCard(props){
      /* eslint-disable */
     return(
         <div className={styles.videogameItem}>
-            <img src={image} alt={`foto de ${name}`} className="img"/>
+            <img src={image} className={styles.img}/>
             <h3>Name: {name}</h3>
             <h4>Description: {description}</h4>
             <h4>Rating: {rating}</h4>

@@ -11,7 +11,7 @@ return (
     <div>   
      <Nav />
      <Aside />
-     <Paginated props={search}/>
+     <Paginated search={search}/>
     </div>
     )
 }
