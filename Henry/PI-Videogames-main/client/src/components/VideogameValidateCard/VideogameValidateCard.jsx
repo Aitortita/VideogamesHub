@@ -11,8 +11,12 @@ function VideogameValidateCard(props){
         return false
     }
     return(
-        <div className={styles.text}>
-            <h3>{exactVideogame}</h3>
+        <div className={styles.container}>
+            <div>
+                {
+                    exactVideogame !== "" ? <h2>{exactVideogame}</h2> : null
+                }
+            </div>
             {
                 ternary() ? <h1>EVERYTHING OK 😊</h1> :
             

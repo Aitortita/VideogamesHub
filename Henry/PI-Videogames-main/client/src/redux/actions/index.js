@@ -1,10 +1,18 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS } from "../ActionNames/ActionNames.js";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER } from "../ActionNames/ActionNames.js";
 import axios from "axios";
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
 export const getAllVideogames = () => {
     return async function (dispatch) {
       try {
         const resp = await axios.get('http://localhost:3001/videogames');
+        shuffle(resp.data)
         dispatch({type: GET_ALL_VIDEOGAMES, payload: resp.data})
       } catch (err) {
         console.log(err.message)
@@ -91,3 +99,15 @@ export const getAllGenresAndPlatforms = () => {
     .catch(err => console.log(err.message))
   }
 }
+
+export const filter = (filter) => {
+ return (dispatch) => {
+   dispatch({type: FILTER, payload: filter})
+ }
+}
+
+export const unFilter = () => {
+  return (dispatch) => {
+    dispatch({type: UNFILTER})
+  }
+ }

@@ -1,19 +1,35 @@
 .DiscoverPageHeaderWrapper {
-    display: grid;
+    display: flex;
     background-color: rgba(11, 12, 12, 0.574);
-    height: 150px;
-    padding: 20px;
+    height: 130px;
+    justify-content: space-between;
 }
 
-.DiscoverPageHeader {
-    width: 100%;
+.search{
     flex-grow: 1;
-    display: flex;
-    justify-content: start;
+    align-self: center;
+    justify-self: start;
+    text-align: start;
+    padding-left: 40px;
 }
 
 .DiscoverPageHeaderWrapper h1{
     color: aqua;
     margin: 0px;
     font-size: 72px;
+}
+
+.filters{
+    display:flex;
+    justify-content: center;
+    width: 400px;
+    flex-wrap: wrap;
+
+}
+
+.filters h2{
+    margin: 0px;
+    display:flex;
+    justify-content: center;
+    width: 100%;
 }

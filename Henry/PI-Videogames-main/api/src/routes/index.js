@@ -21,7 +21,7 @@ router.get('/videogames', (req, res) => {
             Promise.allSettled([
                 axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 15}}),
                 Videogame.findAll({limit:15, include : [{model: Genre}, {model:Platform}]})])
-                .then(array =>res.status(200).json([...array[0]?.value?.data?.results, ...array[1]?.value]))
+                .then(array => res.status(200).json([...array[0]?.value?.data?.results, ...array[1]?.value]))
                 .catch(err => res.status(404).send(err.message))
 });
 

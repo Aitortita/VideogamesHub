@@ -1,5 +1,5 @@
 import styles from "./Nav.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as allActions from "../../redux/actions";
 import { useDispatch} from "react-redux";
@@ -14,8 +14,9 @@ function Nav(props){
         setName(e.target.value)
     }
 
-    function search(e){
+    const search = async (e) => {
         e.preventDefault()
+        await dispatch(allActions.clear())
         dispatch(allActions.searchVideogame(name))
         navigate('/search')
         setName('')
@@ -26,8 +27,11 @@ function Nav(props){
             <img src={icon} className={styles.icon} alt="Home" onClick={()=> navigate("/home")}/>
             <form className={styles.searchbarForm} onSubmit={(e)=>search(e)}>
             <input type="text" placeholder="Videogame..." value={name} className={styles.searchbar} onChange={(e) => typing(e)}/>
-            <button className={styles.search_button} type="submit" >Search🔎</button>
+            {/* <button className={styles.search_button} type="submit" >Search🔎</button> */}
             </form>
+            <div>
+                
+            </div>
             </div>
         </nav>
     )

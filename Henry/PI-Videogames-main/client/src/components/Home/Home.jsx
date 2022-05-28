@@ -1,16 +1,24 @@
 import styles from "./Home.module.css"
-import React from "react";
+import React, { useEffect } from "react";
 import Nav from "../Nav/Nav"
 import DiscoverPage from "../DiscoverPage";
 import Aside from "../Aside/Aside";
+import { useDispatch } from "react-redux";
+import * as allActions from "../../redux/actions"
+import Footer from "../Footer/Footer";
 
 function Home({search}){
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(allActions.unFilterVideogames())
+    },[dispatch])
 return (
     <div>   
      <Nav />
      <div className={styles.DiscoverPageWrapper}>
      <Aside />
      <DiscoverPage search={search}/>
+     <Footer />
      </div>
     </div>
     )

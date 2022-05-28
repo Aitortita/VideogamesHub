@@ -25,7 +25,7 @@
 
 .nav {
     display: grid;
-    grid-template-columns: 10% 80% 10%;
+    grid-template-columns: 10% 70% 20%;
     padding: 20px;
     /* margin: -20px; */
 }
@@ -46,7 +46,6 @@
     margin-left: 1%;
     margin-right: 1%;
     display:grid;
-    grid-template-columns: 90% 10%;
 }
 .searchbar {
     display: inline-grid;

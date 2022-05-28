@@ -3,16 +3,22 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function DiscoverPageHeader(props){
-    const { videogamesSearch } = useSelector(state => state);
-    console.log(videogamesSearch)
+    const { videogamesSearch, filter } = useSelector(state => state);
     return(
         <div className={styles.DiscoverPageHeaderWrapper}>
-            <div className={styles.DiscoverPageHeader}>
+                <div className={styles.search}>
                 {
-                    videogamesSearch !== "" ? <h1>{videogamesSearch}</h1> :
-                    <h1>Discover Page</h1>
+                    videogamesSearch !== "" ? <h1>Search: {videogamesSearch}</h1> : <h1>Discover Page</h1>
                 }
-            </div>
+                </div>
+                <div className={styles.filters}>
+                    {
+                        filter !== "" ? <h2>Filtered by: {filter}</h2> : null
+                    }
+                    {/* {
+                        sorted ? <h2>Sorted by:</h2> : null
+                    } */}
+                </div>
         </div>
     )
 }

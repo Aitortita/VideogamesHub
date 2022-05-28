@@ -14,8 +14,7 @@ function VideogameDetail(props){
     const {id} = useLocation().state;
     useEffect(() => {
         dispatch(allActions.getVideogame(id));
-        dispatch(allActions.unFilterVideogames())
-    }, [dispatch, id])
+    }, [])
     
     return (
         <div>

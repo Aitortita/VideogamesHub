@@ -1,14 +1,16 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS} from "../ActionNames/ActionNames";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER} from "../ActionNames/ActionNames";
 
 
 const initialState = {
     videogames: [],
-    videogamesFilter: [],
+    searchVideogames: [],
     videogame: {},
-    exactVideogame: {},
+    exactVideogame: "",
     genres: [],
     platforms: [],
     videogamesSearch: "",
+    filter: "",
+    sort: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -16,15 +18,15 @@ const rootReducer = (state = initialState, action) => {
         case GET_ALL_VIDEOGAMES:
             return {...state, videogames: action.payload}
         case SEARCH_VIDEOGAME:
-            return {...state, videogamesFilter: action.payload, videogamesSearch: action.payloadName}
+            return {...state, searchVideogames: action.payload, videogamesSearch: action.payloadName}
         case GET_VIDEOGAME:
             return {...state, videogame: action.payload}
         case UNVIDEOGAME:
             return {...state, videogame: {}}
         case UNFILTERVIDEOGAMES:
-            return {...state, videogamesFilter: []}
+            return {...state, searchVideogames: [], videogamesSearch: ""}
         case CLEAR:
-            return {...state, videogamesFilter: [], videogame: {}, videogameCreated: false}
+            return {...state, searchVideogames: [], videogame: {}, videogameCreated: false, videogamesSearch: "", filter: ""}
         case CREATE_VIDEOGAME:
             return {...state, videogameCreated: true}
         case GET_EXACT_VIDEOGAME:
@@ -33,6 +35,10 @@ const rootReducer = (state = initialState, action) => {
             return {...state, exactVideogame: null}
         case GET_ALL_GENRES_AND_PLATFORMS:
             return {...state, genres: action.payloadGenres, platforms: action.payloadPlatforms}
+        case FILTER:
+            return {...state, filter: action.payload}
+        case UNFILTER:
+            return {...state, filter: ""}
         
         default: return state
     }

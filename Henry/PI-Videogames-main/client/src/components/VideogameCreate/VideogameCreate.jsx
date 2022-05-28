@@ -7,7 +7,7 @@ import * as allActions from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 function VideogameCreate(props){
-    const { videogameCreate } = useSelector(state => state)
+    // const { videogameCreate } = useSelector(state => state)
     const dispatch = useDispatch()
     const [flags, setFlags] = useState({
         flagName: false,
@@ -259,9 +259,6 @@ function VideogameCreate(props){
                 flagPlatform={flagPlatform}
                 />
             </div>
-                {
-                    videogameCreate ? <h1>Created Succesfully</h1> : null
-                }
           </div>
         </div>
     )
