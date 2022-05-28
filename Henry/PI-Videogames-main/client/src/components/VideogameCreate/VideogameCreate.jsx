@@ -61,15 +61,15 @@ function VideogameCreate(props){
 
     function handleGenre(e) {
         setGenres({...genres, [e.target.name]: e.target.checked})
-        console.log(e.target.checked)
     }
 
     function handlePlatforms(e){
         setPlatforms({...platforms, [e.target.name]: e.target.checked})
-        console.log(e.target.checked)
     }
 
     function handleChange(e){
+        if (e.target.name === "name" && e.target.value !== "") dispatch(allActions.getExactVideogame(e.target.value))
+        else dispatch(allActions.cleanExactVideogame());
         setState({...state, [e.target.name]: `${e.target.value}`})
         switch(e.target.name){
             case "name":
@@ -100,53 +100,68 @@ function VideogameCreate(props){
     }
     function handleSubmit(e){
         e.preventDefault()
-        if (flags.flagName !== 1 || flags.flagDescription !== 1 || flags.flagLaunchDate !== 1 || flags.flagRating !== 1) {
-            return console.log('algo está mal')
+        if(flags.flagName !== true || flags.flagDescription !== true || flags.flagLaunchDate !== true || flags.flagRating !== true || flagGenre !== true || flagPlatform !== true){
+            return alert("You can't send it like that onii-chann q(≧▽≦q)")
         }
-        console.log("bien ahí loco")
-        dispatch(allActions.createVideogame(state))
+        let launchDate = undefined
+        if (state.launchDate !== "") launchDate = state.launchDate;
+        let rating = undefined
+        if (state.rating !== "") rating = state.rating;
+        const platform = Object.entries(platforms).filter(platform => platform[1] === true).map(e => e[0]);
+        const genre = Object.entries(genres).filter(platform => platform[1] === true).map(e => e[0]);
+        let body = {
+            name: state.name,
+            description: state.description,
+            launchDate,
+            rating,
+            platform,
+            image:state.image,
+            genre
+        }
+        dispatch(allActions.createVideogame(body))
         setState({
             name: "",
             description:"",
             launchDate: "",
             rating:"",
             image: null,
-            platform: "",
-            genres: {
-                'Action': false,
-                'Indie': false,
-                'Adventure': false,
-                'RPG': false,
-                'Strategy': false,
-                'Shooter': false,
-                'Casual': false,
-                'Simulation': false,
-                'Puzzle': false,
-                'Arcade': false,
-                'Platformer': false,
-                'Racing': false,
-                'Massively Multiplayer': false,
-                'Sports': false,
-                'Fighting': false,
-                'Family': false,
-                'board games': false,
-                'Educational': false,
-                'Card': false,
-            },
-            platforms: {
-                'PC': false,
-                'PlayStation 4': false,
-                'Xbox One':false,
-                'Nintendo Switch': false,
-                'iOS': false,
-                'Android': false
-            }
         })
         setFlags({
             flagName: false,
             flagDescription: false,
             flagLaunchDate: true,
             flagRating: true
+        })
+        setFlagGenre(false)
+        setFlagPlatform(false)
+        setGenres({
+            'Action': false,
+            'Indie': false,
+            'Adventure': false,
+            'RPG': false,
+            'Strategy': false,
+            'Shooter': false,
+            'Casual': false,
+            'Simulation': false,
+            'Puzzle': false,
+            'Arcade': false,
+            'Platformer': false,
+            'Racing': false,
+            'Massively Multiplayer': false,
+            'Sports': false,
+            'Fighting': false,
+            'Family': false,
+            'board games': false,
+            'Educational': false,
+            'Card': false,
+        })
+        setPlatforms({
+            'PC': false,
+            'PlayStation 4': false,
+            'Xbox One':false,
+            'Nintendo Switch': false,
+            'iOS': false,
+            'Android': false
         })
     }
 

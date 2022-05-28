@@ -1,4 +1,4 @@
-import { FILTER_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR } from "../ActionNames/ActionNames.js";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS } from "../ActionNames/ActionNames.js";
 import axios from "axios";
 
 export const getAllVideogames = () => {
@@ -12,30 +12,30 @@ export const getAllVideogames = () => {
     }
 }
 
-export const createVideogame = ({id, name, description, launchDate, rating, platform, image}) => {
+export const createVideogame = ({name, description, launchDate, rating, platform, image, genre}) => {
   return (dispatch) => {
-    if (!id || !name|| !description || !platform) return console.log("invalid parameters");
+    if (!name|| !description || !platform ||!genre) return console.log("invalid parameters");
     axios.post('http://localhost:3001/videogame', {
-      id,
       name,
       description,
       launchDate,
       rating,
       platform,
-      image
+      image,
+      genre
     })
-    .then((resp)=> console.log(resp))
+    .then((resp)=> console.log(resp.data))
     .catch(err => console.log(err.message))
   }
 }
 
-export const filterVideogame = (name) => {
+export const searchVideogame = (name) => {
   return async function (dispatch) {
     try {
       const resp = await axios.get(`http://localhost:3001/videogames`, {params: {name}});
-      dispatch({type: FILTER_VIDEOGAME, payload: resp.data})
+      dispatch({type: SEARCH_VIDEOGAME, payload: resp.data, payloadName: name})
     } catch (err) {
-      dispatch({type: FILTER_VIDEOGAME, payload: []})
+      dispatch({type: SEARCH_VIDEOGAME, payload: []})
       console.log(err.message)
     }
   }
@@ -70,3 +70,24 @@ export const clear = () => {
   }
 }
 
+export const getExactVideogame = (name) => {
+  return (dispatch) => {
+    axios.get('http://localhost:3001/videogame', {params : {name}})
+    .then(resp => dispatch({type: GET_EXACT_VIDEOGAME, payload: resp.data}))
+    .catch(err => console.log(err.message))
+  }
+}
+
+export const cleanExactVideogame = () => {
+  return (dispatch) => {
+    dispatch({type: CLEAN_EXACT_VIDEOGAME})
+  }
+}
+
+export const getAllGenresAndPlatforms = () => {
+  return (dispatch) => {
+    Promise.all([axios.get('http://localhost:3001/genres'), axios.get('http://localhost:3001/platforms')])
+    .then(resp=> dispatch({type: GET_ALL_GENRES_AND_PLATFORMS, payloadGenres: resp[0].data, payloadPlatforms: resp[1].data}))
+    .catch(err => console.log(err.message))
+  }
+}

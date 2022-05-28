@@ -5,11 +5,11 @@ import Landing from './components/Landing/Landing';
 import VideogameCard from './components/VideogameCard/VideogameCard';
 import VideogameDetail from './components/VideogameDetail/VideogameDetail';
 import VideogameCreate from './components/VideogameCreate/VideogameCreate';
+import Resting from './components/Resting';
 
 function App() {
   return (
     <div className="App">
-
       <Routes>
         <Route strict exact path="/" element={<Landing />}/>
         <Route strict exact path="/home" element={<Home />}/>
@@ -17,6 +17,7 @@ function App() {
         <Route strict exact path="/search" element={<Home search={true}/>}/>
         <Route strict exact path="/create/videogame" element={<VideogameCreate />}/>
         <Route strict exact path="/videogame/:name" element={<VideogameDetail/>}/>
+        <Route path="*" element={<Resting/>}/>
       </Routes>
     </div>
   )

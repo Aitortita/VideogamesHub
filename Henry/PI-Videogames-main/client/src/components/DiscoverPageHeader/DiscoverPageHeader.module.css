@@ -1,0 +1,19 @@
+.DiscoverPageHeaderWrapper {
+    display: grid;
+    background-color: rgba(11, 12, 12, 0.574);
+    height: 150px;
+    padding: 20px;
+}
+
+.DiscoverPageHeader {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: start;
+}
+
+.DiscoverPageHeaderWrapper h1{
+    color: aqua;
+    margin: 0px;
+    font-size: 72px;
+}

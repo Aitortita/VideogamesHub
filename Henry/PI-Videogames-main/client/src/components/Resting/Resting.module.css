@@ -1,0 +1,11 @@
+.background {
+    background-image: url("../../images/Resting.png");
+    background-position:bottom;
+    background-color: #464646;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    display:grid;
+}

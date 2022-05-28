@@ -1,0 +1,6 @@
+.videogamesContainer{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    margin: 0px;
+    padding: 0px;
+}

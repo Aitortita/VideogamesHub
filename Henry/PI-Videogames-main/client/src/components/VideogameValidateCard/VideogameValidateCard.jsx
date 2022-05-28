@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function VideogameValidateCard(props){
-    const { videogameCreated } = useSelector(state => state.videogameCreated)
+    const { exactVideogame } = useSelector(state => state);
     const {flagName, flagRating, flagDescription, flagLaunchDate } = props.flags;
     const { flagGenre, flagPlatform } = props
     function ternary() {
@@ -12,9 +12,8 @@ function VideogameValidateCard(props){
     }
     return(
         <div className={styles.text}>
+            <h3>{exactVideogame}</h3>
             {
-                videogameCreated ? <h1>Your game has been created ☜(ﾟヮﾟ☜)</h1> :
-               
                 ternary() ? <h1>EVERYTHING OK 😊</h1> :
             
                 flagName !== true ? <h4>Name can't be empty or have rare characters like 字</h4> : 

@@ -1,0 +1,68 @@
+.asideWrapper{
+    width: 225px;
+    background-color: rgba(11, 12, 12, 0.574);
+    float: left;
+    text-align: left;
+    position: sticky;
+    top:0px;
+    padding-left: 5px;
+    padding-right:5px;
+    padding-top: 20px;
+}
+
+@media (max-width: 700px){
+    .asideWrapper{
+        float:inline-start;
+        display: none;
+    }
+}
+
+.landingPage{
+    text-decoration: none;
+    color: rgba(6, 207, 36, 0.908);
+}
+.landingPage:hover{
+    cursor: pointer;
+    color: rgba(7, 215, 0, 0.658);
+}
+
+.asideWrapper h1,
+.asideWrapper h2{
+    text-align: center;
+}
+
+.asideWrapper div ul li a{
+    text-decoration: none;
+    color: rgba(109, 172, 174, 0.96);
+}
+.asideWrapper div ul li a:hover{
+    cursor: pointer;
+    color: rgba(73, 108, 107, 0.631);
+}
+
+.asideWrapper div ul li {
+    text-decoration: none;
+    list-style: none;
+    margin-bottom: 2px;
+    margin-top: 6px;
+}
+
+.clearfix{
+    clear: both;
+    float: none;
+}
+
+.aside{
+    position: sticky;
+    height: 100vh;
+    width: 100%;
+}
+
+.filters {
+    display: flex;
+    align-content: space-around;
+}
+
+.filter {
+    width: 75%;
+}

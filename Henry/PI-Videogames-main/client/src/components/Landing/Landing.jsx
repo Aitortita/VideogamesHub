@@ -1,22 +1,14 @@
-/*eslint-disable */
 import styles from "./Landing.module.css";
-/*eslint-disable */
 import React from "react";
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import VideogamesHub from "../../images/VideogamesHubLanding.png"
 
 function Landing(props){
-    
-    // useEffect(() => {
-    //     document.body.style.backgroundImage="url('../../images/Hyperbestia.jpg')";
-    // })
-
+    const navigate = useNavigate();
 return (
-    <div >
-        <div>
-        <h1> VideogamesHub</h1>
-        <Link to="/home">
-            <button className="btn-primary">Home Page</button>
-        </Link>
+    <div className={styles.background}>
+        <div className={styles.imageContainer}>
+        <img src={VideogamesHub} className={styles.image} alt="VideogamesHub" onClick={() => navigate("/home")}/>
         </div>
     </div>
     )
