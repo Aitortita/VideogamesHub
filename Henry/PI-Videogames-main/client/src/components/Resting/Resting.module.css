@@ -8,4 +8,20 @@
     height: 100vh;
     width: 100%;
     display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-content: center;
+}
+
+.container {
+    color: black;
+    display:flex;
+    justify-content: center;
+}
+
+.container h1 {
+    font-size: 3.5vh;
+    position: absolute;
+    top: 15%;
 }

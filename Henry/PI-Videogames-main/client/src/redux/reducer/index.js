@@ -1,16 +1,18 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER} from "../ActionNames/ActionNames";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION} from "../ActionNames/ActionNames";
 
 
 const initialState = {
     videogames: [],
     searchVideogames: [],
+    videogamesSearch: "",
     videogame: {},
     exactVideogame: "",
     genres: [],
     platforms: [],
-    videogamesSearch: "",
     filter: "",
     sort: "",
+    sorting: "desc",
+    pagination: 15,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -39,7 +41,18 @@ const rootReducer = (state = initialState, action) => {
             return {...state, filter: action.payload}
         case UNFILTER:
             return {...state, filter: ""}
-        
+        case SORT:
+            return {...state, videogames: action.payload, sort: action.payloadSort}
+        case UNSORT:
+            return {...state, sort: ""}
+        case SORTING:
+            return {...state, sorting: action.payload}
+        case MORE_PAGINATION:
+            return {...state, pagination: state.pagination + 15}
+        case LESS_PAGINATION:
+            return {...state, pagination: state.pagination - 15}
+        case RESET_PAGINATION:
+            return {...state, pagination: 15}
         default: return state
     }
 };

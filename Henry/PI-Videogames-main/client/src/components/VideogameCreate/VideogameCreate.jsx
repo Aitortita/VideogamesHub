@@ -4,10 +4,9 @@ import Nav from "../Nav/Nav";
 import VideogameCreateCard from "../VideogameCreateCard/VideogameCreateCard";
 import VideogameValidateCard from "../VideogameValidateCard/VideogameValidateCard";
 import * as allActions from "../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function VideogameCreate(props){
-    // const { videogameCreate } = useSelector(state => state)
     const dispatch = useDispatch()
     const [flags, setFlags] = useState({
         flagName: false,
@@ -200,65 +199,65 @@ function VideogameCreate(props){
         setFlags({...flags, flagRating: true})
     }
     return(
-        <div>
+        <div className={styles.wrapper}>
             <Nav />
-            <h1>You can create your own videogame</h1>
+            <h1 className={styles.title}>You can create your own videogame</h1>
           <div className={styles.container}>
-            <form className={styles.formulario} onSubmit={(e) => handleSubmit(e)}>
-                <div className={styles.inputs}>
-                <label htmlFor="name">Name*: </label>
-                <input name="name" type="text" placeholder="your videogame's name" value={state.name} onChange={(e) => handleChange(e)}></input>
-                <label htmlFor="description">Description*: </label>
-                <input name="description" type="text" placeholder="your videogame's description" value={state.description} onChange={(e) => handleChange(e)}></input>
-                <label htmlFor="rating">Rating: </label>
-                <input name="rating" type="number" min="0" max="100" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
-                <label htmlFor="launchDate">Launch Date: </label>
-                <input name="launchDate" type="date" placeholder="your videogame's launch date" value={state.launchDate} onChange={(e) => handleChange(e)}></input>
-                </div>
-                    <div className={styles.genresContainer}>
-                        <h4>Genres*: </h4>
-                {
-                    Object.keys(genres).map(genre => {
-                        return(
-                    <span key={genre}>
-                        <input name={genre} type="checkbox" checked={genres[genre]} onChange={(e) => handleGenre(e)}/>
-                        <label htmlFor={`${genre}`}> {genre} </label>
-                    </span>
-                        )})
-                } 
-                    </div>
-                    <div className={styles.platformsContainer}>
-                        <h4>Platforms*:</h4>
-                {
-                    Object.keys(platforms).map(platform => {
-                        return(
-                    <span key={platform}>
-                        <input name={platform} type="checkbox" checked={platforms[platform]} onChange={(e) => handlePlatforms(e)}/>
-                        <label htmlFor={`${platform}`}> {platform} </label>
-                    </span>
-                        )})
-                }
-                    </div>
-                    <div className={styles.image}>
-                <label>Image: </label>
-                <input name="image" type="file" accept="image/*" onChange={(e) => handleImage(e)}></input>
-                    </div>
-                    <div className={styles.boton}>
-                <button type="submit" className={styles.submit}>Submit</button>
-                    </div>
-            </form>
-            <div className={styles.videogameCreateCard}>
-                <VideogameCreateCard
-                data={state}
-                />
-            </div>
-            <div className={styles.videogameValidateCard}>
-                <VideogameValidateCard 
-                flags={flags}
-                flagGenre={flagGenre}
-                flagPlatform={flagPlatform}
-                />
-            </div>
+              <div>
+                <form className={styles.formulario} onSubmit={(e) => handleSubmit(e)}>
+                        <label htmlFor="name">Name*: </label>
+                        <input name="name" type="text" placeholder="your videogame's name" value={state.name} onChange={(e) => handleChange(e)}></input>
+                        <label htmlFor="description">Description*: </label>
+                        <input name="description" type="text" placeholder="your videogame's description" value={state.description} onChange={(e) => handleChange(e)}></input>
+                        <label htmlFor="rating">Rating: </label>
+                        <input name="rating" type="number" min="0" max="100" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
+                        <label htmlFor="launchDate">Launch Date: </label>
+                        <input name="launchDate" type="date" placeholder="your videogame's launch date" value={state.launchDate} onChange={(e) => handleChange(e)}></input>
+                            <div className={styles.genresContainer}>
+                                <h4>Genres*: </h4>
+                        {
+                            Object.keys(genres).map(genre => {
+                                return(
+                            <span key={genre}>
+                                <input name={genre} type="checkbox" checked={genres[genre]} onChange={(e) => handleGenre(e)}/>
+                                <label htmlFor={`${genre}`}> {genre} </label>
+                            </span>
+                                )})
+                        } 
+                            </div>
+                            <div className={styles.platformsContainer}>
+                                <h4>Platforms*:</h4>
+                        {
+                            Object.keys(platforms).map(platform => {
+                                return(
+                            <span key={platform}>
+                                <input name={platform} type="checkbox" checked={platforms[platform]} onChange={(e) => handlePlatforms(e)}/>
+                                <label htmlFor={`${platform}`}> {platform} </label>
+                            </span>
+                                )})
+                        }
+                            </div>
+                            <div className={styles.image}>
+                        <label>Image: </label>
+                        <input name="image" type="file" accept="image/*" onChange={(e) => handleImage(e)}></input>
+                            </div>
+                            <div className={styles.boton}>
+                        <button type="submit" className={styles.submit}>Submit</button>
+                            </div>
+                </form>
+              </div>
+              <div className={styles.videogameCreateCard}>
+                    <VideogameCreateCard
+                    data={state}
+                    />
+              </div>
+              <div className={styles.videogameValidateCard}>
+                    <VideogameValidateCard 
+                    flags={flags}
+                    flagGenre={flagGenre}
+                    flagPlatform={flagPlatform}
+                    />
+              </div>
           </div>
         </div>
     )

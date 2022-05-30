@@ -1,0 +1,34 @@
+.paginatedWrapper{
+    display: grid;
+}
+
+.videogamesContainer{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    padding: 0px;
+    margin: 0px;
+}
+
+.card {
+    padding: 0px;
+    margin: 0px;
+}
+
+.showNone {
+    display:none
+}
+
+.showMore{
+    align-self: center;
+    justify-self: center;
+    margin: 30px;
+    color: #ffffff;
+    border-color: #494ca2;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.showMore:hover{
+    cursor: pointer;
+}

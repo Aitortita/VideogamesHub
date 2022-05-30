@@ -1,4 +1,4 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER } from "../ActionNames/ActionNames.js";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, LESS_PAGINATION, RESET_PAGINATION } from "../ActionNames/ActionNames.js";
 import axios from "axios";
 
 function shuffle(array) {
@@ -110,4 +110,41 @@ export const unFilter = () => {
   return (dispatch) => {
     dispatch({type: UNFILTER})
   }
+ }
+
+ export const sort = (sort, sorting) => {
+   return (dispatch) => {
+     axios.get('http://localhost:3001/videogames', {params: {sort, sorting}})
+     .then(({data}) => dispatch({type:SORT, payload: data, payloadSort: sort}))
+   }
+ }
+
+ export const unSort = () => {
+   return (dispatch) => {
+     dispatch({type: UNSORT})
+   }
+ }
+
+ export const sorting = (sorting) => {
+   return (dispatch) => {
+     dispatch({type: SORTING, payload: sorting})
+   }
+ }
+
+ export const morePagination = () => {
+   return (dispatch) => {
+     dispatch({type: MORE_PAGINATION})
+   }
+ }
+ 
+ export const lessPagination = () => {
+   return (dispatch) => {
+     dispatch({type: LESS_PAGINATION})
+   }
+ }
+ 
+ export const resetPagination = () => {
+   return (dispatch) => {
+     dispatch({type: RESET_PAGINATION})
+   }
  }

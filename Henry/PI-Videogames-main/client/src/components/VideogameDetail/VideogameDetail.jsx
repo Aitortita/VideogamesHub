@@ -1,12 +1,9 @@
- /* eslint-disable */
 import styles from "./VideogameDetail.module.css";
- /* eslint-disable */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions/index";
 import Nav from "../Nav/Nav";
 import { useLocation } from "react-router-dom";
-import Aside from "../Aside/Aside";
 
 function VideogameDetail(props){
     const dispatch = useDispatch()
@@ -17,17 +14,16 @@ function VideogameDetail(props){
     }, [])
     
     return (
-        <div>
+        <div className={styles.PageWrapper}>
             <Nav />
-            <Aside />
-            <div>
-            <h1>Videogame: {videogame.name}</h1>
-            <h1>Launch date: {videogame.launchDate}</h1>
-            <h1>Platforms: {videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}</h1>
-            <h1>Rating: {videogame.rating}</h1>
-            <h1>Description: {videogame.description}</h1>
-            <h1>Genres: {videogame?.genres?.map(genre => `${genre.name}, `)}</h1>
-            <img src={videogame.background_image} alt={`${videogame.name}`}/>
+            <div className={styles.Container}>
+                <h1>Videogame: {videogame.name}</h1>
+                <img className={styles.image}src={videogame.background_image} alt={`${videogame.name}`}/>
+                <h1>Launch date: {videogame.launchDate}</h1>
+                <h1>Platforms: {videogame?.platforms?.map(platforms =>`${platforms.platform.name}, `)}</h1>
+                <h1>Rating: {videogame.rating}</h1>
+                <h1>Description: {videogame.description}</h1>
+                <h1>Genres: {videogame?.genres?.map(genre => `${genre.name}, `)}</h1>
             </div>
         </div>
     )

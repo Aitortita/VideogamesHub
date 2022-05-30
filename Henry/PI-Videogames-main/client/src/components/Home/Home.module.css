@@ -1,0 +1,11 @@
+.pageWrapper {
+    display:grid;
+    grid-template-columns: 225px 1fr;
+}
+
+@media (max-width: 900px) {
+    .pageWrapper{
+        display:grid;
+        grid-template-columns: 100%;
+    }
+}

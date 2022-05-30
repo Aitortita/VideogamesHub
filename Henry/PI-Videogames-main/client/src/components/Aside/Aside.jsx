@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
 function Aside(props){
-    const {genres, platforms} = useSelector(state => state);
+    const {genres, platforms, filter, sort, sorting } = useSelector(state => state);
     const dispatch = useDispatch();
     useEffect(()=> {
         dispatch(allActions.getAllGenresAndPlatforms())
@@ -13,58 +13,69 @@ function Aside(props){
     /* eslint-disable */
     [])
     /* eslint-disable */
-
-    const [sorts, setSorts] = useState();
     const navigate = useNavigate();
 
-    function handleGenre(e) {
-        console.log(e.target)
+    function onFilter(e){
+        filter === e ? dispatch(allActions.unFilter()) : dispatch(allActions.filter(e))
     }
-    function handlePlatform(e) {
-        console.log(e)
+    function onSort(e){
+        if (e === sort) {
+        dispatch(allActions.unSort())
+        return dispatch(allActions.getAllVideogames())
+        }
+        dispatch(allActions.sort(e, sorting))
     }
+    const [counterGenres, setCounterGenres] = useState(5);
+    const [counterPlatforms, setCounterPlatforms] = useState(5);
 
-    function onTrigger(e){
-        console.log(e)
-        dispatch(allActions.filter(e))
+    function moreGenres(){
+        setCounterGenres(19)
+    } 
+    function lessGenres(){
+        setCounterGenres(5)
     }
-
-    function unFilter(){
-        dispatch(allActions.unFilter())
+    function morePlatforms(){
+        setCounterPlatforms(55)
+    }
+    function lessPlatforms(){
+        setCounterPlatforms(5)
     }
 
     return(
         <div className={styles.asideWrapper}>
+            {/* eslint-disable */}
             <div className={styles.aside}>
                 <h1 className={styles.landingPage} onClick={()=> navigate("/")}>Landing page</h1>
-                <h1>New Releases</h1>
-                    {/* eslint-disable */}
-                <ul>
-                    <li><a>Landing page</a></li>
-                    <li><a>Most liked</a></li>
-                    <li><a>This month</a></li>
-                    <li><a>Next month</a></li>
-                    <li><a>Next Next month</a></li>
-                    <li><a>Next Next Next month</a></li>
-                    <li><a>Incoming...</a></li>
-                </ul>
-                <h2>Creating</h2>
+                <h2>Custom</h2>
                 <ul>
                     <li><a href="/create/videogame"> Create a videogame</a></li>
                 </ul>
-                <h2>Sorts</h2>
+                <h2>Sort by</h2>
                 <ul>
-                    <li><a>hola</a></li>
+                    <li><a onClick={() => onSort("rating")}>Rating</a></li>
+                    <li><a onClick={() => onSort("rating_top")}>Top Rating</a></li>
+                    <li><a onClick={() => onSort("metacritic")}>Metacritic</a></li>
                 </ul>
-                <h2>Filters</h2>
+                <h2>Filter by</h2>
+                <h3 className={styles.tag}>Genres</h3>
                 <div className={styles.filters}>
-                <ul>
-                    <li><a onClick={() => unFilter()}>Unfilter</a></li>
+                    <ul>
                     { 
-                        genres?.map(genre => <li key={genre.name}><a onClick={() => onTrigger(genre.name)}>{genre.name}</a></li>)
+                        genres?.slice(0,counterGenres).map(genre => <li key={genre.name}><a onClick={() => onFilter(genre.name)}>{genre.name}</a></li>)
                     }
                     {
-                        platforms?.map(platform => <li key={platform.name}><a onClick={() => onTrigger(platform.name)}>{platform.name}</a></li>)
+                    counterGenres < 10 ? <li><h4 className={styles.showers} onClick={() => moreGenres()}>Show all genres 🔽</h4></li> : <li><h4 className={styles.showers} onClick={() => lessGenres()}>Hide all genres 🔼</h4></li>
+                    }
+                    </ul>
+                </div>
+                <h3 className={styles.tag}>Platforms</h3>
+                <div className={styles.filters}>
+                <ul>
+                    {
+                        platforms?.slice(0,counterPlatforms).map(platform => <li key={platform.name}><a onClick={() => onFilter(platform.name)}>{platform.name}</a></li>)
+                    }
+                    {
+                    counterPlatforms < 55 ? <li><h4 className={styles.showers} onClick={() => morePlatforms()}>Show all platforms 🔽</h4></li> : <li><h4 className={styles.showers} onClick={() => lessPlatforms()}>Hide all platforms 🔼</h4></li>
                     }
                 </ul>
                 </div>

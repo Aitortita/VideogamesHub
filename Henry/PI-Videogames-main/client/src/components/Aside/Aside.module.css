@@ -1,19 +1,13 @@
 .asideWrapper{
-    width: 225px;
     background-color: rgba(11, 12, 12, 0.574);
-    float: left;
     text-align: left;
-    position: sticky;
-    padding-left: 5px;
-    padding-right:5px;
-    padding-top: 10px;
+    width: 100%;
     height: 100%;
-    top: -270px;
 }
 
-@media (max-width: 700px){
+@media (max-width: 900px){
     .asideWrapper{
-        float:inline-start;
+        float:  none;
         display: none;
     }
 }
@@ -28,17 +22,18 @@
 }
 
 .asideWrapper h1,
-.asideWrapper h2{
+.asideWrapper h2,
+.asideWrapper h3{
     text-align: center;
 }
 
 .asideWrapper div ul li a{
     text-decoration: none;
-    color: rgba(109, 172, 174, 0.96);
+    color: rgb(69, 249, 255);
 }
 .asideWrapper div ul li a:hover{
     cursor: pointer;
-    color: rgba(73, 108, 107, 0.631);
+    color: rgba(69, 249, 255, 0.815);
 }
 
 .asideWrapper div ul li {
@@ -48,12 +43,6 @@
     margin-top: 6px;
 }
 
-.aside{
-    /* position: sticky; */
-    height: 100%;
-    /* width: 100%; */
-}
-
 .filters {
     display: flex;
     align-content: space-around;
@@ -61,4 +50,13 @@
 
 .filter {
     width: 75%;
+}
+
+.showers {
+    color: #0178D7;
+} 
+
+.showers:hover {
+    cursor: pointer;
+    color: #0177d7c9;
 }

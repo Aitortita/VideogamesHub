@@ -1,28 +1,44 @@
-import styles from "./DiscoverPage.module.css";
-import React, { useEffect } from "react";
+import styles from "./Paginated.module.css";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
-import DiscoverPageHeader from "../DiscoverPageHeader";
+import PaginatedHeader from "../PaginatedHeader/PaginatedHeader";
 import * as allActions from "../../redux/actions"
 
 
 function Paginated({search}){
-    const {videogames, searchVideogames, filter} = useSelector(state => state);
+    const {videogames, searchVideogames, filter, pagination} = useSelector(state => state);
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(allActions.clear())
-        dispatch(allActions.getAllVideogames())
-    }, [dispatch, search]);
+        const effect = async () => {
+            dispatch(allActions.clear())
+            dispatch(allActions.resetPagination())
+            await dispatch(allActions.getAllVideogames())
+            setShowMore(true)
+        }
+        effect()
+    }, [dispatch]);
+
+    let [showMore, setShowMore] = useState(false)
+
+    function onShow(){
+        if (pagination > videogames.length && pagination > searchVideogames) return alert("thewwee awee no mowee pages Onii-chann q(≧▽≦q)");
+        window.scrollTo(0, 0);
+        dispatch(allActions.morePagination());
+    }
+    function onHide(){
+        window.scrollTo(0, 0);
+        if(pagination > 15) dispatch(allActions.lessPagination())
+    }
 
     return(
     <div className={styles.paginatedWrapper}>
-            <DiscoverPageHeader />
+            <PaginatedHeader />
         <section className={styles.videogamesContainer}>
-
         {
             filter !== "" ? search ? searchVideogames.length > 0 ? 
                 searchVideogames.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0)
-                .map(e => <VideogameCard
+                .slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
                 key={e.id}
@@ -32,7 +48,7 @@ function Paginated({search}){
                 platforms={e.platforms}
                 />) : <h1>No Videogames found</h1> :
                 videogames.filter((game) =>[...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0)
-                .map(e => <VideogameCard
+                .slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
                 key={e.id}
@@ -42,7 +58,7 @@ function Paginated({search}){
                 platforms={e.platforms}        
             />) :
             search ? 
-            searchVideogames.length > 0 ? searchVideogames.map(e => <VideogameCard
+            searchVideogames.length > 0 ? searchVideogames.slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
                 key={e.id}
@@ -51,7 +67,7 @@ function Paginated({search}){
                 rating={e.rating}   
                 platforms={e.platforms}        
             />) : <h1>No Videogames found</h1> :
-            videogames?.map(e => <VideogameCard
+            videogames?.slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
                 key={e.id}
@@ -62,18 +78,15 @@ function Paginated({search}){
             />)
         }
         </section>
+        <div>
+            {
+                pagination > 15 ? <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onHide()}>Last Page</a> : null
+            }
+            {
+                pagination > videogames.length && pagination > searchVideogames ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a>
+            }
+        </div>
     </div>
 )}
-
-
-
-
-
-
-
-
-
-
-
 
 export default Paginated;
