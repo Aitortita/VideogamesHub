@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 export default function VideogameCreate(props){
     useEffect(()=>{
         dispatch(allActions.getAllGenresAndPlatforms())
-    },[])
+    },
+    /* eslint-disable */
+    [])
+    /* eslint-disable */
     const dispatch = useDispatch()
     const { platforms, exactVideogame } = useSelector(state=> state)
     const [flags, setFlags] = useState({
@@ -57,7 +60,7 @@ export default function VideogameCreate(props){
     useEffect(() => {
         localPlatforms.length > 0 ?  setFlagPlatform(true): setFlagPlatform(false);
         Object.values(localGenres).find((e) => e === true) ?  setFlagGenre(true): setFlagGenre(false);
-    }, [localPlatforms, localGenres])
+    },[localPlatforms, localGenres])
     function handleGenre(e) {
         setGenres({...localGenres, [e.target.name]: e.target.checked})
     }
@@ -93,13 +96,12 @@ export default function VideogameCreate(props){
             }
             return
         }
-        if (e.target.files[0]) return reader.readAsDataURL(e.target.files[0]);
-        return
+        if (e.target.files[0]) return reader.readAsDataURL(e.target.files[0])
     }
     function handleSubmit(e){
         e.preventDefault()
         if(flags.flagName !== true || flags.flagDescription !== true || flags.flagLaunchDate !== true || flags.flagRating !== true || flagGenre !== true || flagPlatform !== true){
-            return alert("You can't send it like that onii-chann q(≧▽≦q)")
+            return alert("You must fullfill all conditions before submitting")
         }
         let launchDate = undefined
         if (state.launchDate !== "") launchDate = state.launchDate;
@@ -132,7 +134,7 @@ export default function VideogameCreate(props){
         })
         setFlagGenre(false)
         setFlagPlatform(false)
-        setGenres([{
+        setGenres({
             'Action': false,
             'Indie': false,
             'Adventure': false,
@@ -152,7 +154,7 @@ export default function VideogameCreate(props){
             'board games': false,
             'Educational': false,
             'Card': false,
-        }])
+        })
         setPlatforms([])
     }
     function validatorName(name){
@@ -163,6 +165,7 @@ export default function VideogameCreate(props){
         setFlags({...flags, flagName: true})
     }
     function validatorDescription(description){
+        if(description.length > 300) return setFlags({...flags, flagDescription: false});
         /*eslint-disable */
         const validate = description.match(/[\x00-\xFF]/g); 
         /*eslint-disable */
@@ -230,17 +233,19 @@ export default function VideogameCreate(props){
                         }
                                 </select>
                             </div>
-                            <div className={styles.image}>
+                            <div className={styles.imageContainer}>
                         <label>Image: </label>
-                        <input name="image" type="file" accept="image/*" onChange={(e) => handleImage(e)}></input>
+                        <input name="image" type="file" accept="image/*" placeholder="hola" onChange={(e) => handleImage(e)}></input>
                             </div>
-                            <div className={styles.boton}>
+                            <div className={styles.botonContainer}>
                         <button type="submit" className={styles.submit}>Submit</button>
                             </div>
                 </form>
               <div className={styles.videogameCreateCard}>
                     <VideogameCreateCard
                     data={state}
+                    genres={Object.entries(localGenres).filter(platform => platform[1] === true).map(e => e[0])}
+                    platforms={localPlatforms}
                     />
               </div>
               <div className={styles.videogameValidateCard}>

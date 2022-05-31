@@ -1,14 +1,13 @@
 .videogameItem {
-    width: 70%;
-    height: 70%;
+    min-width: 40%;
+    max-height: 90%;
     border: 3px solid var(--border-color);
     border-radius: 15px;
     background-color:var(--background-color);
     color: var(--rajah);
     object-fit: contain;
+    max-width: 90%;
 }
 .img{
-    width: 100%;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    max-width: 70%;
 }

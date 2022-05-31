@@ -59,6 +59,7 @@
     padding: 10px;
     border-radius: 5px;
     width: 80%;
+    text-decoration: none;
 }
 .about:hover{
     cursor: pointer;
@@ -70,6 +71,7 @@
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     padding: 10px;
     border-radius: 5px;
+    text-decoration: none;
     width: 80%;
 }
 .linkedin:hover{

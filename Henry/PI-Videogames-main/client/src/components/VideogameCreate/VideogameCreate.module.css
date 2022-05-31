@@ -6,7 +6,7 @@
 .title {
     margin: 0px;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     background-color: rgba(11, 12, 12, 0.574);
 }
 
@@ -15,7 +15,7 @@
     height: 75%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 0.5fr;
 }
 
 .formularioContainer {
@@ -48,14 +48,26 @@
 }
 
 .mainForm{
-    margin: 15px;
+    padding: 15px;
     display: grid;
     text-align: start;
 }
 
+.mainForm input{
+    background-color: cornsilk;
+    border-radius: 8px;
+    padding: 2px;
+    padding-left: 5px;
+    font-size: 0.9em;  
+    padding-top: 0.35rem;
+}
+
 .genresContainer{
     grid-area: 2 / 1 / 4 / 2;
+    padding: 15px;
 }
+
+
 
 .checkboxes{
     margin: 10px;
@@ -80,6 +92,31 @@
     background-color: cornsilk;
     color:black;
 } 
+
+.platformsContainer{
+    display:flex;
+    gap: 20px;
+    padding: 40px;
+    padding-right: 50px;
+    justify-content: center;
+}
+
+.platformsContainer select{
+    background-color: cornsilk;
+    border-radius: 5px;
+}
+
+.imageContainer{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botonContainer{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
 @media (max-width: 900px){

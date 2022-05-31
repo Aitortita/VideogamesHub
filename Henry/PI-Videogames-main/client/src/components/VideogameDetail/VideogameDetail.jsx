@@ -6,14 +6,16 @@ import Nav from "../Nav/Nav";
 import { useLocation } from "react-router-dom";
 import placeholder from "../../images/ImagePlaceholder.jpg"
 
-function VideogameDetail(props){
+export default function VideogameDetail(props){
     const dispatch = useDispatch()
     const videogame = useSelector(state => state.videogame);
     const {id} = useLocation().state;
     useEffect(() => {
         dispatch(allActions.getVideogame(id));
-    }, [])
-
+    }, 
+    /* eslint-disable */
+    [])
+    /* eslint-disable */
 
     return (
         <div className={styles.wrapper}>
@@ -43,16 +45,3 @@ function VideogameDetail(props){
         </div>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-export default VideogameDetail;

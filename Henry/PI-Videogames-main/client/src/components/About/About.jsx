@@ -15,8 +15,8 @@ function About(props) {
                 many hours long videos about each frameworks flow to add up to the bootcamp and complement the weak points of the
                 bootcamp, nonetheless I think it was a great experience and even though this project feels kind of an espaghetti code
                 (not gonna lie), I am not going to change it or refactor it, as it was my first attempt at doing a web page and I
-                want to remain it as a memory, here you have the {<a href="https://github.com" rel="noopener noreferrer" target="_blank">Repository</a>} if you want to check it</h1>
-                
+                want to remain it as a memory, here you have the {<a href="https://github.com/Aitortita" rel="noopener noreferrer" target="_blank">Repository </a>}
+                if you want to check it</h1>  
             </div>
         </div>
     )

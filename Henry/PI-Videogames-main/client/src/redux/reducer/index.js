@@ -4,7 +4,7 @@ import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFIL
 const initialState = {
     videogames: [],
     searchVideogames: [],
-    videogamesSearch: "",
+    videogamesSearchName: "",
     videogame: {},
     exactVideogame: "",
     genres: [],
@@ -22,15 +22,15 @@ const rootReducer = (state = initialState, action) => {
         case GET_ALL_VIDEOGAMES:
             return {...state, videogames: action.payload}
         case SEARCH_VIDEOGAME:
-            return {...state, searchVideogames: action.payload, videogamesSearch: action.payloadName}
+            return {...state, searchVideogames: action.payload, videogamesSearchName: action.payloadName}
         case GET_VIDEOGAME:
             return {...state, videogame: action.payload}
         case UNVIDEOGAME:
             return {...state, videogame: {}}
         case UNFILTERVIDEOGAMES:
-            return {...state, searchVideogames: [], videogamesSearch: ""}
+            return {...state, searchVideogames: [], videogamesSearchName: ""}
         case CLEAR:
-            return {...state, searchVideogames: [], videogame: {}, videogameCreated: false, videogamesSearch: "", filter: ""}
+            return {...state, searchVideogames: [], videogame: {}, videogameCreated: false, videogamesSearchName: "", filter: ""}
         case CREATE_VIDEOGAME:
             return {...state, videogameCreated: true}
         case GET_EXACT_VIDEOGAME:

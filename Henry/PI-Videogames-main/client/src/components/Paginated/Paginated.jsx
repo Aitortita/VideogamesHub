@@ -18,7 +18,6 @@ function Paginated({search}){
     let [showMore, setShowMore] = useState(false)
 
     function onShow(){
-        if (pagination > videogames.length && pagination > searchVideogames) return alert("thewwee awee no mowee pages Onii-chann q(≧▽≦q)");
         window.scrollTo(0, 0);
         dispatch(allActions.morePagination());
     }
@@ -26,10 +25,10 @@ function Paginated({search}){
         window.scrollTo(0, 0);
         if(pagination > 15) dispatch(allActions.lessPagination())
     }
-
+    /* eslint-disable*/
     return(
     <div className={styles.paginatedWrapper}>
-            <PaginatedHeader />
+            <PaginatedHeader search={search}/>
         <section className={styles.videogamesContainer}>
         {
             filter !== "" ? search ? searchVideogames.length > 0 ? 
@@ -50,8 +49,8 @@ function Paginated({search}){
                 key={e.id}
                 genres={e.genres}
                 name={e.name}
-                rating={e.rating}       
-                platforms={e.platforms}        
+                rating={e.rating}
+                platforms={e.platforms}
             />) :
             search ? 
             searchVideogames.length > 0 ? searchVideogames.slice(pagination - 15, pagination).map(e => <VideogameCard
@@ -60,8 +59,8 @@ function Paginated({search}){
                 key={e.id}
                 genres={e.genres}
                 name={e.name}
-                rating={e.rating}   
-                platforms={e.platforms}        
+                rating={e.rating}
+                platforms={e.platforms}
             />) : <h1>No Videogames found</h1> :
             videogames?.slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
@@ -79,7 +78,11 @@ function Paginated({search}){
                 pagination > 15 ? <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onHide()}>Last Page</a> : null
             }
             {
-                pagination > videogames.length && pagination > searchVideogames ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a>
+                search === true ? filter !== "" ? pagination > 
+                searchVideogames.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0).length ?
+                null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a> :
+                pagination > searchVideogames.length ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a> :
+                pagination > videogames.length ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a>
             }
         </div>
     </div>

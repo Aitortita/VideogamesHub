@@ -21,9 +21,6 @@ function Nav(props){
         navigate('/search')
         setName('')
     }
-    function linkedin(){
-        window.open("https://www.linkedin.com/in/javier-aitor-ezcurra-503200230/", '_blank', 'noopener,noreferrer');
-    }
     return(
         <nav className={styles.navWrapper}>
             <div className={styles.nav}>
@@ -34,8 +31,8 @@ function Nav(props){
                     <input type="text" placeholder="Videogame..." value={name} className={styles.searchbar} onChange={(e) => typing(e)}/>
                 </form>
                 <div className={styles.aboutWrapper}>
-                    <a className={styles.about} onClick={(() => navigate('/about'))}>About</a>
-                    <a className={styles.linkedin} onClick={()=> linkedin()}>Linkedin</a>
+                    <a href="/about" className={styles.about}>About</a>
+                    <a href="https://www.linkedin.com/in/javier-aitor-ezcurra-503200230/" target="_blank" rel="noopener noreferrer" className={styles.linkedin}>Linkedin</a>
                 </div>
             </div>
         </nav>

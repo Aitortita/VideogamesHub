@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
-function Aside(props){
-    const {genres, platforms, filter, sort, sorting } = useSelector(state => state);
+function Aside({search}){
+    const { videogamesSearchName, genres, platforms, filter, sort, sorting } = useSelector(state => state);
     const dispatch = useDispatch();
     useEffect(()=> {
         dispatch(allActions.getAllGenresAndPlatforms())
@@ -16,13 +16,29 @@ function Aside(props){
     const navigate = useNavigate();
 
     function onFilter(e){
-        filter === e ? dispatch(allActions.unFilter()) : dispatch(allActions.filter(e))
+        if (filter === e) {
+            dispatch(allActions.resetPagination());
+           return dispatch(allActions.unFilter())
+        }
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.filter(e))
     }
     function onSort(e){
+        if (search === true) {
+            if (e === sort) {
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.unSort())
+            return dispatch(allActions.searchVideogame(videogamesSearchName))
+            }
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.searchVideogame(videogamesSearchName, e, sorting))
+        }
         if (e === sort) {
+        dispatch(allActions.resetPagination())
         dispatch(allActions.unSort())
         return dispatch(allActions.getAllVideogames())
         }
+        dispatch(allActions.resetPagination())
         dispatch(allActions.sort(e, sorting))
     }
     const [counterGenres, setCounterGenres] = useState(5);

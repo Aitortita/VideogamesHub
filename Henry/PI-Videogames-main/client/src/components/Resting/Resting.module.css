@@ -1,5 +1,5 @@
 .background {
-    background-image: url("../../images/Resting.png");
+    background-image: url("../../images/RestingGif.gif");
     background-position:bottom;
     background-color: #464646;
     background-repeat: no-repeat;
@@ -15,7 +15,7 @@
 }
 
 .container {
-    color: black;
+    color: rgba(243, 207, 62, 0.932);
     display:flex;
     justify-content: center;
 }
@@ -24,4 +24,15 @@
     font-size: 3.5vh;
     position: absolute;
     top: 15%;
+}
+
+.fire{
+    position: absolute;
+    top: 36%;
+    width: 11%;
+    height: 42%;
+}
+
+.fire:hover{
+    cursor: pointer;
 }

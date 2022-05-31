@@ -3,8 +3,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
-function PaginatedHeader(props){
-    const { videogamesSearch, filter, sort, sorting } = useSelector(state => state);
+function PaginatedHeader({search}){
+    const { videogamesSearchName, filter, sort, sorting } = useSelector(state => state);
     const dispatch = useDispatch();
     function unFilter(){
         dispatch(allActions.unFilter())
@@ -14,9 +14,17 @@ function PaginatedHeader(props){
         dispatch(allActions.getAllVideogames())
     }
     function switchSorting() {
+        if (search === true) {
+            if (sorting === "desc") {
+                dispatch(allActions.sorting("asc"))
+                return  dispatch(allActions.searchVideogame(videogamesSearchName, sort, "asc"))
+            }
+            dispatch(allActions.sorting("desc"))
+            dispatch(allActions.searchVideogame(videogamesSearchName, sort, "desc"))
+        }
         if (sorting === "desc") {
-        dispatch(allActions.sorting("asc"))
-        return  dispatch(allActions.sort(sort, "asc"))
+            dispatch(allActions.sorting("asc"))
+            return  dispatch(allActions.sort(sort, "asc"))
         }
         dispatch(allActions.sorting("desc"))
         dispatch(allActions.sort(sort, "desc"))
@@ -25,7 +33,7 @@ function PaginatedHeader(props){
         <div className={styles.headerWrapper}>
                 <div className={styles.text}>
                     {
-                    videogamesSearch !== "" ? <h1 className={styles.search}>Search: {videogamesSearch}</h1> : <h1>Home Page</h1>
+                    search ? <h1 className={styles.search}>Search: {videogamesSearchName}</h1> : <h1>Home Page</h1>
                     }
                 </div>
                 <div className={styles.filtersContainer}>

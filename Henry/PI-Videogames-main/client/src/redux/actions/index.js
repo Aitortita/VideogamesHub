@@ -37,15 +37,22 @@ export const createVideogame = ({name, description, launchDate, rating, platform
   }
 }
 
-export const searchVideogame = (name) => {
+export const searchVideogame = (name, sort, sorting) => {
   return async function (dispatch) {
     try {
-      const resp = await axios.get(`http://localhost:3001/videogames`, {params: {name}});
-      dispatch({type: SEARCH_VIDEOGAME, payload: resp.data, payloadName: name})
+      const {data} = await axios.get(`http://localhost:3001/videogames`, {params: {name, sort, sorting}});
+      dispatch({type: SEARCH_VIDEOGAME, payload: data, payloadName: name, payloadSort: sort})
     } catch (err) {
       dispatch({type: SEARCH_VIDEOGAME, payload: []})
       console.log(err.message)
     }
+  }
+}
+
+export const sort = (sort, sorting) => {
+  return (dispatch) => {
+    axios.get('http://localhost:3001/videogames', {params: {sort, sorting}})
+    .then(({data}) => dispatch({type:SORT, payload: data, payloadSort: sort}))
   }
 }
 
@@ -61,11 +68,11 @@ export const getVideogame = (id) => {
 }
 
 export const unVideogame = () => {
- return (dispatch) => {
-  dispatch({type: UNVIDEOGAME})
+  return (dispatch) => {
+    dispatch({type: UNVIDEOGAME})
   }
 }
-
+  
 export const unFilterVideogames = () => {
   return (dispatch) => {
     dispatch({type: UNFILTERVIDEOGAMES})
@@ -112,12 +119,6 @@ export const unFilter = () => {
   }
  }
 
- export const sort = (sort, sorting) => {
-   return (dispatch) => {
-     axios.get('http://localhost:3001/videogames', {params: {sort, sorting}})
-     .then(({data}) => dispatch({type:SORT, payload: data, payloadSort: sort}))
-   }
- }
 
  export const unSort = () => {
    return (dispatch) => {
