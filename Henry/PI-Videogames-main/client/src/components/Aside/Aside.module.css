@@ -5,12 +5,6 @@
     height: 100%;
 }
 
-@media (max-width: 900px){
-    .asideWrapper{
-        float:  none;
-        display: none;
-    }
-}
 
 .landingPage{
     text-decoration: none;
@@ -59,4 +53,21 @@
 .showers:hover {
     cursor: pointer;
     color: #0177d7c9;
+}
+
+@media (max-width: 900px){
+    .asideWrapper{
+        height: auto;
+        justify-content: center;
+        text-align: center;
+    }
+    ul {
+        margin: 0px;
+        padding: 0px;
+    }
+    .filters {
+        justify-self:center;
+        justify-content: center;
+        text-align: center;
+    }
 }

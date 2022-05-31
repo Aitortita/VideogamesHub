@@ -69,7 +69,7 @@ router.get('/videogames/:idVideoGame', (req, res) => {
     const { idVideoGame } = req.params;
     Promise.allSettled([
         axios.get(`https://api.rawg.io/api/games/${idVideoGame}`, { params: {key : YOUR_API_KEY}}),
-        Videogame.findByPk(idVideoGame, {include: Genre})])
+        Videogame.findByPk(idVideoGame, {include: [{model: Genre}, {model:Platform}]})])
         .then(array => {
             array[0]?.value?.data ? res.status(200).json(array[0].value.data) : null;
             array[1]?.value ? res.status(200).json(array[1].value) : null})

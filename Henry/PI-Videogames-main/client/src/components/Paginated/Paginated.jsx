@@ -2,21 +2,17 @@ import styles from "./Paginated.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
-import PaginatedHeader from "../PaginatedHeader/PaginatedHeader";
 import * as allActions from "../../redux/actions"
-
+import PaginatedHeader from "../PaginatedHeader/PaginatedHeader"
 
 function Paginated({search}){
     const {videogames, searchVideogames, filter, pagination} = useSelector(state => state);
     const dispatch = useDispatch()
     useEffect(() => {
-        const effect = async () => {
             dispatch(allActions.clear())
             dispatch(allActions.resetPagination())
-            await dispatch(allActions.getAllVideogames())
+            dispatch(allActions.getAllVideogames())
             setShowMore(true)
-        }
-        effect()
     }, [dispatch]);
 
     let [showMore, setShowMore] = useState(false)

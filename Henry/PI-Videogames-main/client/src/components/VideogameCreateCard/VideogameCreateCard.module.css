@@ -1,6 +1,6 @@
 .videogameItem {
-    width: 50%;
-    margin: 5%;
+    width: 70%;
+    height: 70%;
     border: 3px solid var(--border-color);
     border-radius: 15px;
     background-color:var(--background-color);

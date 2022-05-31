@@ -1,4 +1,4 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, LESS_PAGINATION, RESET_PAGINATION } from "../ActionNames/ActionNames.js";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, LESS_PAGINATION, RESET_PAGINATION, MOUNT_OBJECTS } from "../ActionNames/ActionNames.js";
 import axios from "axios";
 
 function shuffle(array) {
@@ -146,5 +146,11 @@ export const unFilter = () => {
  export const resetPagination = () => {
    return (dispatch) => {
      dispatch({type: RESET_PAGINATION})
+   }
+ }
+
+ export const mountObjects = () => {
+   return (dispatch) => {
+     dispatch({type: MOUNT_OBJECTS})
    }
  }

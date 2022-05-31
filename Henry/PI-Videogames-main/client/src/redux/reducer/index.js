@@ -1,4 +1,4 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION} from "../ActionNames/ActionNames";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION, MOUNT_OBJECTS} from "../ActionNames/ActionNames";
 
 
 const initialState = {
@@ -13,6 +13,8 @@ const initialState = {
     sort: "",
     sorting: "desc",
     pagination: 15,
+    genresObj: {},
+    platformsObj: {}
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -53,6 +55,8 @@ const rootReducer = (state = initialState, action) => {
             return {...state, pagination: state.pagination - 15}
         case RESET_PAGINATION:
             return {...state, pagination: 15}
+        case MOUNT_OBJECTS:
+            return {...state}
         default: return state
     }
 };

@@ -1,7 +1,8 @@
 .wrapper {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 }
+
 .title {
     margin: 0px;
     padding-top: 15px;
@@ -10,70 +11,57 @@
 }
 
 .container {
+    width: 100%;
+    height: 75%;
     display: grid;
-    
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
 }
 
-
-
-
-
-/* .container {
+.formularioContainer {
     display: grid;
-    grid-template-columns: 70% 30%;
-    grid-template-rows: 70% 30%;
-    gap: 10px;
-}
-.formulario {
-    grid-area: 1 / 1 / 3 / 2;
-    display:grid;
-    grid-gap: 0px;
+    height:75%;
+    grid-area: 1 / 1 / 4 / 3;
+    width: 75%;
+    align-self: center;
+    justify-self: center;
     background-color: var(--background-color);
     border: 4px solid var(--border-color);
     border-radius: 15px;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: 50% 50%;
-}   
-.inputs {
-    grid-area: 1 / 3 / 2 / 4;
-    display:grid;
-    align-items: start;
-    align-content: center;
+    grid-template-columns: 1fr 1fr;
+}
+
+.videogameCreateCard{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: 1 / 3 / 3 / 4;
+    width: 100%;
+}
+
+.videogameValidateCard{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    grid-area: 3 / 3 / 4 / 4; 
+}
+
+.mainForm{
+    margin: 15px;
+    display: grid;
     text-align: start;
 }
-.genresContainer {
-    grid-area: 1 / 1 / 3 / 2;
-    display: grid;
-    place-items: start;
-}
-.platformsContainer {
-    grid-area: 1 / 2 / 2 / 3;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, );
-    place-items: start;
-}
-.image{
-    grid-area: 2 / 2 / 3 / 3;
-    align-content: center;
-}
-.boton{
-    grid-area: 2 / 3 / 3 / 4;
-    place-items: center;
-    align-items: center;
-    align-content: center;
-    place-items: center;
+
+.genresContainer{
+    grid-area: 2 / 1 / 4 / 2;
 }
 
-.videogameCreateCard {
-    display: grid;
-    place-items: center;
-    grid-area: 1 / 2 / 2 / 3;
-    margin: 0;
-}
-
-.videogameValidateCard {
-    display: grid;
-    grid-area: 2 / 2 / 3 / 3;
+.checkboxes{
+    margin: 10px;
+    height: 80%;
+    display: flex;
+    flex-wrap:wrap;
 }
 
 .submit {
@@ -91,4 +79,12 @@
     transition: all .2s;
     background-color: cornsilk;
     color:black;
-} */
+} 
+
+
+@media (max-width: 900px){
+    .container{
+        display:flex;
+        flex-direction: row;
+    }
+}

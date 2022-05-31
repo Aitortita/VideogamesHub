@@ -1,13 +1,14 @@
 import styles from "./VideogameCard.module.css";
 import React from "react";
 import { Link } from 'react-router-dom';
+import placeHolder from "../../images/ImagePlaceholder.jpg"
 
 function VideogameCard(props){
     return(
         <div className={styles.videogameItem}>
             <Link to={`/videogame/${props.name}`} state={{id: props.id}}>
                 {/* eslint-disable */}
-            <img src={props.image} className={styles.img}/>
+            <img src={props.image ? props.image : placeHolder} className={styles.img}/>
                 {/* eslint-disable */}
             </Link>
             <div className={styles.cardInfo}>

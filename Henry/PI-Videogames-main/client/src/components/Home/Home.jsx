@@ -15,7 +15,7 @@ return (
     <div>   
      <Nav />
      <div className={styles.pageWrapper}>
-     <Aside />
+     <Aside/>
      <Paginated search={search}/>
      </div>
     </div>

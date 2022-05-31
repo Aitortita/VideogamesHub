@@ -4,47 +4,45 @@ import Nav from "../Nav/Nav";
 import VideogameCreateCard from "../VideogameCreateCard/VideogameCreateCard";
 import VideogameValidateCard from "../VideogameValidateCard/VideogameValidateCard";
 import * as allActions from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-function VideogameCreate(props){
+export default function VideogameCreate(props){
+    useEffect(()=>{
+        dispatch(allActions.getAllGenresAndPlatforms())
+    },[])
     const dispatch = useDispatch()
+    const { platforms, exactVideogame } = useSelector(state=> state)
     const [flags, setFlags] = useState({
         flagName: false,
+        flagCorrectName: false,
         flagDescription: false,
         flagLaunchDate: true,
-        flagRating: true
+        flagRating: true,
     })
     const [flagGenre, setFlagGenre] = useState(false)
-    const [flagPlatform, setFlagPlatform] = useState(false)
-    const [genres, setGenres] = useState({
-            'Action': false,
-            'Indie': false,
-            'Adventure': false,
-            'RPG': false,
-            'Strategy': false,
-            'Shooter': false,
-            'Casual': false,
-            'Simulation': false,
-            'Puzzle': false,
-            'Arcade': false,
-            'Platformer': false,
-            'Racing': false,
-            'Massively Multiplayer': false,
-            'Sports': false,
-            'Fighting': false,
-            'Family': false,
-            'board games': false,
-            'Educational': false,
-            'Card': false,
+    const [flagPlatform, setFlagPlatform] = useState(false) 
+    const [localGenres, setGenres] = useState({
+        'Action': false,
+        'Indie': false,
+        'Adventure': false,
+        'RPG': false,
+        'Strategy': false,
+        'Shooter': false,
+        'Casual': false,
+        'Simulation': false,
+        'Puzzle': false,
+        'Arcade': false,
+        'Platformer': false,
+        'Racing': false,
+        'Massively Multiplayer': false,
+        'Sports': false,
+        'Fighting': false,
+        'Family': false,
+        'board games': false,
+        'Educational': false,
+        'Card': false,
     })
-    const [platforms, setPlatforms] = useState({
-            'PC': false,
-            'PlayStation 4': false,
-            'Xbox One':false,
-            'Nintendo Switch': false,
-            'iOS': false,
-            'Android': false
-    })
+    const [localPlatforms, setPlatforms] = useState([])
     const [state, setState] = useState({
         name: "",
         description:"",
@@ -52,36 +50,37 @@ function VideogameCreate(props){
         rating:"",
         image: null
     })
-
+    useEffect(()=>{
+        if(exactVideogame === "Name is free") return setFlags({...flags, flagCorrectName: true});
+        setFlags({...flags, flagCorrectName: false})
+    },[state.name])
     useEffect(() => {
-        Object.values(platforms).find((e) => e === true) ?  setFlagPlatform(true): setFlagPlatform(false);
-        Object.values(genres).find((e) => e === true) ?  setFlagGenre(true): setFlagGenre(false);
-    }, [platforms, genres])
-
+        localPlatforms.length > 0 ?  setFlagPlatform(true): setFlagPlatform(false);
+        Object.values(localGenres).find((e) => e === true) ?  setFlagGenre(true): setFlagGenre(false);
+    }, [localPlatforms, localGenres])
     function handleGenre(e) {
-        setGenres({...genres, [e.target.name]: e.target.checked})
+        setGenres({...localGenres, [e.target.name]: e.target.checked})
     }
-
-    function handlePlatforms(e){
-        setPlatforms({...platforms, [e.target.name]: e.target.checked})
+    function handlePlatforms({target}){
+        let value = Array.from(target.selectedOptions,
+        (option) => option.value);
+        setPlatforms(value)
     }
-
-    function handleChange(e){
-        if (e.target.name === "name" && e.target.value !== "") dispatch(allActions.getExactVideogame(e.target.value))
-        else dispatch(allActions.cleanExactVideogame());
-        setState({...state, [e.target.name]: `${e.target.value}`})
-        switch(e.target.name){
+    function handleChange({target}){
+        if (target.name === "name" && target.value !== "") dispatch(allActions.getExactVideogame(target.value))
+        setState({...state, [target.name]: `${target.value}`})
+        switch(target.name){
             case "name":
-                validatorName(e.target.value)
+                validatorName(target.value)
                 break;
             case "description":
-                validatorDescription(e.target.value)
+                validatorDescription(target.value)
                 break;
             case "launchDate":
-                validatorLaunchDate(e.target.value)
+                validatorLaunchDate(target.value)
                 break;
             case "rating":
-                validatorRating(e.target.value)
+                validatorRating(target.value)
                 break;
             default: return;
         }
@@ -106,8 +105,8 @@ function VideogameCreate(props){
         if (state.launchDate !== "") launchDate = state.launchDate;
         let rating = undefined
         if (state.rating !== "") rating = state.rating;
-        const platform = Object.entries(platforms).filter(platform => platform[1] === true).map(e => e[0]);
-        const genre = Object.entries(genres).filter(platform => platform[1] === true).map(e => e[0]);
+        const platform = localPlatforms;
+        const genre = Object.entries(localGenres).filter(platform => platform[1] === true).map(e => e[0]);
         let body = {
             name: state.name,
             description: state.description,
@@ -133,7 +132,7 @@ function VideogameCreate(props){
         })
         setFlagGenre(false)
         setFlagPlatform(false)
-        setGenres({
+        setGenres([{
             'Action': false,
             'Indie': false,
             'Adventure': false,
@@ -153,17 +152,9 @@ function VideogameCreate(props){
             'board games': false,
             'Educational': false,
             'Card': false,
-        })
-        setPlatforms({
-            'PC': false,
-            'PlayStation 4': false,
-            'Xbox One':false,
-            'Nintendo Switch': false,
-            'iOS': false,
-            'Android': false
-        })
+        }])
+        setPlatforms([])
     }
-
     function validatorName(name){
         const validate = name.match(/[a-z]|[0-9]|[ ,-/]/gi); 
         if (name.length !== validate?.length) {
@@ -203,8 +194,8 @@ function VideogameCreate(props){
             <Nav />
             <h1 className={styles.title}>You can create your own videogame</h1>
           <div className={styles.container}>
-              <div>
-                <form className={styles.formulario} onSubmit={(e) => handleSubmit(e)}>
+                <form className={styles.formularioContainer} onSubmit={(e) => handleSubmit(e)}>
+                    <div className={styles.mainForm}>
                         <label htmlFor="name">Name*: </label>
                         <input name="name" type="text" placeholder="your videogame's name" value={state.name} onChange={(e) => handleChange(e)}></input>
                         <label htmlFor="description">Description*: </label>
@@ -213,29 +204,31 @@ function VideogameCreate(props){
                         <input name="rating" type="number" min="0" max="100" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
                         <label htmlFor="launchDate">Launch Date: </label>
                         <input name="launchDate" type="date" placeholder="your videogame's launch date" value={state.launchDate} onChange={(e) => handleChange(e)}></input>
+                    </div>
                             <div className={styles.genresContainer}>
-                                <h4>Genres*: </h4>
+                                <h4 style={{marginTop: 5, marginBottom: 5}}>Genres*: </h4>
+                                <div className={styles.checkboxes}>
                         {
-                            Object.keys(genres).map(genre => {
+                            Object.keys(localGenres).map(genre => {
                                 return(
                             <span key={genre}>
-                                <input name={genre} type="checkbox" checked={genres[genre]} onChange={(e) => handleGenre(e)}/>
+                                <input name={genre} type="checkbox" checked={localGenres[genre]} onChange={(e) => handleGenre(e)}/>
                                 <label htmlFor={`${genre}`}> {genre} </label>
                             </span>
                                 )})
                         } 
+                                </div>
                             </div>
                             <div className={styles.platformsContainer}>
                                 <h4>Platforms*:</h4>
+                                <select multiple={true} onChange={(e) => handlePlatforms(e)}>
                         {
-                            Object.keys(platforms).map(platform => {
-                                return(
-                            <span key={platform}>
-                                <input name={platform} type="checkbox" checked={platforms[platform]} onChange={(e) => handlePlatforms(e)}/>
-                                <label htmlFor={`${platform}`}> {platform} </label>
-                            </span>
-                                )})
+                                    platforms.map(({name}) => {
+                                    return(
+                                        <option key={name} name={name} value={name} onChange={(e) => handlePlatforms(e)}>{name}</option>
+                                    )})
                         }
+                                </select>
                             </div>
                             <div className={styles.image}>
                         <label>Image: </label>
@@ -245,7 +238,6 @@ function VideogameCreate(props){
                         <button type="submit" className={styles.submit}>Submit</button>
                             </div>
                 </form>
-              </div>
               <div className={styles.videogameCreateCard}>
                     <VideogameCreateCard
                     data={state}
@@ -262,11 +254,3 @@ function VideogameCreate(props){
         </div>
     )
 }
-
-
-
-
-
-
-
-export default VideogameCreate;

@@ -12,6 +12,7 @@
     color: aqua;
     margin: 0px;
     font-size: 72px;
+    padding-left: 25px;
 }
 
 @media (max-width: 1200px){
