@@ -2,7 +2,7 @@ import styles from "./About.module.css";
 import React from "react";
 import Nav from "../Nav/Nav";
 
-function About(props) {
+export default function About(props) {
     return(
         <div className={styles.wrapper}>
             <Nav />
@@ -21,6 +21,3 @@ function About(props) {
         </div>
     )
 }
-
-
-export default About;

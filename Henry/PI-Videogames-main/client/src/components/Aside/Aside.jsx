@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
-function Aside({search}){
+export default function Aside({search}){
     const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter } = useSelector(state => state);
     const dispatch = useDispatch();
     useEffect(()=> {
@@ -146,8 +146,3 @@ function Aside({search}){
         </div>
     )
 }
-
-
-
-
-export default Aside;

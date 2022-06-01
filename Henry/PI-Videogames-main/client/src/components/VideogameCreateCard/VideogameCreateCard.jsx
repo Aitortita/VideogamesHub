@@ -1,7 +1,7 @@
 import styles from "./VideogameCreateCard.module.css";
 import React from "react";
 
-function VideogameCreateCard({data, platforms, genres}){
+export default function VideogameCreateCard({data, platforms, genres}){
      /* eslint-disable */
     const {name, rating, launchDate, description, image} = data;
      /* eslint-disable */
@@ -23,6 +23,3 @@ function VideogameCreateCard({data, platforms, genres}){
         </div>
     )
 }
-
-
-export default VideogameCreateCard;

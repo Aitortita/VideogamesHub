@@ -142,38 +142,6 @@ router.get('/videogamesHUB', (req, res) => {
                 .catch(err => res.status(404).send(err.message))
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.get('/videogames/:idVideoGame', (req, res) => {
     const { idVideoGame } = req.params;
     Promise.allSettled([

@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import placeHolder from "../../images/ImagePlaceholder.jpg"
 
-function VideogameCard(props){
+export default function VideogameCard(props){
     return(
         <div className={styles.videogameItem}>
             <Link to={`/videogame/${props.name}`} state={{id: props.id}}>
@@ -19,10 +19,7 @@ function VideogameCard(props){
                 {props.platforms?.slice(1).map(e => {
                 if (e?.platform?.name) return `, ${e.platform.name}`;
                 return `, ${e?.name}`})}</h4>
-            {/* <h4>Rating: {props.rating}</h4> */}
             </div>
         </div>
     )
-};
-
-export default VideogameCard;
+}

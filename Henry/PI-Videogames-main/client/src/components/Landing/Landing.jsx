@@ -3,7 +3,7 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import VideogamesHub from "../../images/VideogamesHubLanding.png"
 
-function Landing(props){
+export default function Landing(props){
     const navigate = useNavigate();
 return (
     <div className={styles.background}>
@@ -13,8 +13,3 @@ return (
     </div>
     )
 }
-
-
-
-
-export default Landing;

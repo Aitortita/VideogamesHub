@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
-function PaginatedHeader({search}){
+export default function PaginatedHeader({search}){
     const { videogamesSearchName, filter, sort, sorting, apiFilter } = useSelector(state => state);
     const dispatch = useDispatch();
     function unFilter(){
@@ -72,8 +72,3 @@ function PaginatedHeader({search}){
         </div>
     )
 }
-
-
-
-
-export default PaginatedHeader;

@@ -5,7 +5,7 @@ import * as allActions from "../../redux/actions";
 import { useDispatch, useSelector} from "react-redux";
 import icon from "../../images/VideogamesHubHD.png"
 
-function Nav(props){
+export default function Nav(props){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { apiFilter } = useSelector(state => state)
@@ -40,6 +40,3 @@ function Nav(props){
         </nav>
     )
 }
-
-
-export default Nav;

@@ -2,23 +2,7 @@
     display: grid;
 }
 
-.videogamesContainer{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    padding: 0px;
-    margin: 0px;
-}
-
-.card {
-    padding: 0px;
-    margin: 0px;
-}
-
-.showNone {
-    display:none
-}
-
-.showMore{
+.button{
     align-self: center;
     justify-self: center;
     margin: 30px;
@@ -29,6 +13,6 @@
     border-radius: 25px;
 }
 
-.showMore:hover{
+.button:hover{
     cursor: pointer;
 }

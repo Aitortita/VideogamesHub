@@ -1,16 +1,10 @@
 import styles from "./Home.module.css"
-import React, { useEffect } from "react";
+import React from "react";
 import Nav from "../Nav/Nav"
 import Aside from "../Aside/Aside";
-import { useDispatch } from "react-redux";
-import * as allActions from "../../redux/actions"
 import Paginated from "../Paginated/Paginated";
 
-function Home({search}){
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(allActions.unFilterVideogames())
-    },[dispatch])
+export default function Home({search}){
 return (
     <div>   
      <Nav />
@@ -21,6 +15,3 @@ return (
     </div>
     )
 }
-
-
-export default Home;
