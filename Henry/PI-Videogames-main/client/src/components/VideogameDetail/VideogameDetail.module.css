@@ -46,11 +46,17 @@
     border-radius: 10px;
 }
 
-.image {
+.imageContainer{
     width: 100%;
-    border-radius: 15px;
+    max-height: 100%;
     grid-row: 1 / 3;
+}
+
+.image {
+    max-width: 100%;
+    border-radius: 15px;
     align-self: center;
+    object-fit: contain;
 }
 
 .infoContainer{

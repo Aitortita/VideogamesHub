@@ -1,9 +1,9 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION, MOUNT_OBJECTS} from "../ActionNames/ActionNames";
+import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION, MOUNT_OBJECTS, CHANGE_API_FILTER} from "../ActionNames/ActionNames";
 
 
 const initialState = {
     videogames: [],
-    searchVideogames: [],
+    videogamesSearch: [],
     videogamesSearchName: "",
     videogame: {},
     exactVideogame: "",
@@ -11,10 +11,9 @@ const initialState = {
     platforms: [],
     filter: "",
     sort: "",
-    sorting: "desc",
+    sorting: "DESC",
     pagination: 15,
-    genresObj: {},
-    platformsObj: {}
+    apiFilter: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -22,15 +21,15 @@ const rootReducer = (state = initialState, action) => {
         case GET_ALL_VIDEOGAMES:
             return {...state, videogames: action.payload}
         case SEARCH_VIDEOGAME:
-            return {...state, searchVideogames: action.payload, videogamesSearchName: action.payloadName}
+            return {...state, videogamesSearch: action.payload, videogamesSearchName: action.payloadName}
         case GET_VIDEOGAME:
             return {...state, videogame: action.payload}
         case UNVIDEOGAME:
             return {...state, videogame: {}}
         case UNFILTERVIDEOGAMES:
-            return {...state, searchVideogames: [], videogamesSearchName: ""}
+            return {...state, videogamesSearch: [], videogamesSearchName: ""}
         case CLEAR:
-            return {...state, searchVideogames: [], videogame: {}, videogameCreated: false, videogamesSearchName: "", filter: ""}
+            return {...state, videogamesSearch: [], videogame: {}, videogameCreated: false, videogamesSearchName: "", filter: ""}
         case CREATE_VIDEOGAME:
             return {...state, videogameCreated: true}
         case GET_EXACT_VIDEOGAME:
@@ -57,6 +56,8 @@ const rootReducer = (state = initialState, action) => {
             return {...state, pagination: 15}
         case MOUNT_OBJECTS:
             return {...state}
+        case CHANGE_API_FILTER:
+            return {...state, apiFilter: action.payload}
         default: return state
     }
 };

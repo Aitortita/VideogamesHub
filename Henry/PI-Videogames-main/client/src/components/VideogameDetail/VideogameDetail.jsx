@@ -24,7 +24,9 @@ export default function VideogameDetail(props){
                 <h1>Videogame: {videogame.name}</h1>
             </div>
             <div className={styles.container}>
+                <div className={styles.imageContainer}>
                 <img className={styles.image}src={videogame.background_image ? videogame.background_image : placeholder} alt={`${videogame.name}`}/>
+                </div>
                 <div className={styles.infoContainer}>
                 <div className={styles.descriptionContainer}>
                     <h1 style={{marginTop: 10, marginBottom: 10}}>Description:</h1>

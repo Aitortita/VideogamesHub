@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
 function Aside({search}){
-    const { videogamesSearchName, genres, platforms, filter, sort, sorting } = useSelector(state => state);
+    const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter } = useSelector(state => state);
     const dispatch = useDispatch();
     useEffect(()=> {
         dispatch(allActions.getAllGenresAndPlatforms())
@@ -28,18 +28,18 @@ function Aside({search}){
             if (e === sort) {
             dispatch(allActions.resetPagination())
             dispatch(allActions.unSort())
-            return dispatch(allActions.searchVideogame(videogamesSearchName))
+            return dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName))
             }
             dispatch(allActions.resetPagination())
-            dispatch(allActions.searchVideogame(videogamesSearchName, e, sorting))
+            dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName, e, sorting))
         }
         if (e === sort) {
         dispatch(allActions.resetPagination())
         dispatch(allActions.unSort())
-        return dispatch(allActions.getAllVideogames())
+        return dispatch(allActions.getAllVideogames(apiFilter))
         }
         dispatch(allActions.resetPagination())
-        dispatch(allActions.sort(e, sorting))
+        dispatch(allActions.sort(apiFilter, e, sorting))
     }
     const [counterGenres, setCounterGenres] = useState(5);
     const [counterPlatforms, setCounterPlatforms] = useState(5);
@@ -55,6 +55,48 @@ function Aside({search}){
     }
     function lessPlatforms(){
         setCounterPlatforms(5)
+    }
+
+    function rawgFilter() {
+        if (search === true) {
+            if ( apiFilter === "rawg") {
+                dispatch(allActions.resetPagination())
+                dispatch(allActions.apiFilt(""))
+                return dispatch(allActions.searchVideogame("", videogamesSearchName))
+            }
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.apiFilt("rawg"))
+            return dispatch(allActions.searchVideogame("rawg", videogamesSearchName))
+        }
+        if ( apiFilter === "rawg") {
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.apiFilt(""))
+            return dispatch(allActions.getAllVideogames())
+        }
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.apiFilt("rawg"))
+        dispatch(allActions.getAllVideogames("rawg"))
+    }
+
+    function hubFilter() {
+        if (search === true) {
+            if ( apiFilter === "videogamesHUB") {
+                dispatch(allActions.resetPagination())
+                dispatch(allActions.apiFilt(""))
+                return dispatch(allActions.searchVideogame("", videogamesSearchName))
+            }
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.apiFilt("videogamesHUB"))
+            return dispatch(allActions.searchVideogame("videogamesHUB", videogamesSearchName))
+        }
+        if ( apiFilter === "videogamesHUB") {
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.apiFilt(""))
+            return dispatch(allActions.getAllVideogames())
+        }
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.apiFilt("videogamesHUB"))
+        dispatch(allActions.getAllVideogames("videogamesHUB"))
     }
 
     return(
@@ -73,6 +115,11 @@ function Aside({search}){
                     <li><a onClick={() => onSort("metacritic")}>Metacritic</a></li>
                 </ul>
                 <h2>Filter by</h2>
+                <h3>Api</h3>
+                <ul>
+                    <li><a onClick={() => rawgFilter()}>Rawg</a></li>
+                    <li><a onClick={() => hubFilter()}>VideogamesHUB</a></li>
+                </ul>
                 <h3 className={styles.tag}>Genres</h3>
                 <div className={styles.filters}>
                     <ul>

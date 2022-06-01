@@ -2,6 +2,7 @@
     display: grid;
     background-color: rgba(11, 12, 12, 0.574);
     height: 130px;
+    max-height: 130px;
     padding-bottom: 10px;
     grid-template-columns: 1fr 1fr;
     margin: 0px;
@@ -27,18 +28,12 @@
 }
 
 .text{
-    flex-grow: 1;
     align-self: center;
     text-align: left;
-    width: 100%;
-    font-size-adjust: auto;
 }
 
 .filtersContainer{
-    width: 100%;
-    height: 100%;
     display:grid;
-    grid-template-rows: 1fr 1fr;
 }
 
 .filtersContainer h2{
@@ -51,7 +46,6 @@
     grid-template-columns: 50% 50%;
     align-items: center;
     text-align: start;
-    width: 100%;
 }
 
 .sort{
@@ -78,6 +72,7 @@
 
 .ascendToDescend{
  color: blueviolet;
+ font-size: 20px;
 }
 .ascendToDescend:hover{
     cursor: pointer;

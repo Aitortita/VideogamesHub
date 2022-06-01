@@ -2,13 +2,15 @@ import styles from "./Nav.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as allActions from "../../redux/actions";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import icon from "../../images/VideogamesHubHD.png"
 
 function Nav(props){
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { apiFilter } = useSelector(state => state)
     const [name, setName] = useState('');
+
 
     function typing(e){
         setName(e.target.value)
@@ -17,7 +19,7 @@ function Nav(props){
     function search(e){
         e.preventDefault()
         dispatch(allActions.clear())
-        dispatch(allActions.searchVideogame(name))
+        dispatch(allActions.searchVideogame(apiFilter, name))
         navigate('/search')
         setName('')
     }

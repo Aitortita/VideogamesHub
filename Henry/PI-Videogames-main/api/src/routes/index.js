@@ -15,14 +15,14 @@ router.get('/videogames', (req, res) => {
         function merge(left, right) {
             let sortedArr = []
             while (left.length && right.length) {
-                if (sorting === "asc") {
+                if (sorting === "ASC") {
                     if (left[0][sort] < right[0][sort]) {
                       sortedArr.push(left.shift())
                     } else {
                       sortedArr.push(right.shift())
                     }
                 }
-                if (sorting === "desc"){
+                if (sorting === "DESC"){
                     if (left[0][sort] > right[0][sort]) {
                         sortedArr.push(left.shift())
                       } else {
@@ -64,6 +64,115 @@ router.get('/videogames', (req, res) => {
                 .then(array => res.status(200).json([...array[0]?.value?.data?.results, ...array[1]?.value]))
                 .catch(err => res.status(404).send(err.message))
 });
+
+router.get('/videogamesRawg', (req, res) => {
+    const { name, sort, sorting } = req.query;
+    if (sort) {
+        function merge(left, right) {
+            let sortedArr = []
+            while (left.length && right.length) {
+                if (sorting === "ASC") {
+                    if (left[0][sort] < right[0][sort]) {
+                      sortedArr.push(left.shift())
+                    } else {
+                      sortedArr.push(right.shift())
+                    }
+                }
+                if (sorting === "DESC"){
+                    if (left[0][sort] > right[0][sort]) {
+                        sortedArr.push(left.shift())
+                      } else {
+                        sortedArr.push(right.shift())
+                      }
+                }
+            }
+            return [...sortedArr, ...left, ...right]
+          }
+        function mergeSort(arr) {
+            if (arr.length <= 1) return arr
+            let mid = Math.floor(arr.length / 2)
+            let left = mergeSort(arr.slice(0, mid))
+            let right = mergeSort(arr.slice(mid))
+            return merge(left, right)
+          }
+        if (name) {
+            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
+            .then(({data}) => res.status(200).json(mergeSort(data?.results)))
+            .catch(err => res.status(404).send(err.message))
+                return
+        }
+        axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}})
+        .then(({data}) => res.status(200).json(mergeSort(data?.results)))
+        .catch(err => res.status(404).send(err.message))
+        return
+    }
+        if (name) {
+            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
+                .then(({data}) => res.status(200).json(data?.results))
+                .catch(err => res.status(404).send(err.message))
+                return
+        }
+            axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}})
+                .then(({data}) => res.status(200).json(data?.results))
+                .catch(err => res.status(404).send(err.message))
+});
+
+router.get('/videogamesHUB', (req, res) => {
+    const { name, sort, sorting } = req.query;
+    if (sort) {
+        if (name) {
+            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, order: [[sort, sorting]], limit:100, include : [{model: Genre}, {model:Platform}]})
+            .then(value => res.status(200).json(value))
+            .catch(err => res.status(404).send(err.message))
+                return
+        }
+        Videogame.findAll({order: [[sort, sorting]], limit:100, include : [{model: Genre}, {model:Platform}]})
+        .then(value => res.status(200).json(value))
+        .catch(err => res.status(404).send(err.message))
+        return
+    }
+        if (name) {
+            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})
+                .then(value => res.status(200).json(value))
+                .catch(err => res.status(404).send(err.message))
+                return
+        }
+            Videogame.findAll({limit:100, include : [{model: Genre}, {model:Platform}]})
+                .then(value => res.status(200).json(value))
+                .catch(err => res.status(404).send(err.message))
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/videogames/:idVideoGame', (req, res) => {
     const { idVideoGame } = req.params;

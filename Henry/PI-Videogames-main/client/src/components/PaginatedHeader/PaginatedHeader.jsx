@@ -4,30 +4,44 @@ import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
 function PaginatedHeader({search}){
-    const { videogamesSearchName, filter, sort, sorting } = useSelector(state => state);
+    const { videogamesSearchName, filter, sort, sorting, apiFilter } = useSelector(state => state);
     const dispatch = useDispatch();
     function unFilter(){
+        dispatch(allActions.resetPagination())
         dispatch(allActions.unFilter())
     }
     function unSort(){
+        dispatch(allActions.resetPagination())
         dispatch(allActions.unSort())
-        dispatch(allActions.getAllVideogames())
+        dispatch(allActions.getAllVideogames(apiFilter))
     }
     function switchSorting() {
         if (search === true) {
-            if (sorting === "desc") {
-                dispatch(allActions.sorting("asc"))
-                return  dispatch(allActions.searchVideogame(videogamesSearchName, sort, "asc"))
+            if (sorting === "DESC") {
+                dispatch(allActions.resetPagination())
+                dispatch(allActions.sorting("ASC"))
+                return  dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName, sort, "ASC"))
             }
-            dispatch(allActions.sorting("desc"))
-            dispatch(allActions.searchVideogame(videogamesSearchName, sort, "desc"))
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.sorting("DESC"))
+            dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName, sort, "DESC"))
         }
-        if (sorting === "desc") {
-            dispatch(allActions.sorting("asc"))
-            return  dispatch(allActions.sort(sort, "asc"))
+        if (sorting === "DESC") {
+            dispatch(allActions.resetPagination())
+            dispatch(allActions.sorting("ASC"))
+            return  dispatch(allActions.sort(apiFilter, sort, "ASC"))
         }
-        dispatch(allActions.sorting("desc"))
-        dispatch(allActions.sort(sort, "desc"))
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.sorting("DESC"))
+        dispatch(allActions.sort(apiFilter, sort, "DESC"))
+    }
+    function resetFilter() {
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.apiFilt(""))
+        if (search === true) {
+            return dispatch(allActions.searchVideogame("", videogamesSearchName))
+        }
+        dispatch(allActions.getAllVideogames(""))
     }
     return(
         <div className={styles.headerWrapper}>
@@ -38,6 +52,12 @@ function PaginatedHeader({search}){
                 </div>
                 <div className={styles.filtersContainer}>
                     {
+                        apiFilter === "rawg" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>Rawg</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    }
+                    {
+                        apiFilter === "videogamesHUB" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>VideogamesHUB</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    }
+                    {
                     filter !== "" ? <div className={styles.filter}><h2>Filtered by:
                         <span className={styles.span}>{filter}</span></h2>
                         <h2 className={styles.button} onClick={()=> unFilter()}>Clear</h2></div> : null
@@ -46,7 +66,7 @@ function PaginatedHeader({search}){
                     sort !== "" ? <div className={styles.sort}><h2>Sorted by:
                         <span className={styles.span}>{sort === "rating" ? "Rating" : sort === "rating_top" ? "Top Rating" : sort === "metacritic" ? "Metacritic" : null}</span></h2>
                         <h2 className={styles.button} onClick={()=> unSort()}>Clear</h2>
-                        <h2 className={styles.ascendToDescend} onClick={()=> switchSorting()}>{sorting === "desc" ? "Switch to Ascending" : "Switch to Descending"}</h2></div> : null
+                        <h2 className={styles.ascendToDescend} onClick={()=> switchSorting()}>{sorting === "DESC" ? "Switch to Ascending" : "Switch to Descending"}</h2></div> : null
                     }
                 </div>
         </div>

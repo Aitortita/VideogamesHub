@@ -6,12 +6,12 @@ import * as allActions from "../../redux/actions"
 import PaginatedHeader from "../PaginatedHeader/PaginatedHeader"
 
 function Paginated({search}){
-    const {videogames, searchVideogames, filter, pagination} = useSelector(state => state);
+    const {videogames, videogamesSearch, filter, pagination, apiFilter} = useSelector(state => state);
     const dispatch = useDispatch()
     useEffect(() => {
             dispatch(allActions.clear())
             dispatch(allActions.resetPagination())
-            dispatch(allActions.getAllVideogames())
+            dispatch(allActions.getAllVideogames(apiFilter))
             setShowMore(true)
     }, [dispatch]);
 
@@ -31,8 +31,8 @@ function Paginated({search}){
             <PaginatedHeader search={search}/>
         <section className={styles.videogamesContainer}>
         {
-            filter !== "" ? search ? searchVideogames.length > 0 ? 
-                searchVideogames.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0)
+            filter !== "" ? search ? videogamesSearch.length > 0 ? 
+                videogamesSearch.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0)
                 .slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
@@ -53,7 +53,7 @@ function Paginated({search}){
                 platforms={e.platforms}
             />) :
             search ? 
-            searchVideogames.length > 0 ? searchVideogames.slice(pagination - 15, pagination).map(e => <VideogameCard
+            videogamesSearch.length > 0 ? videogamesSearch.slice(pagination - 15, pagination).map(e => <VideogameCard
                 id={e.id}
                 image={e.background_image}
                 key={e.id}
@@ -79,9 +79,9 @@ function Paginated({search}){
             }
             {
                 search === true ? filter !== "" ? pagination > 
-                searchVideogames.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0).length ?
+                videogamesSearch.filter((game) => [...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0).length ?
                 null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a> :
-                pagination > searchVideogames.length ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a> :
+                pagination > videogamesSearch.length ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a> :
                 pagination > videogames.length ? null : <a className={showMore === true ? styles.showMore : styles.showNone} onClick={() => onShow()}>Next Page</a>
             }
         </div>
