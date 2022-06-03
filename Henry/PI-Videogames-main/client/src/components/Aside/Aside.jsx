@@ -107,8 +107,8 @@ export default function Aside({search}){
         <div className={styles.asideWrapper}>
             {/* eslint-disable */}
             <div className={styles.aside}>
-                <h1 className={styles.landingPage} onClick={()=> navigate("/")}>Landing page</h1>
-                <h2>Custom</h2>
+                <a className={styles.landingPage} href="/">Landing page</a>
+                <h2 style={{marginTop: "15px"}}>Custom</h2>
                 <ul>
                     <li><a href="/create/videogame"> Create a videogame</a></li>
                 </ul>

@@ -5,20 +5,21 @@
 
 .title{
     background-color: rgba(11, 12, 12, 0.574);
-    margin: 0px;
     padding-top: 30px;
     padding-bottom: 30px;
 }
 
 .container{
-    width: 100%;
-    margin-top: 50px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 25px;
+    margin-bottom: 25px;
+    background-color: rgba(11, 12, 12, 0.574);
 }
 
 .text {
     margin: 0px;
-    margin-left: 25%;
-    margin-right: 25%;
     color: rgb(255, 236, 128);
 }
 

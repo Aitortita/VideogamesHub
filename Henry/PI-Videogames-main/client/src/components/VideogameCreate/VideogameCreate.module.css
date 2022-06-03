@@ -1,7 +1,3 @@
-.wrapper {
-    height:100%;
-}
-
 .title {
     margin: 0px;
     padding-top: 15px;
@@ -27,8 +23,9 @@
     align-items: center;
     justify-content: center;
     grid-area: 2 / 3 / 4 / 5;
-    width: 100%;
+    width: 90%;
     height: 100%;
+    margin-bottom: 68px;
 }
 
 .videogameValidateCard{
@@ -89,9 +86,11 @@
     background-color: var(--background-color-faded);
     cursor:pointer;
 }
+
 .genreCheckbox{
     cursor:pointer;
 }
+
 .checkbox {
     width: 1em;
     height: 1em;
@@ -160,10 +159,24 @@
 } 
 
 @media (max-width: 900px){
-    .container{
-        height: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(auto-fit, minmax(500px, 1fr));
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+    .videogameCreateCard {
+        width: 90%;
+        height: 500px;
+    }
+    
+    .videogameValidateCard{
+        height: 200px;
+        margin: 0px;
+    }
+    
+    .formularioContainer {
+        width: 90%;
+        margin: 0px;
+        margin-bottom: 20px;
     }
 }
+
