@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       }
     },
     background_image: {
-      type: DataTypes.BLOB
+      type: DataTypes.STRING
     }
   },
   {

@@ -9,10 +9,7 @@ export default function Aside({search}){
     const dispatch = useDispatch();
     useEffect(()=> {
         dispatch(allActions.getAllGenresAndPlatforms())
-    }, 
-    /* eslint-disable */
-    [])
-    /* eslint-disable */
+    }, []) // eslint-disable-line
     const navigate = useNavigate();
 
     function onFilter(e){
@@ -43,6 +40,7 @@ export default function Aside({search}){
     }
     const [counterGenres, setCounterGenres] = useState(5);
     const [counterPlatforms, setCounterPlatforms] = useState(5);
+    const [display, setDisplay] = useState("block")
 
     function moreGenres(){
         setCounterGenres(19)
@@ -61,41 +59,47 @@ export default function Aside({search}){
         if (search === true) {
             if ( apiFilter === "rawg") {
                 dispatch(allActions.resetPagination())
-                dispatch(allActions.apiFilt(""))
+                dispatch(allActions.changeApiFilter(""))
                 return dispatch(allActions.searchVideogame("", videogamesSearchName))
             }
             dispatch(allActions.resetPagination())
-            dispatch(allActions.apiFilt("rawg"))
+            dispatch(allActions.changeApiFilter("rawg"))
             return dispatch(allActions.searchVideogame("rawg", videogamesSearchName))
         }
         if ( apiFilter === "rawg") {
             dispatch(allActions.resetPagination())
-            dispatch(allActions.apiFilt(""))
+            dispatch(allActions.changeApiFilter(""))
             return dispatch(allActions.getAllVideogames())
         }
         dispatch(allActions.resetPagination())
-        dispatch(allActions.apiFilt("rawg"))
+        dispatch(allActions.changeApiFilter("rawg"))
         dispatch(allActions.getAllVideogames("rawg"))
     }
 
     function hubFilter() {
         if (search === true) {
             if ( apiFilter === "videogamesHUB") {
-                dispatch(allActions.resetPagination())
-                dispatch(allActions.apiFilt(""))
+            setDisplay("block")
+            dispatch(allActions.resetPagination())
+                dispatch(allActions.changeApiFilter(""))
                 return dispatch(allActions.searchVideogame("", videogamesSearchName))
             }
+            if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
+            setDisplay("none")
             dispatch(allActions.resetPagination())
-            dispatch(allActions.apiFilt("videogamesHUB"))
+            dispatch(allActions.changeApiFilter("videogamesHUB"))
             return dispatch(allActions.searchVideogame("videogamesHUB", videogamesSearchName))
         }
         if ( apiFilter === "videogamesHUB") {
+            setDisplay("block")
             dispatch(allActions.resetPagination())
-            dispatch(allActions.apiFilt(""))
+            dispatch(allActions.changeApiFilter(""))
             return dispatch(allActions.getAllVideogames())
         }
+        if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
+        setDisplay("none")
         dispatch(allActions.resetPagination())
-        dispatch(allActions.apiFilt("videogamesHUB"))
+        dispatch(allActions.changeApiFilter("videogamesHUB"))
         dispatch(allActions.getAllVideogames("videogamesHUB"))
     }
 
@@ -111,8 +115,8 @@ export default function Aside({search}){
                 <h2>Sort by</h2>
                 <ul>
                     <li><a onClick={() => onSort("rating")}>Rating</a></li>
-                    <li><a onClick={() => onSort("rating_top")}>Top Rating</a></li>
-                    <li><a onClick={() => onSort("metacritic")}>Metacritic</a></li>
+                    <li><a style={{display: display}} onClick={() => onSort("rating_top")}>Top Rating</a></li>
+                    <li><a style={{display: display}} onClick={() => onSort("metacritic")}>Metacritic</a></li>
                 </ul>
                 <h2>Filter by</h2>
                 <h3>Api</h3>

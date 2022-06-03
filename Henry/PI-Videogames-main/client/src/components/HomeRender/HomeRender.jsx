@@ -8,7 +8,7 @@ export default function HomeRender(props) {
     return(
         <div className={styles.videogamesContainer}>
         {
-            filter !== "" ? 
+            filter !== "" ?
                 videogames?.filter((game) =>[...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0)
                     .slice(pagination - 15, pagination).map(e => <VideogameCard
                     id={e.id}

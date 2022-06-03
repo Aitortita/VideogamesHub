@@ -3,9 +3,7 @@
     background-color: rgba(11, 12, 12, 0.574);
     height: 130px;
     max-height: 130px;
-    padding-bottom: 10px;
     grid-template-columns: 1fr 1fr;
-    margin: 0px;
 }
 
 

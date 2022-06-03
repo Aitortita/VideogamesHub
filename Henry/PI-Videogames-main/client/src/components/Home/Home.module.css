@@ -4,7 +4,7 @@
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
     .pageWrapper{
         display:grid;
         grid-template-columns: 100%;

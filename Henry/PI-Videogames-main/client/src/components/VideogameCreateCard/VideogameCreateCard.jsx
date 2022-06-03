@@ -1,13 +1,17 @@
 import styles from "./VideogameCreateCard.module.css";
 import React from "react";
+import placeHolder from "../../images/ImagePlaceholder.jpg";
 
 export default function VideogameCreateCard({data, platforms, genres}){
-     /* eslint-disable */
     const {name, rating, launchDate, description, image} = data;
-     /* eslint-disable */
+    let backgroundImage = image
+    if(!image) {
+        backgroundImage = placeHolder
+    }
     return(
-        <div className={styles.videogameItem}>
-            <img src={image} className={styles.img}/>
+        <div className={styles.cardContainer}>
+            <div src={image} className={styles.imageContainer} style={{backgroundImage : `url(${backgroundImage})`}}/>
+            <div className={styles.infoContainer}>
             <h3>Name*: {name}</h3>
             <h4>Description*: {description}</h4>
             <h4>Genres*: 
@@ -20,6 +24,7 @@ export default function VideogameCreateCard({data, platforms, genres}){
             </h4>
             <h4>Rating: {rating}</h4>
             <h4>Launch date: {launchDate}</h4>
+            </div>
         </div>
     )
 }

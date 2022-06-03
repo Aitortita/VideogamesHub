@@ -1,7 +1,19 @@
-.container {
+.wrapper {
     width: 100%;
     height: 100%;
-    display:flex;
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.container {
+    display: grid;
     align-items: center;
     justify-content: center;
+    width: 85%;
+    height: 50%;
+    background-color: rgba(11, 12, 12, 0.574);
+    margin-bottom: 20px;
 }

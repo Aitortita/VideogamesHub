@@ -158,7 +158,7 @@ router.post('/videogame', async (req, res) => {
     let {name, description, launchDate, rating, platform, genre, image} = req.body;
     if (!name|| !description || !genre || !platform) return res.status(400).send('You are lacking important information');
     try {
-        const videogame = await Videogame.create({name, description, launchDate, rating, image})
+        const videogame = await Videogame.create({name, description, launchDate, rating, background_image: image})
         const genresDb = await Genre.findAll({where: {name: genre}})
         await videogame.addGenre(genresDb)
         const platformsDb = await Platform.findAll({where: {name: platform}})

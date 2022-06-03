@@ -1,5 +1,7 @@
 .paginatedWrapper{
     display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 130px 1fr;
 }
 
 .button{

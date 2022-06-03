@@ -1,42 +1,34 @@
 .wrapper {
-    width: 100%;
-    height: 100vh;
+    height:100%;
 }
 
 .title {
     margin: 0px;
     padding-top: 15px;
     padding-bottom: 20px;
+    margin-bottom: 20px;
     background-color: rgba(11, 12, 12, 0.574);
 }
 
 .container {
     width: 100%;
-    height: 75%;
+    height: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 0.5fr;
-}
-
-.formularioContainer {
-    display: grid;
-    height:75%;
-    grid-area: 1 / 1 / 4 / 3;
-    width: 75%;
-    align-self: center;
-    justify-self: center;
-    background-color: var(--background-color);
-    border: 4px solid var(--border-color);
-    border-radius: 15px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .videogameCreateCard{
     display:flex;
+    align-self: center;
+    justify-self: center;
     align-items: center;
     justify-content: center;
-    grid-area: 1 / 3 / 3 / 4;
+    grid-area: 2 / 3 / 4 / 5;
     width: 100%;
+    height: 100%;
 }
 
 .videogameValidateCard{
@@ -44,43 +36,117 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    grid-area: 3 / 3 / 4 / 4; 
+    grid-area: 1 / 3 / 2 / 5;
+}
+
+.formularioContainer {
+    grid-area: 1 / 1 / 4 / 3;
+    width: 100%;
+    align-self: center;
+    justify-self: center;
+    background-color: var(--background-color);
+    border: 4px solid var(--border-color);
+    border-radius: 15px;
+    display: grid;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    grid-template-rows: 1fr 1fr .5fr;
 }
 
 .mainForm{
-    padding: 15px;
     display: grid;
     text-align: start;
+    padding: 15px 30px;
+    align-items: center;
 }
 
 .mainForm input{
     background-color: cornsilk;
-    border-radius: 8px;
-    padding: 2px;
-    padding-left: 5px;
-    font-size: 0.9em;  
-    padding-top: 0.35rem;
+    border-radius: 5px;
+    padding: 5px 6px;
+    font-size: 0.9em;
+    font-weight: 500;
 }
 
 .genresContainer{
-    grid-area: 2 / 1 / 4 / 2;
     padding: 15px;
 }
 
-
-
-.checkboxes{
-    margin: 10px;
+.checkboxesContainer{
+    display: grid;
+    padding: 5px;
+    margin: 5px;
     height: 80%;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    justify-items: start;
+    grid-gap: 5px;
+}
+
+.checkboxesContainer span {
+    border: 1px solid rgba(255, 248, 220, 0.562);
+    border-radius: 10px;
+    padding: 2px 6px 2px 2px;
+    background-color: var(--background-color-faded);
+    cursor:pointer;
+}
+.genreCheckbox{
+    cursor:pointer;
+}
+.checkbox {
+    width: 1em;
+    height: 1em;
+    margin-bottom: .5em;
+    background-color: white;
+    border-radius: 100%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox:checked {
+    background-color: rgb(79, 245, 87);
+}
+
+.platformsContainer{
+    display:flex;
+    gap: 20px;
+    padding: 40px;
+    padding-right: 50px;
+    justify-content: center;
+}
+
+.platformsContainer option {
+    font-style:oblique;
+    color: var(--background-color);
+    font-weight: 550;
+}
+
+.lastContainer {
     display: flex;
-    flex-wrap:wrap;
+    justify-content: space-evenly;
+}
+
+.platformsContainer select{
+    background-color: cornsilk;
+    border-radius: 5px;
+    width: 50%;
+}
+
+.submitContainer{
+    display:flex;
+    align-items: center;
+    justify-content: start;
+    width: 30%;
 }
 
 .submit {
     padding: 7px;
-    width: 80px;
-    font-size: 15px;
-    margin-right: 8px;
+    width: 110px;
+    height: 50px;
+    font-size: 22px;
     border-radius: 40px;
     background-color: #ccc;
     transition: all .2s;
@@ -93,35 +159,11 @@
     color:black;
 } 
 
-.platformsContainer{
-    display:flex;
-    gap: 20px;
-    padding: 40px;
-    padding-right: 50px;
-    justify-content: center;
-}
-
-.platformsContainer select{
-    background-color: cornsilk;
-    border-radius: 5px;
-}
-
-.imageContainer{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.botonContainer{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
 @media (max-width: 900px){
     .container{
-        display:flex;
-        flex-direction: row;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(auto-fit, minmax(500px, 1fr));
     }
 }

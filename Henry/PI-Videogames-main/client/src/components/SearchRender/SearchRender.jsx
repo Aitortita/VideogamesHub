@@ -3,7 +3,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
 
-
 export default function SearchRender(props) {
     const { filter, pagination, videogamesSearch } = useSelector(state => state)
     return(

@@ -9,6 +9,8 @@
 .landingPage{
     text-decoration: none;
     color: rgba(6, 207, 36, 0.908);
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 .landingPage:hover{
     cursor: pointer;

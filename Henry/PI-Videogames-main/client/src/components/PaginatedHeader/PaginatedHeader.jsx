@@ -37,7 +37,7 @@ export default function PaginatedHeader({search}){
     }
     function resetFilter() {
         dispatch(allActions.resetPagination())
-        dispatch(allActions.apiFilt(""))
+        dispatch(allActions.changeApiFilter(""))
         if (search === true) {
             return dispatch(allActions.searchVideogame("", videogamesSearchName))
         }

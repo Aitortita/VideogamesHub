@@ -1,4 +1,5 @@
 body {
+  background-color: #151515;
   background-image: url('./images/protruding-squares.svg');
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica',
@@ -13,6 +14,8 @@ body {
   --border-color: rgb(54, 54, 54);
 
   --background-color: #151515;
+
+  --background-color-faded: #222222ea;
   
   --eerie-black: #141414ff;
 

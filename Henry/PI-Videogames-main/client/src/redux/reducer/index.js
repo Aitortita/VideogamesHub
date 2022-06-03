@@ -1,11 +1,14 @@
-import { SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNFILTERVIDEOGAMES, CLEAR, CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION, MOUNT_OBJECTS, CHANGE_API_FILTER} from "../ActionNames/ActionNames";
-
+import {SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNSEARCHVIDEOGAMES,
+        CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS,
+        FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION,
+        CHANGE_API_FILTER, CLEAR_FILTERS} from "../ActionNames/ActionNames";
 
 const initialState = {
     videogames: [],
     videogamesSearch: [],
     videogamesSearchName: "",
     videogame: {},
+    videogameCreated: false,
     exactVideogame: "",
     genres: [],
     platforms: [],
@@ -26,16 +29,14 @@ const rootReducer = (state = initialState, action) => {
             return {...state, videogame: action.payload}
         case UNVIDEOGAME:
             return {...state, videogame: {}}
-        case UNFILTERVIDEOGAMES:
+        case UNSEARCHVIDEOGAMES:
             return {...state, videogamesSearch: [], videogamesSearchName: ""}
-        case CLEAR:
-            return {...state, videogamesSearch: [], videogame: {}, videogameCreated: false, videogamesSearchName: "", filter: ""}
         case CREATE_VIDEOGAME:
             return {...state, videogameCreated: true}
         case GET_EXACT_VIDEOGAME:
             return {...state, exactVideogame: action.payload}
         case CLEAN_EXACT_VIDEOGAME:
-            return {...state, exactVideogame: null}
+            return {...state, exactVideogame: ""}
         case GET_ALL_GENRES_AND_PLATFORMS:
             return {...state, genres: action.payloadGenres, platforms: action.payloadPlatforms}
         case FILTER:
@@ -54,10 +55,10 @@ const rootReducer = (state = initialState, action) => {
             return {...state, pagination: state.pagination - 15}
         case RESET_PAGINATION:
             return {...state, pagination: 15}
-        case MOUNT_OBJECTS:
-            return {...state}
         case CHANGE_API_FILTER:
             return {...state, apiFilter: action.payload}
+        case CLEAR_FILTERS:
+            return {...state, apiFilter: "", filter: "", sort: ""}
         default: return state
     }
 };

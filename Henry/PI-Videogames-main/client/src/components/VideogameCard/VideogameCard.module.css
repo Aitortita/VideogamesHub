@@ -1,13 +1,25 @@
-.videogameItem {
-    justify-content: center;
+.cardContainer {
     margin: 1rem;
     border: 4px solid var(--border-color);
     background-color:var(--background-color);
-    color: var(--rajah);
     border-radius: 15px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50% 1fr;
 }
-.img{
-    width: 100%;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+
+.imageContainer{
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

@@ -10,11 +10,9 @@ export default function Paginated({search}){
     const {videogames, videogamesSearch, filter, pagination, apiFilter} = useSelector(state => state);
     const dispatch = useDispatch()
     useEffect(() => {
-            dispatch(allActions.clear())
-            dispatch(allActions.resetPagination())
             dispatch(allActions.getAllVideogames(apiFilter))
             setVariable("block")
-    }, [dispatch]);
+    }, [dispatch]) // eslint-disable-line
 
     let [variable, setVariable] = useState("none")
 

@@ -9,21 +9,28 @@ import { useDispatch, useSelector } from "react-redux";
 export default function VideogameCreate(props){
     useEffect(()=>{
         dispatch(allActions.getAllGenresAndPlatforms())
-    },
-    /* eslint-disable */
-    [])
-    /* eslint-disable */
+        return () => {
+            allActions.cleanExactVideogame()
+        }
+    },[])// eslint-disable-line
+
     const dispatch = useDispatch()
+
     const { platforms, exactVideogame } = useSelector(state=> state)
+
     const [flags, setFlags] = useState({
         flagName: false,
-        flagCorrectName: false,
+        flagCorrectName: true,
         flagDescription: false,
         flagLaunchDate: true,
         flagRating: true,
+        flagImage: false,
     })
+
     const [flagGenre, setFlagGenre] = useState(false)
+
     const [flagPlatform, setFlagPlatform] = useState(false) 
+
     const [localGenres, setGenres] = useState({
         'Action': false,
         'Indie': false,
@@ -45,33 +52,40 @@ export default function VideogameCreate(props){
         'Educational': false,
         'Card': false,
     })
+
     const [localPlatforms, setPlatforms] = useState([])
+
     const [state, setState] = useState({
         name: "",
         description:"",
         launchDate: "",
         rating:"",
-        image: null
+        image: ""
     })
+
     useEffect(()=>{
         if(exactVideogame === "Name is free") return setFlags({...flags, flagCorrectName: true});
         setFlags({...flags, flagCorrectName: false})
-    },[state.name])
+    },[exactVideogame]) // eslint-disable-line
+
     useEffect(() => {
-        localPlatforms.length > 0 ?  setFlagPlatform(true): setFlagPlatform(false);
-        Object.values(localGenres).find((e) => e === true) ?  setFlagGenre(true): setFlagGenre(false);
+        localPlatforms.length > 0 && localPlatforms.length < 11?  setFlagPlatform(true): setFlagPlatform(false);
+        Object.values(localGenres).filter(e => e === true).length > 0 && Object.values(localGenres).filter(e => e === true).length < 6 ? setFlagGenre(true): setFlagGenre(false);
     },[localPlatforms, localGenres])
-    function handleGenre(e) {
-        setGenres({...localGenres, [e.target.name]: e.target.checked})
+
+    function handleGenre({target}) {
+        setGenres({...localGenres, [target.name]: target.checked})
     }
+
     function handlePlatforms({target}){
         let value = Array.from(target.selectedOptions,
         (option) => option.value);
         setPlatforms(value)
     }
+
     function handleChange({target}){
-        if (target.name === "name" && target.value !== "") dispatch(allActions.getExactVideogame(target.value))
-        setState({...state, [target.name]: `${target.value}`})
+        if (target.name === "name") dispatch(allActions.getExactVideogame(target.value))
+        setState({...state, [target.name]: target.value})
         switch(target.name){
             case "name":
                 validatorName(target.value)
@@ -85,19 +99,13 @@ export default function VideogameCreate(props){
             case "rating":
                 validatorRating(target.value)
                 break;
+            case "image":
+                validatorImage(target.value) 
+                break;
             default: return;
         }
     }
-    function handleImage(e){
-        let reader = new FileReader();
-        reader.onload = () => {
-            if(reader.readyState === 2){
-                setState({...state, image: reader.result})
-            }
-            return
-        }
-        if (e.target.files[0]) return reader.readAsDataURL(e.target.files[0])
-    }
+
     function handleSubmit(e){
         e.preventDefault()
         if(flags.flagName !== true || flags.flagDescription !== true || flags.flagLaunchDate !== true || flags.flagRating !== true || flagGenre !== true || flagPlatform !== true){
@@ -124,7 +132,7 @@ export default function VideogameCreate(props){
             description:"",
             launchDate: "",
             rating:"",
-            image: null,
+            image: "",
         })
         setFlags({
             flagName: false,
@@ -158,7 +166,8 @@ export default function VideogameCreate(props){
         setPlatforms([])
     }
     function validatorName(name){
-        const validate = name.match(/[a-z]|[0-9]|[ ,-/]/gi); 
+        if (name.length > 50) return setFlags({...flags, flagName: false});
+        const validate = name.match(/[a-z]|[0-9]|[ ,-]/gi); 
         if (name.length !== validate?.length) {
             return setFlags({...flags, flagName: false})
         }
@@ -166,9 +175,7 @@ export default function VideogameCreate(props){
     }
     function validatorDescription(description){
         if(description.length > 300) return setFlags({...flags, flagDescription: false});
-        /*eslint-disable */
-        const validate = description.match(/[\x00-\xFF]/g); 
-        /*eslint-disable */
+        const validate = description.match(/[\x00-\xFF]/g); // eslint-disable-line
         if (description.length !== validate?.length) {
             return setFlags({...flags, flagDescription: false})
         }
@@ -192,6 +199,15 @@ export default function VideogameCreate(props){
         }
         setFlags({...flags, flagRating: true})
     }
+    function validatorImage(image){
+        console.log(image)
+        if (image === "") return setFlags({...flags, flagImage: true})
+        console.log("image: ", image)
+        console.log(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image))
+        if(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image)) return setFlags({...flags, flagImage: true});
+        setFlags({...flags, flagImage: false})
+    }
+
     return(
         <div className={styles.wrapper}>
             <Nav />
@@ -207,21 +223,25 @@ export default function VideogameCreate(props){
                         <input name="rating" type="number" min="0" max="100" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
                         <label htmlFor="launchDate">Launch Date: </label>
                         <input name="launchDate" type="date" placeholder="your videogame's launch date" value={state.launchDate} onChange={(e) => handleChange(e)}></input>
+                        <label>Image: </label>
+                        <input name="image" value={state.image} type="text" placeholder="image..." onChange={(e) => handleChange(e)}></input>
                     </div>
-                            <div className={styles.genresContainer}>
+                        <div className={styles.genresContainer}>
                                 <h4 style={{marginTop: 5, marginBottom: 5}}>Genres*: </h4>
-                                <div className={styles.checkboxes}>
+                            <div className={styles.checkboxesContainer}>
                         {
                             Object.keys(localGenres).map(genre => {
                                 return(
                             <span key={genre}>
-                                <input name={genre} type="checkbox" checked={localGenres[genre]} onChange={(e) => handleGenre(e)}/>
-                                <label htmlFor={`${genre}`}> {genre} </label>
+                                <label htmlFor={`${genre}`} className={styles.genreCheckbox}>
+                                <input className={styles.checkbox} name={genre} id={genre} type="checkbox" checked={localGenres[genre]} onChange={(e) => handleGenre(e)}/>
+                                {genre} </label>
                             </span>
-                                )})
+                            )})
                         } 
-                                </div>
                             </div>
+                        </div>
+                        <div className={styles.lastContainer}>
                             <div className={styles.platformsContainer}>
                                 <h4>Platforms*:</h4>
                                 <select multiple={true} onChange={(e) => handlePlatforms(e)}>
@@ -233,13 +253,10 @@ export default function VideogameCreate(props){
                         }
                                 </select>
                             </div>
-                            <div className={styles.imageContainer}>
-                        <label>Image: </label>
-                        <input name="image" type="file" accept="image/*" placeholder="hola" onChange={(e) => handleImage(e)}></input>
+                            <div className={styles.submitContainer}>
+                                <button type="submit" className={styles.submit}>Submit</button>
                             </div>
-                            <div className={styles.botonContainer}>
-                        <button type="submit" className={styles.submit}>Submit</button>
-                            </div>
+                        </div>
                 </form>
               <div className={styles.videogameCreateCard}>
                     <VideogameCreateCard

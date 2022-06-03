@@ -1,14 +1,12 @@
 .navWrapper {
     background-color: var(--background-color);
-    width: 100%;
-    margin: 0px;
 }
 
 .nav {
     display: grid;
     grid-template-columns: 10% 70% 20%;
     padding: 20px;
-    margin: 0px;
+    height: 95px;
 }
 
 .iconContainer{
