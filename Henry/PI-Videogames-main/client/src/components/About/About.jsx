@@ -14,7 +14,7 @@ export default function About(props) {
                 without relying on youtube or having someone tell me how to do it, that's why through trial and error, and many hours of figuring 
                 out how I wanted to implement them, I came with some answers, whom not long after implementing I realized that were suboptimal and could
                 do much better, mainly because my page faces a lot of asynchronous calls overlaping each other when you click buttons pretty fast, and whoever
-                ends last get's rendered, even though React's asynchronous api stack was one of my worst enemies, I think the worst part was implementing the css
+                ends last get's rendered, even though React's asynchronous api stack was one of my worst enemies, I think the trickiest part was implementing the css
                 which prior to starting this project I had never learned, in conclusion I learned a lot of better practices by just plain coding the project,
                 and will now continue to make it better and adjust the page in order to solve all the problems I have yet not solved, if you want to check the
                 repository here is the {<a href="https://github.com/Aitortita/VideogamesHub" rel="noopener noreferrer" target="_blank">Link</a>}

@@ -53,10 +53,10 @@ export default function PaginatedHeader({search}){
                 </div>
                 <div className={styles.filtersContainer}>
                     {
-                        apiFilter === "rawg" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>Rawg</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    apiFilter === "rawg" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>Rawg</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
                     }
                     {
-                        apiFilter === "videogamesHUB" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>VideogamesHUB</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    apiFilter === "videogamesHUB" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>VideogamesHUB</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
                     }
                     {
                     filter !== "" ? <div className={styles.filter}><h2>Filtered by:

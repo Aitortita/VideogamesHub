@@ -130,7 +130,8 @@ export default function Aside({search}){
                         genres?.slice(0,counterGenres).map(genre => <li key={genre.name}><a onClick={() => onFilter(genre.name)}>{genre.name}</a></li>)
                     }
                     {
-                    counterGenres < 10 ? <li><h4 className={styles.showers} onClick={() => moreGenres()}>Show all genres 🔽</h4></li> : <li><h4 className={styles.showers} onClick={() => lessGenres()}>Hide all genres 🔼</h4></li>
+                        counterGenres < 10 ? <li><h4 className={styles.showers} onClick={() => moreGenres()}>Show more genres 🔽</h4></li> :
+                        <li><h4 className={styles.showers} onClick={() => lessGenres()}>Hide more genres 🔼</h4></li>
                     }
                     </ul>
                 </div>
@@ -141,7 +142,8 @@ export default function Aside({search}){
                         platforms?.slice(0,counterPlatforms).map(platform => <li key={platform.name}><a onClick={() => onFilter(platform.name)}>{platform.name}</a></li>)
                     }
                     {
-                    counterPlatforms < 55 ? <li><h4 className={styles.showers} onClick={() => morePlatforms()}>Show all platforms 🔽</h4></li> : <li><h4 className={styles.showers} onClick={() => lessPlatforms()}>Hide all platforms 🔼</h4></li>
+                        counterPlatforms < 55 ? <li><h4 className={styles.showers} onClick={() => morePlatforms()}>Show more platforms 🔽</h4></li> :
+                        <li><h4 className={styles.showers} onClick={() => lessPlatforms()}>Hide more platforms 🔼</h4></li>
                     }
                 </ul>
                 </div>
