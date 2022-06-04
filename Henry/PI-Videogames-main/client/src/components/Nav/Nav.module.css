@@ -4,6 +4,7 @@
     padding: 20px;
     height: 95px;
     background-color: var(--background-color);
+    min-width: 310px;
 }
 .iconContainer{
     background-image: url("../../images/VideogamesHub.png");
