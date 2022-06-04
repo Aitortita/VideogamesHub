@@ -55,9 +55,9 @@
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     padding: 10px;
     border-radius: 5px;
-    width: 80%;
     text-decoration: none;
     cursor: pointer;
+    width: 80%;
 }
 
 .linkedin{
@@ -67,10 +67,8 @@
     padding: 10px;
     border-radius: 5px;
     text-decoration: none;
-    width: 80%;
-}
-.linkedin:hover{
     cursor: pointer;
+    width: 80%;
 }
 
 @media (max-width: 1200px) {
@@ -92,10 +90,22 @@
 @media (max-width: 600px) {
     .nav{
         padding: 5px;
-        grid-template-columns: 4fr 1fr;
+        grid-template-columns: 100px 3fr 2fr;
         grid-template-rows: 1fr;
     }
-    .iconContainer {
-        display: none;
+    .searchbarForm{
+        width: 80%;
+    }
+    .about{
+        padding: 8px 6px;
+    }
+    .linkedin{
+        padding: 8px 6px;
+    }
+}
+@media (max-width: 300px) {
+    .nav{
+        padding: 5px;
+        grid-template-columns: 3fr 3fr 1fr;
     }
 }

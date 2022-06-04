@@ -6,7 +6,6 @@
     grid-template-columns: 1fr 1fr;
 }
 
-
 .headerWrapper h1{
     color: aqua;
     margin: 0px;
@@ -19,6 +18,16 @@
         color: aqua;
         margin: 0px;
         font-size: 40px;
+    }
+    .filtersContainer{
+        width: 0px;
+    }
+}
+@media (max-width: 900px){
+    .headerWrapper h1{
+        color: aqua;
+        margin: 0px;
+        font-size: 30px;
     }
     .filtersContainer{
         width: 0px;
