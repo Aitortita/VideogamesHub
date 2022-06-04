@@ -1,8 +1,3 @@
-.wrapper{
-    width: 100%;
-    height: 100vh;
-}
-
 .title{
     background-color: rgba(11, 12, 12, 0.574);
     padding-top: 30px;
@@ -10,7 +5,6 @@
 }
 
 .container{
-    width: 50%;
     margin-left: 25%;
     margin-right: 25%;
     padding: 25px;
@@ -26,4 +20,13 @@
 .text a{    
     color: rgb(255, 226, 61);
     text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .container{
+        margin: 0px;
+        padding: 40px;
+        padding-top: 0px;
+        background-color: rgba(11, 12, 12, 0.574);
+    }
 }
