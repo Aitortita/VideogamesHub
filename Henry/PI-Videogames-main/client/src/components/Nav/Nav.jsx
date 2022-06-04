@@ -7,7 +7,6 @@ import { useDispatch, useSelector} from "react-redux";
 export default function Nav(props){
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { apiFilter } = useSelector(state => state)
     const [name, setName] = useState('');
 
     function typing({target}){
