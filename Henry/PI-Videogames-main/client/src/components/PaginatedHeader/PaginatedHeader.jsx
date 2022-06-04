@@ -36,6 +36,7 @@ export default function PaginatedHeader({search}){
         dispatch(allActions.sort(apiFilter, sort, "DESC"))
     }
     function resetFilter() {
+        dispatch(allActions.setDisplay("block"))
         dispatch(allActions.resetPagination())
         dispatch(allActions.changeApiFilter(""))
         if (search === true) {

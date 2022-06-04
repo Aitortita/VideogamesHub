@@ -1,7 +1,7 @@
 import {SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNSEARCHVIDEOGAMES, 
         GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS, FILTER, UNFILTER,
         SORT, UNSORT, SORTING, MORE_PAGINATION, LESS_PAGINATION, RESET_PAGINATION, CHANGE_API_FILTER,
-        CREATE_VIDEOGAME, CLEAR_FILTERS } from "../ActionNames/ActionNames.js";
+        CREATE_VIDEOGAME, CLEAR_FILTERS, SET_DISPLAY } from "../ActionNames/ActionNames.js";
 import axios from "axios";
 
 function shuffle(array) {
@@ -183,5 +183,11 @@ export const sort = (apifilter, sort, sorting) => {
  export const clearFilters = () => {
    return (dispatch) => {
      dispatch({type: CLEAR_FILTERS})
+   }
+ }
+ 
+ export const setDisplay = (display) => {
+   return (dispatch) => {
+     dispatch({type: SET_DISPLAY, payload: display})
    }
  }

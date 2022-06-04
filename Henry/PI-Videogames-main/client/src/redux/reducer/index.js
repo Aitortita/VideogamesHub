@@ -1,7 +1,7 @@
 import {SEARCH_VIDEOGAME, GET_ALL_VIDEOGAMES, GET_VIDEOGAME, UNVIDEOGAME, UNSEARCHVIDEOGAMES,
         CREATE_VIDEOGAME, GET_EXACT_VIDEOGAME, CLEAN_EXACT_VIDEOGAME, GET_ALL_GENRES_AND_PLATFORMS,
         FILTER, UNFILTER, SORT, UNSORT, SORTING, MORE_PAGINATION, RESET_PAGINATION, LESS_PAGINATION,
-        CHANGE_API_FILTER, CLEAR_FILTERS} from "../ActionNames/ActionNames";
+        CHANGE_API_FILTER, CLEAR_FILTERS, SET_DISPLAY} from "../ActionNames/ActionNames";
 
 const initialState = {
     videogames: [],
@@ -17,6 +17,7 @@ const initialState = {
     sorting: "DESC",
     pagination: 15,
     apiFilter: "",
+    display: "block"
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -59,6 +60,8 @@ const rootReducer = (state = initialState, action) => {
             return {...state, apiFilter: action.payload}
         case CLEAR_FILTERS:
             return {...state, apiFilter: "", filter: "", sort: ""}
+        case SET_DISPLAY:
+            return {...state, display: action.payload}
         default: return state
     }
 };

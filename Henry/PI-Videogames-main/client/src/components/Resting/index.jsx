@@ -7,7 +7,7 @@ export default function Resting(props){
         <div className={styles.background}>
             <div className={styles.container}>
             <h1>It seems you've got lost, but don't worry, you can rest here, and whenever you feel like it click the fire</h1>
-            <a href="/home" className={styles.fire}/>
+            <a href="/home" className={styles.fire}/> {/* eslint-disable-line */}
             </div>
         </div>
     )

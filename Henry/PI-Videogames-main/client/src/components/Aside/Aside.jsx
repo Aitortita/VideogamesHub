@@ -1,16 +1,14 @@
 import styles from "./Aside.module.css"; 
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as allActions from "../../redux/actions";
 
 export default function Aside({search}){
-    const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter } = useSelector(state => state);
+    const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display } = useSelector(state => state);
     const dispatch = useDispatch();
     useEffect(()=> {
         dispatch(allActions.getAllGenresAndPlatforms())
     }, []) // eslint-disable-line
-    const navigate = useNavigate();
 
     function onFilter(e){
         if (filter === e) {
@@ -38,9 +36,8 @@ export default function Aside({search}){
         dispatch(allActions.resetPagination())
         dispatch(allActions.sort(apiFilter, e, sorting))
     }
-    const [counterGenres, setCounterGenres] = useState(5);
-    const [counterPlatforms, setCounterPlatforms] = useState(5);
-    const [display, setDisplay] = useState("block")
+    const [counterGenres, setCounterGenres] = useState(5)
+    const [counterPlatforms, setCounterPlatforms] = useState(5)
 
     function moreGenres(){
         setCounterGenres(19)
@@ -62,6 +59,7 @@ export default function Aside({search}){
                 dispatch(allActions.changeApiFilter(""))
                 return dispatch(allActions.searchVideogame("", videogamesSearchName))
             }
+            dispatch(allActions.setDisplay("block"))
             dispatch(allActions.resetPagination())
             dispatch(allActions.changeApiFilter("rawg"))
             return dispatch(allActions.searchVideogame("rawg", videogamesSearchName))
@@ -71,6 +69,7 @@ export default function Aside({search}){
             dispatch(allActions.changeApiFilter(""))
             return dispatch(allActions.getAllVideogames())
         }
+        dispatch(allActions.setDisplay("block"))
         dispatch(allActions.resetPagination())
         dispatch(allActions.changeApiFilter("rawg"))
         dispatch(allActions.getAllVideogames("rawg"))
@@ -79,25 +78,25 @@ export default function Aside({search}){
     function hubFilter() {
         if (search === true) {
             if ( apiFilter === "videogamesHUB") {
-            setDisplay("block")
+            dispatch(allActions.setDisplay("block"))
             dispatch(allActions.resetPagination())
                 dispatch(allActions.changeApiFilter(""))
                 return dispatch(allActions.searchVideogame("", videogamesSearchName))
             }
             if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
-            setDisplay("none")
+            dispatch(allActions.setDisplay("none"))
             dispatch(allActions.resetPagination())
             dispatch(allActions.changeApiFilter("videogamesHUB"))
             return dispatch(allActions.searchVideogame("videogamesHUB", videogamesSearchName))
         }
         if ( apiFilter === "videogamesHUB") {
-            setDisplay("block")
+            dispatch(allActions.setDisplay("block"))
             dispatch(allActions.resetPagination())
             dispatch(allActions.changeApiFilter(""))
             return dispatch(allActions.getAllVideogames())
         }
         if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
-        setDisplay("none")
+        dispatch(allActions.setDisplay("none"))
         dispatch(allActions.resetPagination())
         dispatch(allActions.changeApiFilter("videogamesHUB"))
         dispatch(allActions.getAllVideogames("videogamesHUB"))

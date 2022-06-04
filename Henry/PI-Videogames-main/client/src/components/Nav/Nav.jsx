@@ -16,17 +16,18 @@ export default function Nav(props){
 
     function search(e){
         e.preventDefault()
-        dispatch(allActions.resetPagination())
         dispatch(allActions.clearFilters())
         dispatch(allActions.unSearchVideogames())
-        dispatch(allActions.searchVideogame(apiFilter, name))
+        dispatch(allActions.resetPagination())
+        dispatch(allActions.setDisplay("block"))
+        dispatch(allActions.searchVideogame("", name))
         navigate('/search')
         setName('')
     }
     return(
         <nav className={styles.navWrapper}>
             <div className={styles.nav}>
-                <a className={styles.iconContainer} href="/home"/>
+                <a className={styles.iconContainer} href="/home"/>{/* eslint-disable-line */}
                 <div className={styles.searchbarContainer}>
                     <form className={styles.searchbarForm} onSubmit={(e)=>search(e)}>
                         <input type="text" placeholder="Videogame..." value={name} className={styles.searchbar} onChange={(e) => typing(e)}/>
