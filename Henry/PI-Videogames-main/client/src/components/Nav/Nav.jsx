@@ -2,7 +2,7 @@ import styles from "./Nav.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as allActions from "../../redux/actions";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function Nav(props){
     const dispatch = useDispatch();
