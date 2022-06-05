@@ -16,8 +16,8 @@ export default function About(props) {
                 do much better, so I had to change them again, even though React's asynchronous api call stack was one of my worst enemies,
                 I think the trickiest part was implementing the css which prior to starting this project I had never learned,
                 in conclusion I learned a lot of better practices by just plain coding the project, and will now continue to make it better and 
-                adjust the page in order to solve all the problems I have yet not solved, if you want to check the repository here is the 
-                {<a href="https://github.com/Aitortita/VideogamesHub" rel="noopener noreferrer" target="_blank">Link</a>}.
+                adjust the page in order to solve all the problems I have yet not solved, if you want to check the repository here is the
+                {<a href="https://github.com/Aitortita/VideogamesHub" rel="noopener noreferrer" target="_blank"> Link</a>}.
                 </h1>  
             </div>
         </div>
