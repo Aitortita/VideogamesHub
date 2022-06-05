@@ -1,10 +1,11 @@
 import styles from "./Nav.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as allActions from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearFilters, unSearchVideogames, resetPagination, setDisplay, searchVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function Nav(props){
+    const {status} = useSelector(({videogames}) => videogames)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -14,12 +15,13 @@ export default function Nav(props){
     }
 
     function search(e){
+        if (status === "loading") return
         e.preventDefault()
-        dispatch(allActions.clearFilters())
-        dispatch(allActions.unSearchVideogames())
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.setDisplay("block"))
-        dispatch(allActions.searchVideogame("", name))
+        dispatch(clearFilters())
+        dispatch(unSearchVideogames())
+        dispatch(resetPagination())
+        dispatch(setDisplay("block"))
+        dispatch(searchVideogame({name}))
         navigate('/search')
         setName('')
     }

@@ -1,15 +1,15 @@
-import {createStore, applyMiddleware} from "redux";
-import rootReducer from '../reducer';
-import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from '@redux-devtools/extension';
+import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import videogamesReducer from "../videogamesSlice/videogamesSlice";
 
-const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware))
+const reducer = combineReducers({
+    // reducers to combine
+    videogames: videogamesReducer
+})
 
 
-const store = createStore(
-    rootReducer,
-    composedEnhancer
-)
-
+const store = configureStore({
+    reducer,
+})
 
 export default store;

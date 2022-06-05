@@ -1,41 +1,12 @@
 import styles from "./Aside.module.css"; 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as allActions from "../../redux/actions";
+import { resetPagination, filterBy, unSort, searchVideogame, getAllVideogames, sortBy, changeApiFilter, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function Aside({search}){
-    const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display } = useSelector(state => state);
+    const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display, status } = useSelector(({videogames}) => videogames)
     const dispatch = useDispatch();
-    useEffect(()=> {
-        dispatch(allActions.getAllGenresAndPlatforms())
-    }, []) // eslint-disable-line
 
-    function onFilter(e){
-        if (filter === e) {
-            dispatch(allActions.resetPagination());
-           return dispatch(allActions.unFilter())
-        }
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.filter(e))
-    }
-    function onSort(e){
-        if (search === true) {
-            if (e === sort) {
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.unSort())
-            return dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName))
-            }
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.searchVideogame(apiFilter, videogamesSearchName, e, sorting))
-        }
-        if (e === sort) {
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.unSort())
-        return dispatch(allActions.getAllVideogames(apiFilter))
-        }
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.sort(apiFilter, e, sorting))
-    }
     const [counterGenres, setCounterGenres] = useState(5)
     const [counterPlatforms, setCounterPlatforms] = useState(5)
 
@@ -52,54 +23,90 @@ export default function Aside({search}){
         setCounterPlatforms(5)
     }
 
+    useEffect(()=> {
+        dispatch(getAllGenresAndPlatforms())
+    }, [dispatch])
+
+    function onFilter(e){
+        if (status === "loading") return;
+        if (filter === e) {
+            dispatch(resetPagination());
+           return dispatch(filterBy(""))
+        }
+        dispatch(resetPagination())
+        dispatch(filterBy(e))
+    }
+    
+    function onSort(e){
+        if (status === "loading") return;
+        if (search === true) {
+            if (e === sort) {
+            dispatch(resetPagination())
+            dispatch(unSort())
+            return dispatch(searchVideogame({apiFilter, name:videogamesSearchName}))
+            }
+            dispatch(resetPagination())
+            dispatch(searchVideogame({apiFilter, name:videogamesSearchName, sort:e, sorting}))
+        }
+        if (e === sort) {
+        dispatch(resetPagination())
+        dispatch(unSort())
+        return dispatch(getAllVideogames(apiFilter))
+        }
+        dispatch(resetPagination())
+        dispatch(sortBy({apiFilter, sort:e, sorting}))
+    }
+
     function rawgFilter() {
+        if (status === "loading") return;
         if (search === true) {
             if ( apiFilter === "rawg") {
-                dispatch(allActions.resetPagination())
-                dispatch(allActions.changeApiFilter(""))
-                return dispatch(allActions.searchVideogame("", videogamesSearchName))
+                dispatch(resetPagination())
+                dispatch(changeApiFilter(""))
+                return dispatch(searchVideogame({name:videogamesSearchName}))
             }
-            dispatch(allActions.setDisplay("block"))
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.changeApiFilter("rawg"))
-            return dispatch(allActions.searchVideogame("rawg", videogamesSearchName))
+            dispatch(setDisplay("block"))
+            dispatch(resetPagination())
+            dispatch(changeApiFilter("rawg"))
+            return dispatch(searchVideogame({apiFilter: "rawg", name:videogamesSearchName}))
         }
         if ( apiFilter === "rawg") {
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.changeApiFilter(""))
-            return dispatch(allActions.getAllVideogames())
+            dispatch(resetPagination())
+            dispatch(changeApiFilter(""))
+            return dispatch(getAllVideogames())
         }
-        dispatch(allActions.setDisplay("block"))
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.changeApiFilter("rawg"))
-        dispatch(allActions.getAllVideogames("rawg"))
+        dispatch(setDisplay("block"))
+        dispatch(resetPagination())
+        dispatch(changeApiFilter("rawg"))
+        dispatch(getAllVideogames("rawg"))
     }
 
     function hubFilter() {
+        if (status === "loading") return;
         if (search === true) {
             if ( apiFilter === "videogamesHUB") {
-            dispatch(allActions.setDisplay("block"))
-            dispatch(allActions.resetPagination())
-                dispatch(allActions.changeApiFilter(""))
-                return dispatch(allActions.searchVideogame("", videogamesSearchName))
+            dispatch(setDisplay("block"))
+            dispatch(resetPagination())
+                dispatch(changeApiFilter(""))
+                return dispatch(searchVideogame({name: videogamesSearchName}))
             }
-            if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
-            dispatch(allActions.setDisplay("none"))
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.changeApiFilter("videogamesHUB"))
-            return dispatch(allActions.searchVideogame("videogamesHUB", videogamesSearchName))
+            if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
+            dispatch(setDisplay("none"))
+            dispatch(resetPagination())
+            dispatch(changeApiFilter("videogamesHUB"))
+            return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
         }
         if ( apiFilter === "videogamesHUB") {
-            dispatch(allActions.setDisplay("block"))
-            dispatch(allActions.resetPagination())
-            dispatch(allActions.changeApiFilter(""))
-            return dispatch(allActions.getAllVideogames())
+            dispatch(setDisplay("block"))
+            dispatch(resetPagination())
+            dispatch(changeApiFilter(""))
+            return dispatch(getAllVideogames())
         }
-        if (sort === "rating_top" || sort === "metacritic") dispatch(allActions.unSort())
-        dispatch(allActions.setDisplay("none"))
-        dispatch(allActions.resetPagination())
-        dispatch(allActions.changeApiFilter("videogamesHUB"))
-        dispatch(allActions.getAllVideogames("videogamesHUB"))
+        if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
+        dispatch(setDisplay("none"))
+        dispatch(resetPagination())
+        dispatch(changeApiFilter("videogamesHUB"))
+        dispatch(getAllVideogames("videogamesHUB"))
     }
 
     return(

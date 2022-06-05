@@ -1,17 +1,17 @@
 import styles from "./VideogameDetail.module.css";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as allActions from "../../redux/actions/index";
 import Nav from "../Nav/Nav";
 import { useLocation } from "react-router-dom";
 import placeholder from "../../images/ImagePlaceholder.jpg"
+import { getVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function VideogameDetail(props){
     const dispatch = useDispatch()
-    const videogame = useSelector(state => state.videogame);
+    const { videogame } = useSelector(({videogames})=> videogames);
     const {id} = useLocation().state;
     useEffect(() => {
-        dispatch(allActions.getVideogame(id))
+        dispatch(getVideogame(id))
     },[]) // eslint-disable-line
 
     let backgroundImage = videogame?.background_image

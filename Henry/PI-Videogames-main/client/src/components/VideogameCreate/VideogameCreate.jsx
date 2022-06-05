@@ -3,20 +3,20 @@ import React, { useEffect, useState } from "react";
 import Nav from "../Nav/Nav";
 import VideogameCreateCard from "../VideogameCreateCard/VideogameCreateCard";
 import VideogameValidateCard from "../VideogameValidateCard/VideogameValidateCard";
-import * as allActions from "../../redux/actions";
+import { getAllGenresAndPlatforms, cleanExactVideogame, getExactVideogame, createVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function VideogameCreate(props){
     useEffect(()=>{
-        dispatch(allActions.getAllGenresAndPlatforms())
+        dispatch(getAllGenresAndPlatforms())
         return () => {
-            allActions.cleanExactVideogame()
+            cleanExactVideogame()
         }
     },[])// eslint-disable-line
 
     const dispatch = useDispatch()
 
-    const { platforms, exactVideogame } = useSelector(state=> state)
+    const { platforms, exactVideogame } = useSelector(({videogames})=> videogames)
 
     const [flags, setFlags] = useState({
         flagName: false,
@@ -84,7 +84,7 @@ export default function VideogameCreate(props){
     }
 
     function handleChange({target}){
-        if (target.name === "name") dispatch(allActions.getExactVideogame(target.value))
+        if (target.name === "name") dispatch(getExactVideogame(target.value))
         setState({...state, [target.name]: target.value})
         switch(target.name){
             case "name":
@@ -126,7 +126,7 @@ export default function VideogameCreate(props){
             image:state.image,
             genre
         }
-        dispatch(allActions.createVideogame(body))
+        dispatch(createVideogame(body))
         setState({
             name: "",
             description:"",
@@ -200,10 +200,7 @@ export default function VideogameCreate(props){
         setFlags({...flags, flagRating: true})
     }
     function validatorImage(image){
-        console.log(image)
         if (image === "") return setFlags({...flags, flagImage: true})
-        console.log("image: ", image)
-        console.log(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image))
         if(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image)) return setFlags({...flags, flagImage: true});
         setFlags({...flags, flagImage: false})
     }
@@ -246,7 +243,7 @@ export default function VideogameCreate(props){
                                 <h4>Platforms*:</h4>
                                 <select multiple={true} onChange={(e) => handlePlatforms(e)}>
                         {
-                                    platforms.map(({name}) => {
+                                    platforms?.map(({name}) => {
                                     return(
                                         <option key={name} name={name} value={name} onChange={(e) => handlePlatforms(e)}>{name}</option>
                                     )})

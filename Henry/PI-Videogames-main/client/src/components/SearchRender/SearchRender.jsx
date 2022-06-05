@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
 
 export default function SearchRender(props) {
-    const { filter, pagination, videogamesSearch } = useSelector(state => state)
+    const { filter, pagination, videogamesSearch } = useSelector(({videogames}) => videogames)
     return(
         <div className={styles.videogamesContainer}>
         {
@@ -16,7 +16,6 @@ export default function SearchRender(props) {
                     key={e.id}
                     genres={e.genres}
                     name={e.name}
-                    rating={e.rating}
                     platforms={e.platforms}
                     />) : 
                     <h1>No Videogames found</h1> :
@@ -26,7 +25,6 @@ export default function SearchRender(props) {
                     key={e.id}
                     genres={e.genres}
                     name={e.name}
-                    rating={e.rating}
                     platforms={e.platforms}
                     />) : 
                     <h1>No Videogames found</h1>

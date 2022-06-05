@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 export default function VideogameValidateCard(props){
     const { flagName, flagRating, flagDescription, flagLaunchDate, flagCorrectName } = props.flags;
     const { flagGenre, flagPlatform } = props;
-    const { videogameCreated } = useSelector(state => state)
+    const { videogameCreated } = useSelector(({videogames}) => videogames)
 
     return(
         <div className={styles.wrapper}>
