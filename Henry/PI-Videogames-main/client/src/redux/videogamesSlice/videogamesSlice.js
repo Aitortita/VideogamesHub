@@ -9,20 +9,20 @@ function shuffle(array) {
 }
 
 export const getAllVideogames = createAsyncThunk("videogames/getAllVideogames",
-    async (apifilter) => {
-        if(apifilter === "rawg") {
+    async (apiFilter) => {
+        if(apiFilter === "rawg") {
           const {data} = await axios.get('/videogamesRawg');
           shuffle(data)
-          return data
+          return {data, apiFilter}
         }
-        if (apifilter === "videogamesHUB") {
+        if (apiFilter === "videogamesHUB") {
           const {data} = await axios.get('/videogamesHUB');
           shuffle(data)
-          return data
+          return {data, apiFilter}
         }
         const {data} = await axios.get('/videogames');
         shuffle(data)
-        return data
+        return {data, apiFilter}
     })
 
 export const createVideogame = createAsyncThunk("videogames/createVideogame",
@@ -33,17 +33,17 @@ export const createVideogame = createAsyncThunk("videogames/createVideogame",
     
 export const searchVideogame = createAsyncThunk("videogames/searchVideogame", 
     async (args) => {
-        const {apifilter, name, sort, sorting} = args
-        if(apifilter === "rawg") {
+        const {apiFilter, name, sort, sorting} = args
+        if(apiFilter === "rawg") {
             const {data} = await axios.get(`/videogamesRawg`, {params: {name, sort, sorting}})
-            return {payload: data, payloadName: name}
+            return {data, name, apiFilter}
         }
-        if (apifilter === "videogamesHUB") {
+        if (apiFilter === "videogamesHUB") {
             const {data} = await axios.get(`/videogamesHUB`, {params: {name, sort, sorting}})
-            return {payload: data, payloadName: name}
+            return {data, name, apiFilter}
         }
         const {data} = await axios.get(`/videogames`, {params: {name, sort, sorting}})
-        return {payload: data, payloadName: name}
+        return {data, name, apiFilter}
 })
 
 export const getVideogame = createAsyncThunk("videogames/getVideogame", 
@@ -67,17 +67,17 @@ export const getAllGenresAndPlatforms = createAsyncThunk("videogames/getAllGenre
 
 export const sortBy = createAsyncThunk("videogames/sortBy", 
     async (args) => {
-    const {apifilter, sort, sorting} = args
-    if(apifilter === "rawg") {
+    const {apiFilter, sort, sorting} = args
+    if(apiFilter === "rawg") {
     const {data} = await axios.get('/videogamesRawg', {params: {sort, sorting}})
-    return {payload: data, payloadSort: sort}
+    return {data, sort, apiFilter}
     }
-    if (apifilter === "videogamesHUB") {
+    if (apiFilter === "videogamesHUB") {
     const {data} = await axios.get('/videogamesHUB', {params: {sort, sorting}})
-    return {payload: data, payloadSort: sort}
+    return {data, sort, apiFilter}
     }
     const {data} = await axios.get('/videogames', {params: {sort, sorting}})
-    return {payload: data, payloadSort: sort}
+    return {data, sort, apiFilter}
 })
 
 const initialState = {
@@ -129,9 +129,6 @@ const videogamesSlice = createSlice({
         resetPagination(state) {
             state.pagination = 15
         },
-        changeApiFilter(state, {payload}) {
-            state.apiFilter = payload
-        },
         clearFilters(state) {
             state.apiFilter = ""
             state.filter = ""
@@ -147,7 +144,8 @@ const videogamesSlice = createSlice({
         },
         [getAllVideogames.fulfilled]: (state, {payload}) => {
             state.status= "success"
-            state.videogames = payload
+            state.videogames = payload.data
+            state.apiFilter = payload.apiFilter || ""
         },
         [getAllVideogames.rejected]: (state) => {
             state.status= "failed"
@@ -167,13 +165,15 @@ const videogamesSlice = createSlice({
         },
         [searchVideogame.fulfilled] : (state, {payload}) => {
             state.status= "success"
-            state.videogamesSearchName = payload.payloadName
-            state.videogamesSearch = payload.payload
+            state.videogamesSearchName = payload.name
+            state.videogamesSearch = payload.data
+            state.apiFilter = payload.apiFilter || ""
         },
         [searchVideogame.rejected] : (state, {payload}) => {
             state.status= "failed"
-            state.videogamesSearchName= payload.payloadName
+            state.videogamesSearchName= payload.name
             state.videogamesSearch= []
+            state.apiFilter = payload.apiFilter || ""
         },
         [getVideogame.pending] : (state) => {
             state.status= "loading"
@@ -211,8 +211,9 @@ const videogamesSlice = createSlice({
         },
         [sortBy.fulfilled] : (state, {payload}) => {
             state.status= "success"
-            state.videogames= payload.payload
-            state.sort = payload.payloadSort
+            state.videogames= payload.data
+            state.sort = payload.sort || ""
+            state.apiFilter = payload.apiFilter || ""
         },
         [sortBy.rejected] : (state) => {
             state.status= "failed"
@@ -222,6 +223,6 @@ const videogamesSlice = createSlice({
 
 export const { unVideogame, unSearchVideogames, cleanExactVideogame,
                filterBy, unSort, sortAscToDesc, morePagination, lessPagination,
-               resetPagination, changeApiFilter, clearFilters, setDisplay} = videogamesSlice.actions;
+               resetPagination, clearFilters, setDisplay} = videogamesSlice.actions;
 
 export default videogamesSlice.reducer;

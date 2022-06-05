@@ -1,7 +1,7 @@
 import styles from "./PaginatedHeader.module.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, unSort, getAllVideogames, filterBy, sortAscToDesc, sortBy, setDisplay, changeApiFilter, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, unSort, getAllVideogames, filterBy, sortAscToDesc, sortBy, setDisplay, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function PaginatedHeader({search}){
     const { videogamesSearchName, filter, sort, sorting, apiFilter, status } = useSelector(({videogames}) => videogames)
@@ -32,7 +32,7 @@ export default function PaginatedHeader({search}){
         if (sorting === "DESC") {
             dispatch(resetPagination())
             dispatch(sortAscToDesc("ASC"))
-            return  dispatch(sort(apiFilter, sort, "ASC"))
+            return  dispatch(sortBy({apiFilter, sort, sorting: "ASC"}))
         }
         dispatch(resetPagination())
         dispatch(sortAscToDesc("DESC"))
@@ -42,11 +42,10 @@ export default function PaginatedHeader({search}){
         if (status === "loading") return
         dispatch(setDisplay("block"))
         dispatch(resetPagination())
-        dispatch(changeApiFilter(""))
         if (search === true) {
             return dispatch(searchVideogame({name:videogamesSearchName}))
         }
-        dispatch(getAllVideogames(""))
+        dispatch(getAllVideogames())
     }
     return(
         <div className={styles.headerWrapper}>

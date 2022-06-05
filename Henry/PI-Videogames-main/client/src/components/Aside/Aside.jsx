@@ -1,7 +1,7 @@
 import styles from "./Aside.module.css"; 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, filterBy, unSort, searchVideogame, getAllVideogames, sortBy, changeApiFilter, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, filterBy, unSort, searchVideogame, getAllVideogames, sortBy, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function Aside({search}){
     const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display, status } = useSelector(({videogames}) => videogames)
@@ -28,12 +28,9 @@ export default function Aside({search}){
     }, [dispatch])
 
     function onFilter(e){
-        if (status === "loading") return;
         if (filter === e) {
-            dispatch(resetPagination());
-           return dispatch(filterBy(""))
+            return dispatch(filterBy(""))
         }
-        dispatch(resetPagination())
         dispatch(filterBy(e))
     }
     
@@ -41,73 +38,81 @@ export default function Aside({search}){
         if (status === "loading") return;
         if (search === true) {
             if (e === sort) {
-            dispatch(resetPagination())
             dispatch(unSort())
             return dispatch(searchVideogame({apiFilter, name:videogamesSearchName}))
             }
-            dispatch(resetPagination())
             dispatch(searchVideogame({apiFilter, name:videogamesSearchName, sort:e, sorting}))
         }
         if (e === sort) {
-        dispatch(resetPagination())
         dispatch(unSort())
         return dispatch(getAllVideogames(apiFilter))
         }
-        dispatch(resetPagination())
         dispatch(sortBy({apiFilter, sort:e, sorting}))
     }
 
     function rawgFilter() {
         if (status === "loading") return;
+        if (sort !== "") {
+            if (search === true) {
+                if ( apiFilter === "rawg") {
+                    return dispatch(searchVideogame({name:videogamesSearchName, sort, sorting}))
+                }
+                return dispatch(searchVideogame({apiFilter: "rawg", name:videogamesSearchName, sort, sorting}))
+            }
+            if ( apiFilter === "rawg") {
+                return dispatch(sortBy({sort, sorting}))
+            }
+            return dispatch(sortBy({apiFilter:"rawg", sort, sorting}))
+        }
         if (search === true) {
             if ( apiFilter === "rawg") {
-                dispatch(resetPagination())
-                dispatch(changeApiFilter(""))
                 return dispatch(searchVideogame({name:videogamesSearchName}))
             }
-            dispatch(setDisplay("block"))
-            dispatch(resetPagination())
-            dispatch(changeApiFilter("rawg"))
             return dispatch(searchVideogame({apiFilter: "rawg", name:videogamesSearchName}))
         }
         if ( apiFilter === "rawg") {
-            dispatch(resetPagination())
-            dispatch(changeApiFilter(""))
             return dispatch(getAllVideogames())
         }
-        dispatch(setDisplay("block"))
-        dispatch(resetPagination())
-        dispatch(changeApiFilter("rawg"))
         dispatch(getAllVideogames("rawg"))
     }
 
     function hubFilter() {
         if (status === "loading") return;
-        if (search === true) {
+        if (sort !== "") {
+            if (search === true) {
+                if ( apiFilter === "videogamesHUB") {
+                    return dispatch(searchVideogame({name: videogamesSearchName, sort, sorting}))
+                }
+                if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
+                return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
+            }
             if ( apiFilter === "videogamesHUB") {
-            dispatch(setDisplay("block"))
-            dispatch(resetPagination())
-                dispatch(changeApiFilter(""))
-                return dispatch(searchVideogame({name: videogamesSearchName}))
+                return dispatch(getAllVideogames({sort, sorting}))
             }
             if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
-            dispatch(setDisplay("none"))
-            dispatch(resetPagination())
-            dispatch(changeApiFilter("videogamesHUB"))
+            return dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
+        }
+        if (search === true) {
+            if ( apiFilter === "videogamesHUB") {
+                return dispatch(searchVideogame({name: videogamesSearchName}))
+            }
+            if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
             return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
         }
         if ( apiFilter === "videogamesHUB") {
-            dispatch(setDisplay("block"))
-            dispatch(resetPagination())
-            dispatch(changeApiFilter(""))
             return dispatch(getAllVideogames())
         }
         if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
-        dispatch(setDisplay("none"))
-        dispatch(resetPagination())
-        dispatch(changeApiFilter("videogamesHUB"))
         dispatch(getAllVideogames("videogamesHUB"))
     }
+
+    useEffect(()=>{
+        dispatch(resetPagination())
+    },[apiFilter, filter, sort, sorting])
+
+    useEffect(()=>{
+        apiFilter === "videogamesHUB" ? dispatch(setDisplay("none")) : dispatch(setDisplay("block"))
+    },[apiFilter])
 
     return(
         <div className={styles.asideWrapper}>
