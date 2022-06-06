@@ -108,11 +108,11 @@ export default function Aside({search}){
 
     useEffect(()=>{
         dispatch(resetPagination())
-    },[apiFilter, filter, sort, sorting])
+    },[dispatch, apiFilter, filter, sort, sorting]) 
 
     useEffect(()=>{
         apiFilter === "videogamesHUB" ? dispatch(setDisplay("none")) : dispatch(setDisplay("block"))
-    },[apiFilter])
+    },[dispatch, apiFilter])
 
     return(
         <div className={styles.asideWrapper}>

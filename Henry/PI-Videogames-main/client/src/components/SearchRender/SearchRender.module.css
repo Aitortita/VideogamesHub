@@ -6,6 +6,20 @@
     padding: 1rem;
 }
 
+.button{
+    align-self: center;
+    justify-self: center;
+    margin: 30px;
+    color: #ffffff;
+    border-color: #494ca2;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    padding: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+
+
 @media (max-width: 1420px) {
     .videogamesContainer{
         display: grid;
