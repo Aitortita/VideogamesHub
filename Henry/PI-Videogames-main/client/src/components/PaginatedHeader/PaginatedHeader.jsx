@@ -51,7 +51,7 @@ export default function PaginatedHeader({search}){
         <div className={styles.headerWrapper}>
                 <div className={styles.text}>
                     {
-                    search ? <h1 className={styles.search}>Search: {videogamesSearchName}</h1> : <h1>Home Page</h1>
+                    search ? <h1 className={styles.search}>{videogamesSearchName}</h1> : <h1>Home Page</h1>
                     }
                 </div>
                 <div className={styles.filtersContainer}>

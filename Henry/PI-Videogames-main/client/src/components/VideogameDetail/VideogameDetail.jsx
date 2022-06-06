@@ -12,7 +12,7 @@ export default function VideogameDetail(props){
     const {id} = useLocation().state;
     useEffect(() => {
         dispatch(getVideogame(id))
-    },[]) // eslint-disable-line
+    },[dispatch, id])
 
     let backgroundImage = videogame?.background_image
     if (!videogame?.background_image) backgroundImage = placeholder;
@@ -38,7 +38,7 @@ export default function VideogameDetail(props){
                         { videogame?.platforms ? videogame.platforms?.slice(1)?.map(e => {if (e?.platform?.name) return `, ${e.platform.name}`; return `, ${e?.name}`}) : null}</h3>
                         {
                             videogame?.launchDate ? <h3>Launch date: {videogame.launchDate}</h3> : null
-                        }   
+                        }
                     </div>
                 </div>
             </div>
