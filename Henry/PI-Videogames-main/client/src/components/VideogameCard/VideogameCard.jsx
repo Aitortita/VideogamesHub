@@ -9,7 +9,8 @@ export default function VideogameCard({name, id, image, genres, platforms}){
     const dispatch = useDispatch()
     function enterVideogameDetail() {
         dispatch(unVideogame())
-        localStorage.setItem('id', `${id}`)
+        localStorage.setItem('id', 
+        JSON.stringify(`${id}`))
     }
     return(
         <div className={styles.cardContainer}>

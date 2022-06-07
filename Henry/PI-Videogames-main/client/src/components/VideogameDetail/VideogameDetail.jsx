@@ -2,7 +2,7 @@ import styles from "./VideogameDetail.module.css";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Nav from "../Nav/Nav";
-import placeholder from "../../images/ImagePlaceholder.jpg"
+import placeHolder from "../../images/ImagePlaceholder.jpg"
 import { getVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function VideogameDetail(props){
@@ -13,9 +13,6 @@ export default function VideogameDetail(props){
         const id = JSON.parse(localStorage.getItem('id'))
         dispatch(getVideogame(id))
     },[dispatch])
-
-    // let backgroundImage = videogame?.background_image ? videogame.background_image : backgroundImage = placeholder; style={{backgroundImage: `url(${backgroundImage})`}}
-
     return (
         <div className={styles.wrapper}>
             <Nav />
@@ -23,7 +20,7 @@ export default function VideogameDetail(props){
                 <h1>Videogame: {videogame.name}</h1>
             </div>
             <div className={styles.container}>
-                <div className={styles.imageContainer} />
+                <div className={styles.imageContainer} style={{backgroundImage: videogame?.background_image ? `url(${videogame?.background_image})` : `url(${placeHolder})`}}/>
                 <div className={styles.infoContainer}>
                     <div className={styles.descriptionContainer}>
                         <h1 style={{marginTop: 10, marginBottom: 10}}>About:</h1>
