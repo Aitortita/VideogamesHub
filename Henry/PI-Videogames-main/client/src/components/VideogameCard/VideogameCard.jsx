@@ -7,9 +7,13 @@ import { unVideogame } from "../../redux/videogamesSlice/videogamesSlice"
 
 export default function VideogameCard({name, id, image, genres, platforms}){
     const dispatch = useDispatch()
+    function enterVideogameDetail() {
+        dispatch(unVideogame())
+        localStorage.setItem('id', `${id}`)
+    }
     return(
         <div className={styles.cardContainer}>
-            <Link to={`/videogame/${name}`} state={{id: id}} onClick={() => dispatch(unVideogame())}>
+            <Link to={`/videogame/${name}`} onMouseDown={(() => enterVideogameDetail())} onClick={() => enterVideogameDetail()}>
                 <div className={styles.imageContainer}  style={{backgroundImage : image ? `url(${image})` : `url(${placeHolder})`}}/>
             </Link>
             <div className={styles.cardInfo}>
