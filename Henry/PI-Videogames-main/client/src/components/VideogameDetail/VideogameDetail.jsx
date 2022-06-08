@@ -4,21 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import Nav from "../Nav/Nav";
 import placeHolder from "../../images/ImagePlaceholder.jpg"
 import { getVideogame } from "../../redux/videogamesSlice/videogamesSlice";
+import loadingBar from "../../images/loadingBar.gif";
+import { useParams } from "react-router-dom";
 
 export default function VideogameDetail(props){
     const dispatch = useDispatch()
-    const { videogame } = useSelector(({videogames})=> videogames);
-
+    const {name} = useParams()
+    const { videogame, status } = useSelector(({videogames})=> videogames)
     useEffect(() => {
-        const id = JSON.parse(localStorage.getItem('id'))
+        const id = JSON.parse(localStorage.getItem(name))
         dispatch(getVideogame(id))
     },[dispatch])
     return (
-        <div className={styles.wrapper}>
+            <div className={styles.wrapper}>
             <Nav />
             <div className={styles.header}>
                 <h1>Videogame: {videogame.name}</h1>
             </div>
+            {
+            status === "loading" ? <img className={styles.loading} src={loadingBar}/> :
+            <>
             <div className={styles.container}>
                 <div className={styles.imageContainer} style={{backgroundImage: videogame?.background_image ? `url(${videogame?.background_image})` : `url(${placeHolder})`}}/>
                 <div className={styles.infoContainer}>
@@ -38,6 +43,8 @@ export default function VideogameDetail(props){
                     </div>
                 </div>
             </div>
+            </>
+            }
         </div>
     )
 }

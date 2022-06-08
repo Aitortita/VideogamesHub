@@ -83,6 +83,11 @@ p {
     padding-right:20px;
 }
 
+.loading {
+    align-self: center;
+    justify-self: center;
+    width: 20%;
+}
 @media (max-width: 1800px) {
     .container{
         margin: 15%;
