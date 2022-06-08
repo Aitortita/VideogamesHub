@@ -1,7 +1,7 @@
 import styles from "./Aside.module.css"; 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, filterBy, unSort, searchVideogame, getAllVideogames, sortBy, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, filterBy, searchVideogame, getAllVideogames, sortBy, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function Aside({search}){
     const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display, status } = useSelector(({videogames}) => videogames)
@@ -85,13 +85,13 @@ export default function Aside({search}){
                 if ( apiFilter === "videogamesHUB") {
                     return dispatch(searchVideogame({ name: videogamesSearchName, sort, sorting}))
                 }
-                if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
+                if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
                 return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
             }
             if ( apiFilter === "videogamesHUB") {
                 return dispatch(getAllVideogames({sort, sorting}))
             }
-            if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
+            if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
             return dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
         }
         if (search === true) {
@@ -99,13 +99,13 @@ export default function Aside({search}){
             if ( apiFilter === "videogamesHUB") {
             return dispatch(searchVideogame({name: videogamesSearchName, sort, sorting}))
             }
-            if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
+            if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
             return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
         }
         if ( apiFilter === "videogamesHUB") {
             return dispatch(getAllVideogames())
         }
-        if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
+        if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
         dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
     }
 

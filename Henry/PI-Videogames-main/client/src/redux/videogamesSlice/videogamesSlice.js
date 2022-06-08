@@ -116,9 +116,6 @@ const videogamesSlice = createSlice({
         filterBy(state, {payload}){
             state.filter = payload
         },
-        unSort(state) {
-            state.sort = ""
-        },
         morePagination(state) {
             state.pagination += 15
         },
@@ -223,7 +220,7 @@ const videogamesSlice = createSlice({
 })
 
 export const { unVideogame, unSearchVideogames, cleanExactVideogame,
-               filterBy, unSort, morePagination, lessPagination,
+               filterBy, morePagination, lessPagination,
                resetPagination, clearFilters, setDisplay} = videogamesSlice.actions;
 
 export default videogamesSlice.reducer;
