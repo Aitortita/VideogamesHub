@@ -42,44 +42,42 @@ router.get('/videogames', (req, res) => {
           }
           if (sort === "rating") {
               if (name) {
-                  
                   Promise.allSettled([
-                      axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }}),
-                      Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})])
+                      axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY}}),
+                      Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})])
                   .then(array =>  res.status(200).json(mergeSort([...array[0].value.data.results, ...array[1].value])))
                   .catch(err => res.status(404).send(err.message))
                   return
               }
                   Promise.allSettled([
-                      axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page_size: 100 }}),
-                      Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})])
-                  .then(array => {
-                      res.status(200).json(mergeSort([...array[0].value.data.results, ...array[1].value]))})
+                      axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY}}),
+                      Videogame.findAll({include : [{model: Genre}, {model:Platform}]})])
+                  .then(array => res.status(200).json(mergeSort([...array[0].value.data.results, ...array[1].value])))
                   .catch(err => res.status(404).send(err.message))
                   return
           }
         if (name) {
-            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
+            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY}})
             .then(({data}) =>  res.status(200).json(mergeSort(data.results)))
             .catch(err => res.status(404).send(err.message))
             return
         }
-            axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page_size: 100 }})
+            axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY}})
             .then(({data}) => res.status(200).json(mergeSort(data.results)))
             .catch(err => res.status(404).send(err.message))
             return
         }
         if (name) {
             Promise.allSettled([
-                axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }}),
-                Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})])
+                axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY}}),
+                Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})])
                 .then(array => res.status(200).json([...array[0]?.value?.data?.results, ...array[1]?.value]))
                 .catch(err => res.status(404).send(err.message))
                 return
         }
             Promise.allSettled([
-                axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}}),
-                Videogame.findAll({limit:100, include : [{model: Genre}, {model:Platform}]})])
+                axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY}}),
+                Videogame.findAll({include : [{model: Genre}, {model:Platform}]})])
                 .then(array => res.status(200).json([...array[0]?.value?.data?.results, ...array[1]?.value]))
                 .catch(err => res.status(404).send(err.message))
 });
@@ -116,23 +114,23 @@ router.get('/videogamesRawg', (req, res) => {
             return merge(left, right)
           }
         if (name) {
-            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
+            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY}})
             .then(({data}) => res.status(200).json(mergeSort(data?.results)))
             .catch(err => res.status(404).send(err.message))
                 return
         }
-        axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}})
+        axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY}})
         .then(({data}) => res.status(200).json(mergeSort(data?.results)))
         .catch(err => res.status(404).send(err.message))
         return
     }
         if (name) {
-            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
+            axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY}})
                 .then(({data}) => res.status(200).json(data?.results))
                 .catch(err => res.status(404).send(err.message))
                 return
         }
-            axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}})
+            axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY}})
                 .then(({data}) => res.status(200).json(data?.results))
                 .catch(err => res.status(404).send(err.message))
 });
@@ -142,25 +140,25 @@ router.get('/videogamesHUB', (req, res) => {
     if (!sorting) sorting = "DESC";
     if (sort) {
         if (name) {
-            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, order: [[sort, sorting]], limit:100, include : [{model: Genre}, {model:Platform}]})
+            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, order: [[sort, sorting]], include : [{model: Genre}, {model:Platform}]})
             .then(value => res.status(200).json(value))
             .catch(err => res.status(404).send(err.message))
-                return
+            return
         }
-        Videogame.findAll({order: [[sort, sorting]], limit:100, include : [{model: Genre}, {model:Platform}]})
+        Videogame.findAll({order: [[sort, sorting]], include : [{model: Genre}, {model:Platform}]})
         .then(value => res.status(200).json(value))
         .catch(err => res.status(404).send(err.message))
         return
     }
         if (name) {
-            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})
-                .then(value => res.status(200).json(value))
-                .catch(({message}) => res.status(404).send(message))
-                return
+            Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})
+            .then(value => res.status(200).json(value))
+            .catch(({message}) => res.status(404).send(message))
+            return
         }
-            Videogame.findAll({limit:100, include : [{model: Genre}, {model:Platform}]})
-                .then(value => res.status(200).json(value))
-                .catch(({message}) => res.status(404).send(message))
+            Videogame.findAll({include : [{model: Genre}, {model:Platform}]})
+            .then(value => res.status(200).json(value))
+            .catch(({message}) => res.status(404).send(message))
 });
 
 router.get('/videogames/:idVideoGame', (req, res) => {
@@ -186,9 +184,7 @@ router.post('/videogame', async (req, res) => {
         await videogame.addPlatform(platformsDb)
         const videogameFinal = await Videogame.findOne({ where: {name: videogame.name}, include : [{model: Genre}, {model:Platform}]});
         res.status(200).json(videogameFinal)
-    } catch ({message}) {
-        res.status(404).send(message)
-    }
+    } catch ({message}) {res.status(404).send(message)}
 })
 
 router.get('/videogame', (req, res)=> {

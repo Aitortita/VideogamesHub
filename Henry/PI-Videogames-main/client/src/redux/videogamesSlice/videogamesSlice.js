@@ -145,6 +145,8 @@ const videogamesSlice = createSlice({
             state.status= "success"
             state.videogames = payload.data
             state.apiFilter = payload.apiFilter || ""
+            state.sort = payload.sort || ""
+            state.sorting = payload.sorting || ""
         },
         [getAllVideogames.rejected]: (state) => {
             state.status= "failed"

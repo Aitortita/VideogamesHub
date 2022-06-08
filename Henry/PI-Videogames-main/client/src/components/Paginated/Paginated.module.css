@@ -5,7 +5,15 @@
 }
 
 .loading {
-    align-self: center;
     justify-self: center;
     width: 20%;
+    margin-top: 200px;
+}
+
+@media (max-width: 900px) {
+    .loading{
+        width: 50%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
 }

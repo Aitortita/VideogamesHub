@@ -1,4 +1,4 @@
-import styles from "./SearchRender.module.css"
+import styles from "../HomeRender/HomeRender.module.css"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";

@@ -1,6 +1,6 @@
 .videogamesContainer{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     grid-auto-rows: minmax(30rem, auto);
     grid-gap: 1rem;
     padding: 1rem;
@@ -21,7 +21,7 @@
 @media (max-width: 1420px) {
     .videogamesContainer{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
         grid-auto-rows: minmax(26rem, auto);
         grid-gap: .8rem;
         padding: .8rem;
@@ -30,7 +30,7 @@
 @media (max-width: 900px) {
     .videogamesContainer{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
         grid-auto-rows: minmax(24rem, auto);
         grid-gap: .6rem;
         padding: .6rem;
