@@ -14,7 +14,7 @@ export default function VideogameDetail(props){
     useEffect(() => {
         const id = JSON.parse(localStorage.getItem(name))
         dispatch(getVideogame(id))
-    },[dispatch])
+    },[]) // eslint-disable-line
     return (
             <div className={styles.wrapper}>
             <Nav />
@@ -22,7 +22,7 @@ export default function VideogameDetail(props){
                 <h1>Videogame: {videogame.name}</h1>
             </div>
             {
-            status === "loading" ? <img className={styles.loading} src={loadingBar}/> :
+            status === "loading" ? <img className={styles.loading} alt="loading" src={loadingBar}/> :
             <>
             <div className={styles.container}>
                 <div className={styles.imageContainer} style={{backgroundImage: videogame?.background_image ? `url(${videogame?.background_image})` : `url(${placeHolder})`}}/>

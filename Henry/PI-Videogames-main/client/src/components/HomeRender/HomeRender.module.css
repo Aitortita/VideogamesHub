@@ -18,6 +18,12 @@
     cursor: pointer;
 }
 
+.loading {
+    justify-self: center;
+    width: 20%;
+    margin-top: 200px;
+}
+
 @media (max-width: 1420px) {
     .videogamesContainer{
         display: grid;
@@ -34,6 +40,11 @@
         grid-auto-rows: minmax(24rem, auto);
         grid-gap: .6rem;
         padding: .6rem;
+    }
+    .loading{
+        width: 50%;
+        margin-top: 50px;
+        margin-bottom: 50px;
     }
 }
 @media (max-width: 600px) {

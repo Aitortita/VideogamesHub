@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
 import { getAllVideogames, morePagination, lessPagination } from "../../redux/videogamesSlice/videogamesSlice";
+import loadingBar from "../../images/loadingBar.gif";
 
 export default function HomeRender(props) {
      /* eslint-disable */
     const dispatch = useDispatch()
-    const { filter, pagination, videogames, apiFilter } = useSelector(({videogames}) => videogames)
+    const { filter, pagination, videogames, apiFilter, status } = useSelector(({videogames}) => videogames)
     useEffect(() => {
-        if (videogames.length === 0) dispatch(getAllVideogames(apiFilter))
-            setVariable("block")
-    }, [dispatch])
+        videogames.length === 0 ? dispatch(getAllVideogames(apiFilter)) : null;
+        setVariable("block")
+    }, [])
     let [variable, setVariable] = useState("none")
     function onShow(){
         window.scrollTo(0, 0);
@@ -22,6 +23,7 @@ export default function HomeRender(props) {
         if(pagination > 15) dispatch(lessPagination())
     }
     return(
+        status === "loading" ? <img className={styles.loading} alt="loading" src={loadingBar}/> :
         <div>
             <div className={styles.videogamesContainer}>
             {

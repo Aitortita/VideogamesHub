@@ -87,6 +87,7 @@ p {
     align-self: center;
     justify-self: center;
     width: 20%;
+    margin-top: 150px;
 }
 @media (max-width: 1800px) {
     .container{
