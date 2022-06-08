@@ -2,7 +2,7 @@ import styles from "./HomeRender.module.css"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideogameCard from "../VideogameCard/VideogameCard";
-import { getAllVideogames, morePagination, lessPagination } from "../../redux/videogamesSlice/videogamesSlice";
+import { getVideogames, morePagination, lessPagination } from "../../redux/videogamesSlice/videogamesSlice";
 import loadingBar from "../../images/loadingBar.gif";
 
 export default function HomeRender(props) {
@@ -10,7 +10,7 @@ export default function HomeRender(props) {
     const dispatch = useDispatch()
     const { filter, pagination, videogames, apiFilter, status } = useSelector(({videogames}) => videogames)
     useEffect(() => {
-        videogames.length === 0 ? dispatch(getAllVideogames(apiFilter)) : null;
+        videogames.length === 0 ? dispatch(getVideogames(apiFilter)) : null;
         setVariable("block")
     }, [])
     let [variable, setVariable] = useState("none")

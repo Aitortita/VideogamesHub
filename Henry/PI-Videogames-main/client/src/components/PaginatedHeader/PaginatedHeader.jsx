@@ -1,7 +1,7 @@
 import styles from "./PaginatedHeader.module.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, getAllVideogames, filterBy, sortBy, setDisplay, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, getVideogames, filterBy, sortVideogames, setDisplay, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function PaginatedHeader({search}){
     const { videogamesSearchName, filter, sort, sorting, apiFilter, status } = useSelector(({videogames}) => videogames)
@@ -18,7 +18,7 @@ export default function PaginatedHeader({search}){
             dispatch(searchVideogame({apiFilter, name: videogamesSearchName}))
         }
         dispatch(resetPagination())
-        dispatch(getAllVideogames({apiFilter}))
+        dispatch(getVideogames({apiFilter}))
     }
     function switchSorting() {
         if (status === "loading") return
@@ -32,17 +32,17 @@ export default function PaginatedHeader({search}){
         }
         if (sorting === "DESC") {
             dispatch(resetPagination())
-            return  dispatch(sortBy({apiFilter, sort, sorting: "ASC"}))
+            return  dispatch(sortVideogames({apiFilter, sort, sorting: "ASC"}))
         }
         dispatch(resetPagination())
-        dispatch(sortBy({apiFilter, sort, sorting:"DESC"}))
+        dispatch(sortVideogames({apiFilter, sort, sorting:"DESC"}))
     }
     function resetApiFilter() {
         if (status === "loading") return
         dispatch(resetPagination())
         dispatch(setDisplay("block"))
         if (search === true) return dispatch(searchVideogame({name:videogamesSearchName, sort, sorting}))
-        dispatch(getAllVideogames({sort, sorting}))
+        dispatch(getVideogames({sort, sorting}))
     }
     return(
         <div className={styles.headerWrapper}>

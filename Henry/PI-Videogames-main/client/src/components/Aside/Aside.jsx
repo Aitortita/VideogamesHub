@@ -1,7 +1,7 @@
 import styles from "./Aside.module.css"; 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, filterBy, searchVideogame, getAllVideogames, sortBy, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, filterBy, searchVideogame, getVideogames, sortVideogames, setDisplay, getAllGenresAndPlatforms  } from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function Aside({search}){
     const { videogamesSearchName, genres, platforms, filter, sort, sorting, apiFilter, display, status } = useSelector(({videogames}) => videogames)
@@ -44,9 +44,9 @@ export default function Aside({search}){
             return dispatch(searchVideogame({apiFilter, name:videogamesSearchName, sort:e, sorting}))
         }
         if (e === sort) {
-        return dispatch(getAllVideogames({apiFilter}))
+        return dispatch(getVideogames({apiFilter}))
         }
-        return dispatch(sortBy({apiFilter, sort:e, sorting}))
+        return dispatch(sortVideogames({apiFilter, sort:e, sorting}))
     }
 
     function rawgFilter() {
@@ -60,21 +60,21 @@ export default function Aside({search}){
                 return dispatch(searchVideogame({apiFilter: "rawg", name:videogamesSearchName, sort, sorting}))
             }
             if ( apiFilter === "rawg") {
-                return dispatch(sortBy({sort, sorting}))
+                return dispatch(sortVideogames({sort, sorting}))
             }
-            return dispatch(sortBy({apiFilter:"rawg", sort, sorting}))
+            return dispatch(sortVideogames({apiFilter:"rawg", sort, sorting}))
         }
         if (search === true) {
             if (videogamesSearchName === "") return;
-            if ( apiFilter === "rawg") {
+            if (apiFilter === "rawg") {
                 return dispatch(searchVideogame({name:videogamesSearchName}))
             }
             return dispatch(searchVideogame({apiFilter: "rawg", name:videogamesSearchName}))
         }
-        if ( apiFilter === "rawg") {
-            return dispatch(getAllVideogames())
+        if (apiFilter === "rawg") {
+            return dispatch(getVideogames())
         }
-        dispatch(getAllVideogames({apiFilter: "rawg", sort, sorting}))
+        dispatch(getVideogames({apiFilter: "rawg"}))
     }
 
     function hubFilter() {
@@ -82,31 +82,31 @@ export default function Aside({search}){
         if (sort !== "") {
             if (search === true) {
                 if (videogamesSearchName === "") return;
-                if ( apiFilter === "videogamesHUB") {
+                if (apiFilter === "videogamesHUB") {
                     return dispatch(searchVideogame({ name: videogamesSearchName, sort, sorting}))
                 }
                 if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
                 return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
             }
-            if ( apiFilter === "videogamesHUB") {
-                return dispatch(getAllVideogames({sort, sorting}))
+            if (apiFilter === "videogamesHUB") {
+                return dispatch(sortVideogames({sort, sorting}))
             }
-            if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
-            return dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
+            if (sort !== "rating") return dispatch(getVideogames({apiFilter: "videogamesHUB", name: videogamesSearchName}))
+            return dispatch(sortVideogames({apiFilter: "videogamesHUB", sort, sorting}))
         }
         if (search === true) {
             if (videogamesSearchName === "") return;
-            if ( apiFilter === "videogamesHUB") {
+            if (apiFilter === "videogamesHUB") {
             return dispatch(searchVideogame({name: videogamesSearchName, sort, sorting}))
             }
             if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
             return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
         }
         if ( apiFilter === "videogamesHUB") {
-            return dispatch(getAllVideogames())
+            return dispatch(getVideogames())
         }
-        if (sort !== "rating") return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
-        dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
+        if (sort !== "rating") return dispatch(getVideogames({apiFilter: "videogamesHUB", name: videogamesSearchName}))
+        dispatch(getVideogames({apiFilter: "videogamesHUB", sort, sorting}))
     }
 
     useEffect(()=>{

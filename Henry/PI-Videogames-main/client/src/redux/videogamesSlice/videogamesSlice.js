@@ -33,7 +33,7 @@ export const createVideogame = createAsyncThunk("videogames/createVideogame",
         return data
     })
 
-export const getAllVideogames = createAsyncThunk("videogames/getAllVideogames",
+export const getVideogames = createAsyncThunk("videogames/getVideogames",
     async (args) => {
         const {apiFilter, sort, sorting} = args
         if(apiFilter === "rawg") {
@@ -67,7 +67,7 @@ export const searchVideogame = createAsyncThunk("videogames/searchVideogame",
         return {data, name, apiFilter, sort, sorting}
 })
 
-export const sortBy = createAsyncThunk("videogames/sortBy", 
+export const sortVideogames = createAsyncThunk("videogames/sortVideogames", 
     async (args) => {
     const {apiFilter, sort, sorting} = args
     if(apiFilter === "rawg") {
@@ -135,17 +135,17 @@ const videogamesSlice = createSlice({
         }
     },
     extraReducers: {
-        [getAllVideogames.pending]: (state) => {
+        [getVideogames.pending]: (state) => {
             state.status= "loading"
         },
-        [getAllVideogames.fulfilled]: (state, {payload}) => {
+        [getVideogames.fulfilled]: (state, {payload}) => {
             state.status= "success"
             state.videogames = payload.data
             state.apiFilter = payload.apiFilter || ""
             state.sort = payload.sort || ""
             state.sorting = payload.sorting || ""
         },
-        [getAllVideogames.rejected]: (state) => {
+        [getVideogames.rejected]: (state) => {
             state.status= "failed"
         },
         [createVideogame.pending] : (state) => {
@@ -203,17 +203,17 @@ const videogamesSlice = createSlice({
         [getAllGenresAndPlatforms.rejected] : (state) => {
             state.status= "failed"
         },
-        [sortBy.pending] : (state) => {
+        [sortVideogames.pending] : (state) => {
             state.status= "loading"
         },
-        [sortBy.fulfilled] : (state, {payload}) => {
+        [sortVideogames.fulfilled] : (state, {payload}) => {
             state.status= "success"
             state.videogames= payload.data
             state.sort = payload.sort || ""
             state.apiFilter = payload.apiFilter || ""
             state.sorting = payload.sorting || ""
         },
-        [sortBy.rejected] : (state) => {
+        [sortVideogames.rejected] : (state) => {
             state.status= "failed"
         }
     }
