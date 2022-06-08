@@ -200,6 +200,7 @@ export default function VideogameCreate(props){
         setFlags({...flags, flagRating: true})
     }
     function validatorImage(image){
+        if (image.length > 254) return setFlags({...flags, flagImage:false})
         if (image === "") return setFlags({...flags, flagImage: true})
         if(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image)) return setFlags({...flags, flagImage: true});
         setFlags({...flags, flagImage: false})
