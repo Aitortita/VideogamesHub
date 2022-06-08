@@ -10,7 +10,8 @@ const router = Router();
 
 
 router.get('/videogames', (req, res) => {
-    const { name, sort, sorting } = req.query;
+    let { name, sort, sorting } = req.query;
+    if (!sorting) sorting = "DESC";
     if (sort) {
         function merge(left, right) {
             let sortedArr = []
@@ -39,17 +40,35 @@ router.get('/videogames', (req, res) => {
             let right = mergeSort(arr.slice(mid))
             return merge(left, right)
           }
+          if (sort === "rating") {
+              if (name) {
+                  
+                  Promise.allSettled([
+                      axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }}),
+                      Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})])
+                  .then(array =>  res.status(200).json(mergeSort([...array[0].value.data.results, ...array[1].value])))
+                  .catch(err => res.status(404).send(err.message))
+                  return
+              }
+                  Promise.allSettled([
+                      axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page_size: 100 }}),
+                      Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})])
+                  .then(array => {
+                      res.status(200).json(mergeSort([...array[0].value.data.results, ...array[1].value]))})
+                  .catch(err => res.status(404).send(err.message))
+                  return
+          }
         if (name) {
             axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }})
-            .then(({data}) => res.status(200).json(mergeSort(data?.results)))
+            .then(({data}) =>  res.status(200).json(mergeSort(data.results)))
             .catch(err => res.status(404).send(err.message))
             return
         }
-        axios.get('https://api.rawg.io/api/games', {params: {key : YOUR_API_KEY, page_size: 100}})
-        .then(({data}) => res.status(200).json(mergeSort(data?.results)))
-        .catch(err => res.status(404).send(err.message))
-        return
-    }
+            axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page_size: 100 }})
+            .then(({data}) => res.status(200).json(mergeSort(data.results)))
+            .catch(err => res.status(404).send(err.message))
+            return
+        }
         if (name) {
             Promise.allSettled([
                 axios.get('https://api.rawg.io/api/games', { params: { search: name, key : YOUR_API_KEY, page_size: 100 }}),
@@ -66,7 +85,8 @@ router.get('/videogames', (req, res) => {
 });
 
 router.get('/videogamesRawg', (req, res) => {
-    const { name, sort, sorting } = req.query;
+    let { name, sort, sorting } = req.query;
+    if (!sorting) sorting = "DESC";
     if (sort) {
         function merge(left, right) {
             let sortedArr = []
@@ -118,7 +138,8 @@ router.get('/videogamesRawg', (req, res) => {
 });
 
 router.get('/videogamesHUB', (req, res) => {
-    const { name, sort, sorting } = req.query;
+    let { name, sort, sorting } = req.query;
+    if (!sorting) sorting = "DESC";
     if (sort) {
         if (name) {
             Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, order: [[sort, sorting]], limit:100, include : [{model: Genre}, {model:Platform}]})
@@ -134,12 +155,12 @@ router.get('/videogamesHUB', (req, res) => {
         if (name) {
             Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, limit:100, include : [{model: Genre}, {model:Platform}]})
                 .then(value => res.status(200).json(value))
-                .catch(err => res.status(404).send(err.message))
+                .catch(({message}) => res.status(404).send(message))
                 return
         }
             Videogame.findAll({limit:100, include : [{model: Genre}, {model:Platform}]})
                 .then(value => res.status(200).json(value))
-                .catch(err => res.status(404).send(err.message))
+                .catch(({message}) => res.status(404).send(message))
 });
 
 router.get('/videogames/:idVideoGame', (req, res) => {
@@ -150,7 +171,7 @@ router.get('/videogames/:idVideoGame', (req, res) => {
         .then(array => {
             array[0]?.value?.data ? res.status(200).json(array[0].value.data) : null;
             array[1]?.value ? res.status(200).json(array[1].value) : null})
-        .catch(err => res.status(404).send(err.message))
+        .catch(({message}) => res.status(404).send(message))
 });
 
 
@@ -165,8 +186,8 @@ router.post('/videogame', async (req, res) => {
         await videogame.addPlatform(platformsDb)
         const videogameFinal = await Videogame.findOne({ where: {name: videogame.name}, include : [{model: Genre}, {model:Platform}]});
         res.status(200).json(videogameFinal)
-    } catch (err) {
-        res.status(404).send(err.message)
+    } catch ({message}) {
+        res.status(404).send(message)
     }
 })
 
@@ -174,31 +195,31 @@ router.get('/videogame', (req, res)=> {
     const { name } = req.query
     Videogame.findOne({where: {name: {[Op.iLike]: name}}})
     .then(resp => {resp ? res.status(200).send('Name is already taken') : res.status(200).send('Name is free')})
-    .catch(err => res.status(400).send(err.message))
+    .catch(({message}) => res.status(400).send(message))
 })
 
 router.get('/genres', (req, res) => {
     Genre.findAll().then(genres => res.status(200).json(genres))
-    .catch(err => res.status(404).send(err.message))
+    .catch(({message}) => res.status(404).send(message))
 })
 
 router.get('/platforms', (req, res) => {
     Platform.findAll().then(platforms => res.status(200).json(platforms))
-    .catch((err) => res.status(404).send(err.message))
+    .catch(({message}) => res.status(404).send(message))
 })
 
 router.post('/genres', (req, res) =>{
     axios.get(`https://api.rawg.io/api/genres?key=${YOUR_API_KEY}`)
-    .then(resp => Genre.bulkCreate(resp?.data?.results?.map(e => {return {name: e.name}})))
+    .then(({data}) => Genre.bulkCreate(data?.results?.map(e => {return {name: e.name}})))
     .then(genres => res.status(200).json(genres))
-    .catch(err => res.status(404).send(err.message))
+    .catch(({message}) => res.status(404).send(message))
 })
 
 router.post('/platforms', (req, res) => {
     axios.get(`https://api.rawg.io/api/platforms?key=${YOUR_API_KEY}`)
-    .then(resp => Platform.bulkCreate(resp?.data?.results?.map(e => {return {name: e.name}})))
+    .then(({data}) => Platform.bulkCreate(data?.results?.map(e => {return {name: e.name}})))
     .then(platforms => res.status(200).json(platforms))
-    .catch(err => res.status(404).send(err.message))
+    .catch(({message}) => res.status(404).send(message))
 })
 
 module.exports = router;

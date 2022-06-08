@@ -1,7 +1,7 @@
 import styles from "./PaginatedHeader.module.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPagination, unSort, getAllVideogames, filterBy, sortAscToDesc, sortBy, setDisplay, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
+import { resetPagination, getAllVideogames, filterBy, sortBy, setDisplay, searchVideogame} from "../../redux/videogamesSlice/videogamesSlice";
 
 export default function PaginatedHeader({search}){
     const { videogamesSearchName, filter, sort, sorting, apiFilter, status } = useSelector(({videogames}) => videogames)
@@ -13,39 +13,36 @@ export default function PaginatedHeader({search}){
     }
     function un_sort(){
         if (status === "loading") return
+        if (search === true) {
+            dispatch(resetPagination())
+            dispatch(searchVideogame({apiFilter, name: videogamesSearchName}))
+        }
         dispatch(resetPagination())
-        dispatch(unSort())
-        dispatch(getAllVideogames(apiFilter))
+        dispatch(getAllVideogames({apiFilter}))
     }
     function switchSorting() {
         if (status === "loading") return
         if (search === true) {
             if (sorting === "DESC") {
                 dispatch(resetPagination())
-                dispatch(sortAscToDesc("ASC"))
                 return  dispatch(searchVideogame({apiFilter, name: videogamesSearchName, sort, sorting:"ASC"}))
             }
             dispatch(resetPagination())
-            dispatch(sortAscToDesc("DESC"))
             dispatch(searchVideogame({apiFilter, name: videogamesSearchName, sort, sorting: "DESC"}))
         }
         if (sorting === "DESC") {
             dispatch(resetPagination())
-            dispatch(sortAscToDesc("ASC"))
             return  dispatch(sortBy({apiFilter, sort, sorting: "ASC"}))
         }
         dispatch(resetPagination())
-        dispatch(sortAscToDesc("DESC"))
         dispatch(sortBy({apiFilter, sort, sorting:"DESC"}))
     }
-    function resetFilter() {
+    function resetApiFilter() {
         if (status === "loading") return
-        dispatch(setDisplay("block"))
         dispatch(resetPagination())
-        if (search === true) {
-            return dispatch(searchVideogame({name:videogamesSearchName}))
-        }
-        dispatch(getAllVideogames())
+        dispatch(setDisplay("block"))
+        if (search === true) return dispatch(searchVideogame({name:videogamesSearchName, sort, sorting}))
+        dispatch(getAllVideogames({sort, sorting}))
     }
     return(
         <div className={styles.headerWrapper}>
@@ -56,10 +53,10 @@ export default function PaginatedHeader({search}){
                 </div>
                 <div className={styles.filtersContainer}>
                     {
-                    apiFilter === "rawg" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>Rawg</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    apiFilter === "rawg" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>Rawg</span></h2><h2 className={styles.button} onClick={()=> resetApiFilter()}>Clear</h2></div> : null
                     }
                     {
-                    apiFilter === "videogamesHUB" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>VideogamesHUB</span></h2><h2 className={styles.button} onClick={()=> resetFilter()}>Clear</h2></div> : null
+                    apiFilter === "videogamesHUB" ? <div className={styles.filter}><h2>Filtered by: <span className={styles.span}>VideogamesHUB</span></h2><h2 className={styles.button} onClick={()=> resetApiFilter()}>Clear</h2></div> : null
                     }
                     {
                     filter !== "" ? <div className={styles.filter}><h2>Filtered by:

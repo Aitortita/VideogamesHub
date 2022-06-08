@@ -3,3 +3,9 @@
     grid-template-columns: 1fr;
     grid-template-rows: 130px 1fr;
 }
+
+.loading {
+    align-self: center;
+    justify-self: center;
+    width: 20%;
+}

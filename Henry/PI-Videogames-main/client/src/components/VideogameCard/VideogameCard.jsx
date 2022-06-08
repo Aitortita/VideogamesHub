@@ -25,7 +25,8 @@ export default function VideogameCard({name, id, image, genres, platforms}){
                  platforms[0].name ? ` ${platforms[0].name}` : null : null}
                 {platforms?.slice(1)?.map(e => {
                     if (e?.platform?.name) return `, ${e.platform.name}`;
-                    return `, ${e?.name}`})}</h4>
+                    return `, ${e?.name}`})}
+                    </h4>
             </div>
         </div>
     )

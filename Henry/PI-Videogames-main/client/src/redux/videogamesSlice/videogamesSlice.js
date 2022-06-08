@@ -5,46 +5,8 @@ function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
-  }
+    }
 }
-
-export const getAllVideogames = createAsyncThunk("videogames/getAllVideogames",
-    async (apiFilter) => {
-        if(apiFilter === "rawg") {
-          const {data} = await axios.get('/videogamesRawg');
-          shuffle(data)
-          return {data, apiFilter}
-        }
-        if (apiFilter === "videogamesHUB") {
-          const {data} = await axios.get('/videogamesHUB');
-          shuffle(data)
-          return {data, apiFilter}
-        }
-        const {data} = await axios.get('/videogames');
-        shuffle(data)
-        return {data, apiFilter}
-    })
-
-export const createVideogame = createAsyncThunk("videogames/createVideogame",
-    async (body) => {
-        const {data} = await axios.post('/videogame', body)
-        return data
-    })
-    
-export const searchVideogame = createAsyncThunk("videogames/searchVideogame", 
-    async (args) => {
-        const {apiFilter, name, sort, sorting} = args
-        if(apiFilter === "rawg") {
-            const {data} = await axios.get(`/videogamesRawg`, {params: {name, sort, sorting}})
-            return {data, name, apiFilter}
-        }
-        if (apiFilter === "videogamesHUB") {
-            const {data} = await axios.get(`/videogamesHUB`, {params: {name, sort, sorting}})
-            return {data, name, apiFilter}
-        }
-        const {data} = await axios.get(`/videogames`, {params: {name, sort, sorting}})
-        return {data, name, apiFilter}
-})
 
 export const getVideogame = createAsyncThunk("videogames/getVideogame", 
    async (id) => {
@@ -65,19 +27,59 @@ export const getAllGenresAndPlatforms = createAsyncThunk("videogames/getAllGenre
     
 })
 
+export const createVideogame = createAsyncThunk("videogames/createVideogame",
+    async (body) => {
+        const {data} = await axios.post('/videogame', body)
+        return data
+    })
+
+export const getAllVideogames = createAsyncThunk("videogames/getAllVideogames",
+    async (args) => {
+        const {apiFilter, sort, sorting} = args
+        if(apiFilter === "rawg") {
+          const {data} = await axios.get('/videogamesRawg');
+          shuffle(data)
+          return {data, apiFilter, sort, sorting}
+        }
+        if (apiFilter === "videogamesHUB") {
+          const {data} = await axios.get('/videogamesHUB');
+          shuffle(data)
+          return {data, apiFilter, sort, sorting}
+        }
+        const {data} = await axios.get('/videogames');
+        shuffle(data)
+        return {data, apiFilter, sort, sorting}
+    })
+    
+export const searchVideogame = createAsyncThunk("videogames/searchVideogame", 
+    async (args) => {
+        let {apiFilter, name, sort, sorting} = args
+        if(apiFilter === "rawg") {
+            const {data} = await axios.get(`/videogamesRawg`, {params: {name, sort, sorting}})
+            return {data, name, apiFilter, sort, sorting}
+        }
+        if (apiFilter === "videogamesHUB") {
+            if (sort !== "rating") sort = "";
+            const {data} = await axios.get(`/videogamesHUB`, {params: {name, sort, sorting}})
+            return {data, name, apiFilter, sort, sorting}
+        }
+        const {data} = await axios.get(`/videogames`, {params: {name, sort, sorting}})
+        return {data, name, apiFilter, sort, sorting}
+})
+
 export const sortBy = createAsyncThunk("videogames/sortBy", 
     async (args) => {
     const {apiFilter, sort, sorting} = args
     if(apiFilter === "rawg") {
     const {data} = await axios.get('/videogamesRawg', {params: {sort, sorting}})
-    return {data, sort, apiFilter}
+    return {data, sort, apiFilter, sorting}
     }
     if (apiFilter === "videogamesHUB") {
     const {data} = await axios.get('/videogamesHUB', {params: {sort, sorting}})
-    return {data, sort, apiFilter}
+    return {data, sort, apiFilter, sorting}
     }
     const {data} = await axios.get('/videogames', {params: {sort, sorting}})
-    return {data, sort, apiFilter}
+    return {data, sort, apiFilter, sorting}
 })
 
 const initialState = {
@@ -116,9 +118,6 @@ const videogamesSlice = createSlice({
         },
         unSort(state) {
             state.sort = ""
-        },
-        sortAscToDesc(state, {payload}) {
-            state.sorting = payload
         },
         morePagination(state) {
             state.pagination += 15
@@ -165,15 +164,14 @@ const videogamesSlice = createSlice({
         },
         [searchVideogame.fulfilled] : (state, {payload}) => {
             state.status= "success"
-            state.videogamesSearchName = payload.name
+            state.videogamesSearchName = payload.name || ""
             state.videogamesSearch = payload.data
             state.apiFilter = payload.apiFilter || ""
+            state.sort = payload.sort || ""
+            state.sorting = payload.sorting || ""
         },
         [searchVideogame.rejected] : (state, {payload}) => {
             state.status= "failed"
-            state.videogamesSearchName= payload.name
-            state.videogamesSearch= []
-            state.apiFilter = payload.apiFilter || ""
         },
         [getVideogame.pending] : (state) => {
             state.status= "loading"
@@ -214,6 +212,7 @@ const videogamesSlice = createSlice({
             state.videogames= payload.data
             state.sort = payload.sort || ""
             state.apiFilter = payload.apiFilter || ""
+            state.sorting = payload.sorting || ""
         },
         [sortBy.rejected] : (state) => {
             state.status= "failed"
@@ -222,7 +221,7 @@ const videogamesSlice = createSlice({
 })
 
 export const { unVideogame, unSearchVideogames, cleanExactVideogame,
-               filterBy, unSort, sortAscToDesc, morePagination, lessPagination,
+               filterBy, unSort, morePagination, lessPagination,
                resetPagination, clearFilters, setDisplay} = videogamesSlice.actions;
 
 export default videogamesSlice.reducer;

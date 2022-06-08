@@ -37,23 +37,23 @@ export default function Aside({search}){
     function onSort(e){
         if (status === "loading") return;
         if (search === true) {
+            if (videogamesSearchName === "") return;
             if (e === sort) {
-            dispatch(unSort())
             return dispatch(searchVideogame({apiFilter, name:videogamesSearchName}))
             }
-            dispatch(searchVideogame({apiFilter, name:videogamesSearchName, sort:e, sorting}))
+            return dispatch(searchVideogame({apiFilter, name:videogamesSearchName, sort:e, sorting}))
         }
         if (e === sort) {
-        dispatch(unSort())
-        return dispatch(getAllVideogames(apiFilter))
+        return dispatch(getAllVideogames({apiFilter}))
         }
-        dispatch(sortBy({apiFilter, sort:e, sorting}))
+        return dispatch(sortBy({apiFilter, sort:e, sorting}))
     }
 
     function rawgFilter() {
         if (status === "loading") return;
         if (sort !== "") {
             if (search === true) {
+                if (videogamesSearchName === "") return;
                 if ( apiFilter === "rawg") {
                     return dispatch(searchVideogame({name:videogamesSearchName, sort, sorting}))
                 }
@@ -65,6 +65,7 @@ export default function Aside({search}){
             return dispatch(sortBy({apiFilter:"rawg", sort, sorting}))
         }
         if (search === true) {
+            if (videogamesSearchName === "") return;
             if ( apiFilter === "rawg") {
                 return dispatch(searchVideogame({name:videogamesSearchName}))
             }
@@ -73,15 +74,16 @@ export default function Aside({search}){
         if ( apiFilter === "rawg") {
             return dispatch(getAllVideogames())
         }
-        dispatch(getAllVideogames("rawg"))
+        dispatch(getAllVideogames({apiFilter: "rawg", sort, sorting}))
     }
 
     function hubFilter() {
         if (status === "loading") return;
         if (sort !== "") {
             if (search === true) {
+                if (videogamesSearchName === "") return;
                 if ( apiFilter === "videogamesHUB") {
-                    return dispatch(searchVideogame({name: videogamesSearchName, sort, sorting}))
+                    return dispatch(searchVideogame({ name: videogamesSearchName, sort, sorting}))
                 }
                 if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
                 return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
@@ -93,17 +95,18 @@ export default function Aside({search}){
             return dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
         }
         if (search === true) {
+            if (videogamesSearchName === "") return;
             if ( apiFilter === "videogamesHUB") {
-                return dispatch(searchVideogame({name: videogamesSearchName}))
+            return dispatch(searchVideogame({name: videogamesSearchName, sort, sorting}))
             }
             if (sort === "rating_top" || sort === "metacritic") dispatch(unSort());
-            return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName}))
+            return dispatch(searchVideogame({apiFilter: "videogamesHUB", name: videogamesSearchName, sort, sorting}))
         }
         if ( apiFilter === "videogamesHUB") {
             return dispatch(getAllVideogames())
         }
         if (sort === "rating_top" || sort === "metacritic") dispatch(unSort())
-        dispatch(getAllVideogames("videogamesHUB"))
+        dispatch(getAllVideogames({apiFilter: "videogamesHUB", sort, sorting}))
     }
 
     useEffect(()=>{

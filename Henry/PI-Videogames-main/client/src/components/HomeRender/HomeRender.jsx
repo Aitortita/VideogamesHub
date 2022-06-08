@@ -45,17 +45,17 @@ export default function HomeRender(props) {
                     />)
             }
             </div>
-                <div style={{display: variable}}>
-                    {
-                        pagination > 15 ? <a className={styles.button} onClick={() => onHide()}>Last Page</a> : null
-                    }
-                    {
-                        filter !== "" ? 
-                        videogames?.filter((game) =>[...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0).length > pagination ?
-                        <a className={styles.button} onClick={() => onShow()}>Next Page</a> : null :
-                        videogames?.length > pagination ? <a className={styles.button} onClick={() => onShow()}>Next Page</a> : null
-                    }
-                </div>
+            <div style={{display: variable}}>
+            {
+                pagination > 15 ? <a className={styles.button} onClick={() => onHide()}>Last Page</a> : null
+            }
+            {
+                filter !== "" ? 
+                videogames?.filter((game) =>[...game?.genres?.filter((genre) => genre.name === filter), ...game?.platforms?.filter((platform) => platform?.platform?.name === filter)].length > 0).length > pagination ?
+                <a className={styles.button} onClick={() => onShow()}>Next Page</a> : null :
+                videogames?.length > pagination ? <a className={styles.button} onClick={() => onShow()}>Next Page</a> : null
+            }
+            </div>
         </div>
     )
 }
