@@ -132,23 +132,23 @@ router.get('/videogamesRawg', (req, res) => {
           }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then((array) =>  res.status(200).json(mergeSort(array.map(({value}) => value.data.results))))
+            .then((array) =>  res.status(200).json(mergeSort([].concat.apply([],array.map(({value}) => value.data.results)))))
             .catch(err => res.status(404).send(err.message))
             return
         }
         Promise.allSettled(fetchArray)
-        .then(array => res.status(200).json(mergeSort(array.map(({value}) => value.data.results))))
+        .then(array => res.status(200).json(mergeSort([].concat.apply([],array.map(({value}) => value.data.results)))))
         .catch(err => res.status(404).send(err.message))
         return
         }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then(array => res.status(200).json(array.map(({value}) => value.data.results)))
+            .then(array => res.status(200).json([].concat.apply([],array.map(({value}) => value.data.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled(fetchArray)
-                .then(array => res.status(200).json(array.map(({value}) => value.data.results)))
+                .then(array => res.status(200).json([].concat.apply([],array.map(({value}) => value.data.results))))
                 .catch(err => res.status(404).send(err.message))
 });
 
