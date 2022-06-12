@@ -13,8 +13,7 @@ export default function VideogameCreate(props){
     const navigate = useNavigate()
     
     useEffect(()=>{
-        dispatch(getAllGenresAndPlatforms())
-        dispatch(unCreateVideogame())
+        if (platforms.length < 2) dispatch(getAllGenresAndPlatforms())
     },[])// eslint-disable-line
 
     let validators = {
@@ -124,17 +123,6 @@ export default function VideogameCreate(props){
             genre
         }
         dispatch(createVideogame(body))
-        setState({name: "",description:"",launchDate: "",rating:"",image: "",})
-        setFlags({
-            flagName: false,
-            flagDescription: false,
-            flagLaunchDate: true,
-            flagRating: true
-        })
-        setFlagGenre(false)
-        setFlagPlatform(false)
-        setGenres([])
-        setPlatforms([])
     }
 
     useEffect(()=>{
@@ -142,8 +130,9 @@ export default function VideogameCreate(props){
         dispatch(unVideogame())
         localStorage.setItem(videogameCreated.name, JSON.stringify(videogameCreated.id))
         navigate(`/videogame/${videogameCreated.name}`)
+        dispatch(unCreateVideogame())
                 
-    }, [videogameCreated])
+    }, [videogameCreated]) // eslint-disable-line
     
     return(
         <div className={styles.wrapper}>
@@ -178,7 +167,7 @@ export default function VideogameCreate(props){
                                 return(
                             <span key={genre.id}>
                                 <label htmlFor={`${genre.name}`} className={styles.genreCheckbox}>
-                                <input className={styles.checkbox} name={genre.name} id={genre.name} type="checkbox" checked={localGenres[genre.name]} onChange={(e) => handleGenre(e)}/>
+                                <input className={styles.checkbox} name={genre.name} id={genre.name} type="checkbox" onChange={(e) => handleGenre(e)}/>
                                 {genre.name} </label>
                             </span>
                             )})
