@@ -144,8 +144,6 @@ export default function VideogameCreate(props){
         navigate(`/videogame/${videogameCreated.name}`)
                 
     }, [videogameCreated])
-
-
     
     return(
         <div className={styles.wrapper}>
