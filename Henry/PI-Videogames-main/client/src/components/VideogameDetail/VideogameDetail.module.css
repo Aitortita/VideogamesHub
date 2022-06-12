@@ -6,10 +6,6 @@ p {
     margin-bottom: 0px;
 }
 
-.wrapper{
-    height:100%;
-}
-
 .header {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -52,9 +48,11 @@ p {
 }
 
 .infoContainer{
+    height: 100%;
     padding: 10px;
     padding-top: 0px;
     display:grid;
+    grid-template-rows: 4fr 1fr;
     grid-gap: 10px;
 }
 
@@ -63,11 +61,10 @@ p {
     border-radius: 20px;
     padding-left:20px;
     padding-right:20px;
-    text-align: left;
 }
 
-.descriptionContainer h1 {
-    text-align: center;
+.descriptionContainer h4 {
+    text-align: left;
 
 }
 
@@ -109,6 +106,9 @@ p {
         margin-top: 0px;
         margin-bottom: 1%;
         grid-template-rows: 4fr 8fr;
+    }
+    .infoContainer{
+        grid-template-rows: 6fr 1fr;
     }
 }
 @media (max-width: 600px) {

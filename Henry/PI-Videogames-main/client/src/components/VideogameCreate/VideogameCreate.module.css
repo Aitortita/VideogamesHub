@@ -166,6 +166,7 @@
     .videogameCreateCard {
         width: 90%;
         height: 500px;
+        margin-bottom: 30px;
     }
     
     .videogameValidateCard{
@@ -176,7 +177,7 @@
     .formularioContainer {
         width: 90%;
         margin: 0px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 }
 

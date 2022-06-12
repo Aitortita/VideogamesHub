@@ -8,13 +8,13 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-let pageNumbers = 3;
+const pageNumbers = 3; // by changing this number you can choose how many pages from rawg api you want to display at the page
 
 router.get('/videogames', (req, res) => {
     let { name, sort, sorting } = req.query;
     if (!sorting) sorting = "DESC";
-    let fetchArraySearch = [];
     let fetchArray = [];
+    let fetchArraySearch = [];
     for (let i = 1; i <= pageNumbers; i++) {
         fetchArraySearch.push(axios.get('https://api.rawg.io/api/games', { params: {search: name, key : YOUR_API_KEY, page: i}}))
     }
@@ -54,25 +54,25 @@ router.get('/videogames', (req, res) => {
                 Promise.allSettled([
                     ...[Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})],
                     ...fetchArraySearch])
-                .then(array =>  res.status(200).json(mergeSort([].concat.apply(array[0].value, array.slice(1).map(({value}) => value.data.results)))))
+                .then(array =>  res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)])))
                 .catch(err => res.status(404).send(err.message))
                 return
               }
                 Promise.allSettled([
                     ...[Videogame.findAll({include : [{model: Genre}, {model:Platform}]})],
                     ...fetchArray])
-                .then(array => res.status(200).json(mergeSort([].concat.apply(array[0].value, array.slice(1).map(({value}) => value.data.results)))))
+                .then(array => res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)])))
                 .catch(err => res.status(404).send(err.message))
                 return
           }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then((array) =>  res.status(200).json(mergeSort([].concat.apply([], array.map(({value})=> value.data.results)))))
+            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled(fetchArray)
-            .then((array) => res.status(200).json(mergeSort([].concat.apply([], array.map(({value})=> value.data.results)))))
+            .then((array) => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
@@ -80,14 +80,14 @@ router.get('/videogames', (req, res) => {
             Promise.allSettled([
                 ...[Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})],
                 ...fetchArraySearch])
-            .then(array => res.status(200).json([].concat.apply(array[0].value, array.slice(1).map(({value}) => value.data.results))))
+            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)]))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled([
                 ...[Videogame.findAll({include : [{model: Genre}, {model:Platform}]})],
                 ...fetchArray])
-            .then(array => res.status(200).json([].concat.apply(array[0].value, array.slice(1).map(({value}) => value.data.results))))
+            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)]))
             .catch(err => res.status(404).send(err.message))
 });
 
@@ -132,23 +132,23 @@ router.get('/videogamesRawg', (req, res) => {
           }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then((array) =>  res.status(200).json(mergeSort([].concat.apply([],array.map(({value}) => value.data.results)))))
+            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
         Promise.allSettled(fetchArray)
-        .then(array => res.status(200).json(mergeSort([].concat.apply([],array.map(({value}) => value.data.results)))))
+        .then(array => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
         .catch(err => res.status(404).send(err.message))
         return
         }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then(array => res.status(200).json([].concat.apply([],array.map(({value}) => value.data.results))))
+            .then(array => res.status(200).json(array.flatMap(({value})=> value.data.results)))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled(fetchArray)
-                .then(array => res.status(200).json([].concat.apply([],array.map(({value}) => value.data.results))))
+                .then(array => res.status(200).json(array.flatMap(({value})=> value.data.results)))
                 .catch(err => res.status(404).send(err.message))
 });
 

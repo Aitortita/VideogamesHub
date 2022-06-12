@@ -3,20 +3,54 @@ import React, { useEffect, useState } from "react";
 import Nav from "../Nav/Nav";
 import VideogameCreateCard from "../VideogameCreateCard/VideogameCreateCard";
 import VideogameValidateCard from "../VideogameValidateCard/VideogameValidateCard";
-import { getAllGenresAndPlatforms, cleanExactVideogame, getExactVideogame, createVideogame } from "../../redux/videogamesSlice/videogamesSlice";
+import { getAllGenresAndPlatforms, getExactVideogame, createVideogame, unCreateVideogame, unVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function VideogameCreate(props){
+    const { platforms, genres, checkVideogame, videogameCreated } = useSelector(({videogames})=> videogames)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    
     useEffect(()=>{
         dispatch(getAllGenresAndPlatforms())
-        return () => {
-            cleanExactVideogame()
-        }
+        dispatch(unCreateVideogame())
     },[])// eslint-disable-line
 
-    const dispatch = useDispatch()
-
-    const { platforms, exactVideogame } = useSelector(({videogames})=> videogames)
+    let validators = {
+        name: function (name){
+            if (name.length > 50) return setFlags({...flags, flagName: false});
+            const validate = name.match(/[a-z]|[0-9]|[ ,-]/gi); 
+            if (name.length !== validate?.length) setFlags({...flags, flagName: false})
+            else setFlags({...flags, flagName: true})
+        },
+        description: function (description){
+            if(description.length > 300) return setFlags({...flags, flagDescription: false});
+            const validate = description.match(/[\x00-\xFF]/g); // eslint-disable-line
+            if (description.length !== validate?.length) setFlags({...flags, flagDescription: false})
+            else setFlags({...flags, flagDescription: true})
+        },
+        launchDate: function (launchDate){
+            if(launchDate.length > 10) return setFlags({...flags, flagLaunchDate: false})
+            if(launchDate === "") return setFlags({...flags, flagLaunchDate: true});
+            const validate = launchDate.match(/[0-9]|[ \-,.]/g);
+            if (launchDate.length !== validate?.length)setFlags({...flags, flagLaunchDate: false})
+            else setFlags({...flags, flagLaunchDate: true})
+        },
+        rating: function (rating){
+            if (rating === "") return setFlags({...flags, flagRating: true});
+            if (rating.length > 4) return setFlags({...flags, flagRating: false})
+            if (rating > 5 || rating < 0) return setFlags({...flags, flagRating: false});
+            if ((/([0-9]+(\.|,)?[0-9]*|(\.|,)[0-9]+)$/g).test(rating)) setFlags({...flags, flagRating: true})
+            else setFlags({...flags, flagRating: false})
+        },
+        image: function (image){
+            if (image.length > 254) return setFlags({...flags, flagImage:false})
+            if (image === "") return setFlags({...flags, flagImage: true})
+            if(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image)) setFlags({...flags, flagImage: true})
+            else setFlags({...flags, flagImage: false})
+        }
+    }
 
     const [flags, setFlags] = useState({
         flagName: false,
@@ -31,27 +65,11 @@ export default function VideogameCreate(props){
 
     const [flagPlatform, setFlagPlatform] = useState(false) 
 
-    const [localGenres, setGenres] = useState({
-        'Action': false,
-        'Indie': false,
-        'Adventure': false,
-        'RPG': false,
-        'Strategy': false,
-        'Shooter': false,
-        'Casual': false,
-        'Simulation': false,
-        'Puzzle': false,
-        'Arcade': false,
-        'Platformer': false,
-        'Racing': false,
-        'Massively Multiplayer': false,
-        'Sports': false,
-        'Fighting': false,
-        'Family': false,
-        'board games': false,
-        'Educational': false,
-        'Card': false,
-    })
+    const [localGenres, setGenres] = useState([])
+
+    function handleGenre({target}) {
+        setGenres({...localGenres, [target.name]: target.checked})
+    }
 
     const [localPlatforms, setPlatforms] = useState([])
 
@@ -64,18 +82,15 @@ export default function VideogameCreate(props){
     })
 
     useEffect(()=>{
-        if(exactVideogame === "Name is free") return setFlags({...flags, flagCorrectName: true});
+        if(checkVideogame === "Name is free") return setFlags({...flags, flagCorrectName: true});
         setFlags({...flags, flagCorrectName: false})
-    },[exactVideogame]) // eslint-disable-line
+    },[checkVideogame]) // eslint-disable-line
 
     useEffect(() => {
         localPlatforms.length > 0 && localPlatforms.length < 11?  setFlagPlatform(true): setFlagPlatform(false);
         Object.values(localGenres).filter(e => e === true).length > 0 && Object.values(localGenres).filter(e => e === true).length < 6 ? setFlagGenre(true): setFlagGenre(false);
     },[localPlatforms, localGenres])
 
-    function handleGenre({target}) {
-        setGenres({...localGenres, [target.name]: target.checked})
-    }
 
     function handlePlatforms({target}){
         let value = Array.from(target.selectedOptions,
@@ -86,27 +101,10 @@ export default function VideogameCreate(props){
     function handleChange({target}){
         if (target.name === "name") dispatch(getExactVideogame(target.value))
         setState({...state, [target.name]: target.value})
-        switch(target.name){
-            case "name":
-                validatorName(target.value)
-                break;
-            case "description":
-                validatorDescription(target.value)
-                break;
-            case "launchDate":
-                validatorLaunchDate(target.value)
-                break;
-            case "rating":
-                validatorRating(target.value)
-                break;
-            case "image":
-                validatorImage(target.value) 
-                break;
-            default: return;
-        }
+        validators[target.name](target.value)
     }
 
-    function handleSubmit(e){
+    const handleSubmit = (e) => {
         e.preventDefault()
         if(flags.flagName !== true || flags.flagDescription !== true || flags.flagLaunchDate !== true || flags.flagRating !== true || flagGenre !== true || flagPlatform !== true){
             return alert("You must fullfill all conditions before submitting")
@@ -115,25 +113,18 @@ export default function VideogameCreate(props){
         if (state.launchDate !== "") launchDate = state.launchDate;
         let rating = undefined
         if (state.rating !== "") rating = state.rating;
-        const platform = localPlatforms;
-        const genre = Object.entries(localGenres).filter(platform => platform[1] === true).map(e => e[0]);
+        const genre = Object.entries(localGenres).filter(genre => genre[1] === true).map(e => e[0]);
         let body = {
             name: state.name,
             description: state.description,
             launchDate,
             rating,
-            platform,
+            platform: localPlatforms,
             image:state.image,
             genre
         }
         dispatch(createVideogame(body))
-        setState({
-            name: "",
-            description:"",
-            launchDate: "",
-            rating:"",
-            image: "",
-        })
+        setState({name: "",description:"",launchDate: "",rating:"",image: "",})
         setFlags({
             flagName: false,
             flagDescription: false,
@@ -142,75 +133,32 @@ export default function VideogameCreate(props){
         })
         setFlagGenre(false)
         setFlagPlatform(false)
-        setGenres({
-            'Action': false,
-            'Indie': false,
-            'Adventure': false,
-            'RPG': false,
-            'Strategy': false,
-            'Shooter': false,
-            'Casual': false,
-            'Simulation': false,
-            'Puzzle': false,
-            'Arcade': false,
-            'Platformer': false,
-            'Racing': false,
-            'Massively Multiplayer': false,
-            'Sports': false,
-            'Fighting': false,
-            'Family': false,
-            'board games': false,
-            'Educational': false,
-            'Card': false,
-        })
+        setGenres([])
         setPlatforms([])
     }
-    function validatorName(name){
-        if (name.length > 50) return setFlags({...flags, flagName: false});
-        const validate = name.match(/[a-z]|[0-9]|[ ,-]/gi); 
-        if (name.length !== validate?.length) {
-            return setFlags({...flags, flagName: false})
-        }
-        setFlags({...flags, flagName: true})
-    }
-    function validatorDescription(description){
-        if(description.length > 300) return setFlags({...flags, flagDescription: false});
-        const validate = description.match(/[\x00-\xFF]/g); // eslint-disable-line
-        if (description.length !== validate?.length) {
-            return setFlags({...flags, flagDescription: false})
-        }
-        setFlags({...flags, flagDescription: true})
-    }
-    function validatorLaunchDate(launchDate){
-        if(launchDate.length > 10) return setFlags({...flags, flagLaunchDate: false})
-        if(launchDate === "") return setFlags({...flags, flagLaunchDate: true});
-        const validate = launchDate.match(/[0-9]|[ \-,.]/g);
-        if (launchDate.length !== validate?.length) {
-            return setFlags({...flags, flagLaunchDate: false})
-        }
-        setFlags({...flags, flagLaunchDate: true})
-    }
-    function validatorRating(rating){
-        if (rating === "") return setFlags({...flags, flagRating: true});
-        if (rating > 100 || rating < 0) return setFlags({...flags, flagRating: false});
-        const validate = rating.match(/[0-9]/g);
-        if (rating.length !== validate?.length) {
-            return setFlags({...flags, flagRating: false})
-        }
-        setFlags({...flags, flagRating: true})
-    }
-    function validatorImage(image){
-        if (image.length > 254) return setFlags({...flags, flagImage:false})
-        if (image === "") return setFlags({...flags, flagImage: true})
-        if(/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/g.test(image)) return setFlags({...flags, flagImage: true});
-        setFlags({...flags, flagImage: false})
-    }
 
+    useEffect(()=>{
+        if (videogameCreated === null) return;
+        dispatch(unVideogame())
+        localStorage.setItem(videogameCreated.name, JSON.stringify(videogameCreated.id))
+        navigate(`/videogame/${videogameCreated.name}`)
+                
+    }, [videogameCreated])
+
+
+    
     return(
         <div className={styles.wrapper}>
             <Nav />
             <h1 className={styles.title}>You can create your own videogame</h1>
           <div className={styles.container}>
+                <div className={styles.videogameValidateCard}>
+                    <VideogameValidateCard 
+                    flags={flags}
+                    flagGenre={flagGenre}
+                    flagPlatform={flagPlatform}
+                    />
+                </div>
                 <form className={styles.formularioContainer} onSubmit={(e) => handleSubmit(e)}>
                     <div className={styles.mainForm}>
                         <label htmlFor="name">Name*: </label>
@@ -218,7 +166,7 @@ export default function VideogameCreate(props){
                         <label htmlFor="description">Description*: </label>
                         <input name="description" type="text" placeholder="your videogame's description" value={state.description} onChange={(e) => handleChange(e)}></input>
                         <label htmlFor="rating">Rating: </label>
-                        <input name="rating" type="number" min="0" max="100" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
+                        <input name="rating" type="number" placeholder="your videogame's rating" value={state.rating} onChange={(e) => handleChange(e)}></input>
                         <label htmlFor="launchDate">Launch Date: </label>
                         <input name="launchDate" type="date" placeholder="your videogame's launch date" value={state.launchDate} onChange={(e) => handleChange(e)}></input>
                         <label>Image: </label>
@@ -228,12 +176,12 @@ export default function VideogameCreate(props){
                                 <h4 style={{marginTop: 5, marginBottom: 5}}>Genres*: </h4>
                             <div className={styles.checkboxesContainer}>
                         {
-                            Object.keys(localGenres).map(genre => {
+                            genres?.map(genre => {
                                 return(
-                            <span key={genre}>
-                                <label htmlFor={`${genre}`} className={styles.genreCheckbox}>
-                                <input className={styles.checkbox} name={genre} id={genre} type="checkbox" checked={localGenres[genre]} onChange={(e) => handleGenre(e)}/>
-                                {genre} </label>
+                            <span key={genre.id}>
+                                <label htmlFor={`${genre.name}`} className={styles.genreCheckbox}>
+                                <input className={styles.checkbox} name={genre.name} id={genre.name} type="checkbox" checked={localGenres[genre.name]} onChange={(e) => handleGenre(e)}/>
+                                {genre.name} </label>
                             </span>
                             )})
                         } 
@@ -261,13 +209,6 @@ export default function VideogameCreate(props){
                     data={state}
                     genres={Object.entries(localGenres).filter(platform => platform[1] === true).map(e => e[0])}
                     platforms={localPlatforms}
-                    />
-              </div>
-              <div className={styles.videogameValidateCard}>
-                    <VideogameValidateCard 
-                    flags={flags}
-                    flagGenre={flagGenre}
-                    flagPlatform={flagPlatform}
                     />
               </div>
           </div>

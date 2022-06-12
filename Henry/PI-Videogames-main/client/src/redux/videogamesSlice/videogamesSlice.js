@@ -87,8 +87,8 @@ const initialState = {
     videogamesSearch: [],
     videogamesSearchName: "",
     videogame: {},
-    videogameCreated: false,
-    exactVideogame: "",
+    videogameCreated: null,
+    checkVideogame: "",
     genres: [],
     platforms: [],
     filter: "",
@@ -111,7 +111,7 @@ const videogamesSlice = createSlice({
             state.videogamesSearchName = ""
         },
         cleanExactVideogame(state) {
-            state.exactVideogame = ""
+            state.checkVideogame = ""
         },
         filterBy(state, {payload}){
             state.filter = payload
@@ -132,6 +132,9 @@ const videogamesSlice = createSlice({
         },
         setDisplay(state, {payload}) {
             state.display = payload
+        },
+        unCreateVideogame(state) {
+            state.videogameCreated = null
         }
     },
     extraReducers: {
@@ -143,7 +146,7 @@ const videogamesSlice = createSlice({
             state.videogames = payload.data
             state.apiFilter = payload.apiFilter || ""
             state.sort = payload.sort || ""
-            state.sorting = payload.sorting || ""
+            state.sorting = payload.sorting || "DESC"
         },
         [getVideogames.rejected]: (state) => {
             state.status= "failed"
@@ -151,9 +154,9 @@ const videogamesSlice = createSlice({
         [createVideogame.pending] : (state) => {
             state.status= "loading"
         },
-        [createVideogame.fulfilled] : (state) => {
+        [createVideogame.fulfilled] : (state, {payload}) => {
             state.status= "success"
-            state.videogameCreated = true
+            state.videogameCreated = payload
         },
         [createVideogame.rejected] : (state) => {
             state.status= "failed"
@@ -167,7 +170,7 @@ const videogamesSlice = createSlice({
             state.videogamesSearch = payload.data
             state.apiFilter = payload.apiFilter || ""
             state.sort = payload.sort || ""
-            state.sorting = payload.sorting || ""
+            state.sorting = payload.sorting || "DESC"
         },
         [searchVideogame.rejected] : (state, {payload}) => {
             state.status= "failed"
@@ -187,7 +190,7 @@ const videogamesSlice = createSlice({
         },
         [getExactVideogame.fulfilled] : (state, {payload}) => {
             state.status= "success"
-            state.exactVideogame= payload
+            state.checkVideogame= payload
         },
         [getExactVideogame.rejected] : (state) => {
             state.status= "failed"
@@ -211,7 +214,7 @@ const videogamesSlice = createSlice({
             state.videogames= payload.data
             state.sort = payload.sort || ""
             state.apiFilter = payload.apiFilter || ""
-            state.sorting = payload.sorting || ""
+            state.sorting = payload.sorting || "DESC"
         },
         [sortVideogames.rejected] : (state) => {
             state.status= "failed"
@@ -220,7 +223,7 @@ const videogamesSlice = createSlice({
 })
 
 export const { unVideogame, unSearchVideogames, cleanExactVideogame,
-               filterBy, morePagination, lessPagination,
+               filterBy, morePagination, lessPagination, unCreateVideogame,
                resetPagination, clearFilters, setDisplay} = videogamesSlice.actions;
 
 export default videogamesSlice.reducer;
