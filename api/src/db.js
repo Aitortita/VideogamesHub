@@ -6,17 +6,12 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT, NODE_ENV } = process.en
 
 let sequelize = NODE_ENV === "production" ?
 new Sequelize({
-  database: "videogameshub",
-  // database: DB_NAME,
+  database: DB_NAME,
   dialect: "postgres",
-  host: "localhost",
-  // host: DB_HOST,
-  port: "5432",
-  // port: DB_PORT,
-  username: "root",
-  // username: DB_USER,
-  password: "toor",
-  // password: DB_PASSWORD,
+  host: DB_HOST,
+  port: DB_PORT,
+  username: DB_USER,
+  password: DB_PASSWORD,
   pool: {
     max: 3,
     min: 1,
@@ -31,9 +26,9 @@ new Sequelize({
     keepAlive: true,
   },
   ssl: true,
+  native: true
 })
-: new Sequelize(`postgres://root:toor@localhost:5432/videogameshub`, {
-  // : new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
+: new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
