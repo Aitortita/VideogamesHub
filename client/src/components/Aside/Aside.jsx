@@ -142,7 +142,7 @@ export default function Aside({search}){
                 <div className={styles.filters}>
                     <ul>
                     { 
-                        genres?.slice(0,counterGenres).map(genre => <li key={genre.name}><a onClick={() => onFilter(genre.name)}>{genre.name}</a></li>)
+                        genres?.slice(0,counterGenres)?.map(genre => <li key={genre.name}><a onClick={() => onFilter(genre.name)}>{genre.name}</a></li>)
                     }
                     {
                         counterGenres < 10 ? <li><h4 className={styles.showers} onClick={() => moreGenres()}>Show more genres 🔽</h4></li> :
@@ -154,7 +154,7 @@ export default function Aside({search}){
                 <div className={styles.filters}>
                 <ul>
                     {
-                        platforms?.slice(0,counterPlatforms).map(platform => <li key={platform.name}><a onClick={() => onFilter(platform.name)}>{platform.name}</a></li>)
+                        platforms?.slice(0,counterPlatforms)?.map(platform => <li key={platform.name}><a onClick={() => onFilter(platform.name)}>{platform.name}</a></li>)
                     }
                     {
                         counterPlatforms < 55 ? <li><h4 className={styles.showers} onClick={() => morePlatforms()}>Show more platforms 🔽</h4></li> :
