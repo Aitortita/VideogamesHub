@@ -117,6 +117,10 @@ export default function Aside({search}){
         apiFilter === "videogamesHUB" ? dispatch(setDisplay("none")) : dispatch(setDisplay("block"))
     },[dispatch, apiFilter])
 
+    console.log(genres)
+    console.log("genres type: ", typeof(genres))
+    console.log("genres.slice type: ", typeof(genres.slice(0, counterGenres)))
+
     return(
         <div className={styles.asideWrapper}>
             {/* eslint-disable */}
