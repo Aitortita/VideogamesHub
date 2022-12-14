@@ -54,25 +54,25 @@ router.get('/videogames', (req, res) => {
                 Promise.allSettled([
                     ...[Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})],
                     ...fetchArraySearch])
-                .then(array =>  res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)])))
+                .then(array =>  res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data?.results)])))
                 .catch(err => res.status(404).send(err.message))
                 return
               }
                 Promise.allSettled([
                     ...[Videogame.findAll({include : [{model: Genre}, {model:Platform}]})],
                     ...fetchArray])
-                .then(array => res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)])))
+                .then(array => res.status(200).json(mergeSort([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data?.results)])))
                 .catch(err => res.status(404).send(err.message))
                 return
           }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
+            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data?.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled(fetchArray)
-            .then((array) => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
+            .then((array) => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data?.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
@@ -80,14 +80,14 @@ router.get('/videogames', (req, res) => {
             Promise.allSettled([
                 ...[Videogame.findAll({where : {name: {[Op.iLike]: `%${name}%`}}, include : [{model: Genre}, {model:Platform}]})],
                 ...fetchArraySearch])
-            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)]))
+            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data?.results)]))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled([
                 ...[Videogame.findAll({include : [{model: Genre}, {model:Platform}]})],
                 ...fetchArray])
-            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data.results)]))
+            .then(array => res.status(200).json([...array[0].value, ...array.slice(1).flatMap(({value}) => value.data?.results)]))
             .catch(err => res.status(404).send(err.message))
 });
 
@@ -132,23 +132,23 @@ router.get('/videogamesRawg', (req, res) => {
           }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
+            .then((array) =>  res.status(200).json(mergeSort(array.flatMap(({value})=> value.data?.results))))
             .catch(err => res.status(404).send(err.message))
             return
         }
         Promise.allSettled(fetchArray)
-        .then(array => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data.results))))
+        .then(array => res.status(200).json(mergeSort(array.flatMap(({value})=> value.data?.results))))
         .catch(err => res.status(404).send(err.message))
         return
         }
         if (name) {
             Promise.allSettled(fetchArraySearch)
-            .then(array => res.status(200).json(array.flatMap(({value})=> value.data.results)))
+            .then(array => res.status(200).json(array.flatMap(({value})=> value.data?.results)))
             .catch(err => res.status(404).send(err.message))
             return
         }
             Promise.allSettled(fetchArray)
-                .then(array => res.status(200).json(array.flatMap(({value})=> value.data.results)))
+                .then(array => res.status(200).json(array.flatMap(({value})=> value.data?.results)))
                 .catch(err => res.status(404).send(err.message))
 });
 
