@@ -6,7 +6,7 @@
     background-color: var(--background-color);
 }
 .iconContainer{
-    background-image: url("../../images/VideogamesHub.png");
+    background-image: url("../../images/VideogamesHub.webp");
     background-size: contain;
     background-position: left;
     background-repeat: no-repeat;

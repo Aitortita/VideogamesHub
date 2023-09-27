@@ -1,7 +1,7 @@
 import styles from "./Landing.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import VideogamesHub from "../../images/VideogamesHubLanding.png"
+import VideogamesHub from "../../images/VideogamesHubLanding.webp"
 
 export default function Landing(props){
     const navigate = useNavigate();

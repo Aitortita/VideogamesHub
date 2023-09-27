@@ -1,7 +1,7 @@
 import styles from "./VideogameCard.module.css";
 import React from "react";
 import { Link } from 'react-router-dom';
-import placeHolder from "../../images/ImagePlaceholder.jpg"
+import placeHolder from "../../images/ImagePlaceholder.webp"
 import { useDispatch } from "react-redux";
 import { unVideogame } from "../../redux/videogamesSlice/videogamesSlice"
 

@@ -1,6 +1,6 @@
 import styles from "./VideogameCreateCard.module.css";
 import React from "react";
-import placeHolder from "../../images/ImagePlaceholder.jpg";
+import placeHolder from "../../images/ImagePlaceholder.webp";
 
 export default function VideogameCreateCard({data, platforms, genres}){
     const {name, rating, launchDate, description, image} = data;

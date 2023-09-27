@@ -2,7 +2,7 @@ import styles from "./VideogameDetail.module.css";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Nav from "../Nav/Nav";
-import placeHolder from "../../images/ImagePlaceholder.jpg"
+import placeHolder from "../../images/ImagePlaceholder.webp"
 import { getVideogame } from "../../redux/videogamesSlice/videogamesSlice";
 import loadingBar from "../../images/loadingBar.gif";
 import { useParams } from "react-router-dom";
