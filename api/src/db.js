@@ -6,8 +6,8 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT, NODE_ENV } = process.en
 
 let sequelize = NODE_ENV === "production" ?
 new Sequelize({
-  database: DB_NAME,
   dialect: "postgres",
+  database: DB_NAME,
   host: DB_HOST,
   port: DB_PORT,
   username: DB_USER,
@@ -22,11 +22,8 @@ new Sequelize({
       require: true,
       // Ref.: https://github.com/brianc/node-postgres/issues/2009
       rejectUnauthorized: false,
-    },
-    keepAlive: true,
-  },
-  ssl: true,
-  native: true
+    }
+  }
 })
 : new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   logging: false, // set to console.log to see the raw SQL queries
