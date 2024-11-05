@@ -15,12 +15,14 @@ router.get('/videogames', (req, res) => {
     if (!sorting) sorting = "DESC";
     let fetchArray = [];
     let fetchArraySearch = [];
-    for (let i = 1; i <= pageNumbers; i++) {
-        fetchArraySearch.push(axios.get('https://api.rawg.io/api/games', { params: {search: name, key : YOUR_API_KEY, page: i}}))
-    }
-    for (let i = 1; i <= pageNumbers; i++) {
-        fetchArray.push(axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page: i}}))
-    }
+    try {
+        for (let i = 1; i <= pageNumbers; i++) {
+            fetchArraySearch.push(axios.get('https://api.rawg.io/api/games', { params: {search: name, key : YOUR_API_KEY, page: i}}))
+        }
+        for (let i = 1; i <= pageNumbers; i++) {
+            fetchArray.push(axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page: i}}))
+        }   
+    } catch ({message}) {res.status(404).send(message)}
     if (sort) {
         function merge(left, right) {
             let sortedArr = []
@@ -96,12 +98,14 @@ router.get('/videogamesRawg', (req, res) => {
     if (!sorting) sorting = "DESC";
     let fetchArraySearch = [];
     let fetchArray = [];
+    try {
     for (let i = 1; i <= pageNumbers; i++) {
         fetchArraySearch.push(axios.get('https://api.rawg.io/api/games', { params: {search: name, key : YOUR_API_KEY, page: i}}))
     }
     for (let i = 1; i <= pageNumbers; i++) {
         fetchArray.push(axios.get('https://api.rawg.io/api/games', { params: {key : YOUR_API_KEY, page: i}}))
     }
+    } catch ({message}) {res.status(404).send(message)}
     if (sort) {
         function merge(left, right) {
             let sortedArr = []
