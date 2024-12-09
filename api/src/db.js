@@ -1,8 +1,7 @@
-require('dotenv').config();
 const { Sequelize, Op } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT, NODE_ENV } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT, DB_CA, NODE_ENV } = process.env;
 
 let sequelize = NODE_ENV === "production" ?
 new Sequelize({
@@ -22,6 +21,7 @@ new Sequelize({
       require: true,
       // Ref.: https://github.com/brianc/node-postgres/issues/2009
       rejectUnauthorized: false,
+      ca: fs.readFileSync(DB_CA).toString()
     }
   }
 })
